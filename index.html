@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JEONGDO — 디자인 스튜디오 정도</title>
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+KR:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%; height: 100%;
+      overflow: hidden;
+      font-family: 'Pretendard', -apple-system, sans-serif;
+      background: #1a1815;
+      cursor: none;
+    }
+
+    #cursor-dot {
+      position: fixed;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: rgba(220,215,207,0.7);
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s, height 0.2s, background 0.2s;
+    }
+    #cursor-ring {
+      position: fixed;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 1px solid rgba(220,215,207,0.2);
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: left 0.15s ease-out, top 0.15s ease-out, width 0.25s, height 0.25s, border-color 0.25s;
+    }
+
+    :root {
+      --dark: #1a1815;
+      --dark-2: #2b2824;
+      --beige: #dcd7cf;
+      --beige-light: #f0ebe4;
+      --brown: #8a7d6b;
+      --white: #f5f0eb;
+      --text-dark: #2b2824;
+      --text-mid: #6b6158;
+    }
+
+    #app {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    /* ── SECTIONS ── */
+    .section {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .section.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* ── PROGRESS DOTS ── */
+    #progress {
+      position: fixed;
+      top: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 100;
+      transition: opacity 0.5s;
+    }
+    #progress.hidden { opacity: 0; pointer-events: none; }
+
+    .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: rgba(245,240,235,0.2);
+      transition: all 0.4s ease;
+      cursor: default;
+    }
+    .dot.visited { background: rgba(245,240,235,0.45); cursor: pointer; }
+    .dot.active { background: #f5f0eb; width: 22px; border-radius: 3px; }
+    .dot.dark-mode.visited { background: rgba(43,40,36,0.35); }
+    .dot.dark-mode.active { background: var(--text-dark); }
+
+    /* ── NEXT BUTTON ── */
+    #next-btn {
+      position: fixed;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%) translateY(16px);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 100;
+      cursor: pointer;
+      border: none;
+      background: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    #next-btn.visible {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateX(-50%) translateY(0);
+    }
+    .btn-label {
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      font-weight: 300;
+      font-family: 'Pretendard', sans-serif;
+    }
+    #next-btn.light .btn-label { color: rgba(245,240,235,0.7); }
+    #next-btn.dark .btn-label { color: rgba(43,40,36,0.5); }
+
+    .btn-arrow {
+      width: 1px;
+      height: 36px;
+      position: relative;
+      overflow: hidden;
+    }
+    #next-btn.light .btn-arrow { background: rgba(245,240,235,0.15); }
+    #next-btn.dark .btn-arrow { background: rgba(43,40,36,0.1); }
+
+    .btn-arrow::after {
+      content: '';
+      position: absolute;
+      top: -100%;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      animation: lineFlow 1.8s ease-in-out infinite;
+    }
+    #next-btn.light .btn-arrow::after { background: rgba(245,240,235,0.8); }
+    #next-btn.dark .btn-arrow::after { background: rgba(43,40,36,0.6); }
+
+    @keyframes lineFlow {
+      0%   { top: -100%; }
+      100% { top: 100%; }
+    }
+
+    /* ════════════════════════════
+       SECTION 1 — HERO
+    ════════════════════════════ */
+    #s1 {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 10vh;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(rgba(255,255,250,0.15), rgba(255,255,250,0.1)),
+        url('hero-wide.jpg')
+        center / cover no-repeat;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 0 32px;
+    }
+
+    .hero-eyebrow {
+      font-size: 10px;
+      letter-spacing: 0.45em;
+      color: rgba(220,215,207,0.55);
+      font-weight: 300;
+      font-family: 'Pretendard', sans-serif;
+      margin-bottom: 44px;
+      opacity: 0;
+      animation: fadeUp 1s ease 0.5s forwards;
+    }
+
+    .hero-logo {
+      position: absolute;
+      top: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      font-family: 'Pretendard', sans-serif;
+      font-size: 17px;
+      font-weight: 500;
+      letter-spacing: 0.45em;
+      color: #5c4a3a;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(14.4px, 1.92vw, 28.8px);
+      font-weight: 400;
+      color: #5c4a3a;
+      line-height: 1;
+      letter-spacing: 0.16em;
+      white-space: nowrap;
+      opacity: 0;
+      animation: fadeOnly 3s ease 1.2s forwards;
+    }
+
+    @keyframes fadeOnly {
+      0%   { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    .hero-rule {
+      width: 1px;
+      height: 36px;
+      background: rgba(138,125,107,0.6);
+      margin: 36px auto;
+      opacity: 0;
+      animation: fadeUp 1s ease 1.25s forwards;
+    }
+
+    .hero-caption {
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      color: rgba(245,240,235,0.25);
+      font-weight: 300;
+      font-family: 'Pretendard', sans-serif;
+      opacity: 0;
+      animation: fadeUp 1s ease 1.45s forwards;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Hero 전용 CTA 버튼 ── */
+    #hero-cta {
+      position: fixed;
+      bottom: 52px;
+      left: 50%;
+      transform: translateX(-50%) translateY(10px);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 100;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      transition: opacity 1s, transform 1s;
+    }
+    #hero-cta .cta-text {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 17px;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      color: #8a7560;
+      transition: color 0.4s;
+    }
+    #hero-cta .cta-line {
+      width: 1px;
+      height: 36px;
+      background: rgba(138,117,96,0.2);
+      position: relative;
+      overflow: hidden;
+    }
+    #hero-cta .cta-line::after {
+      content: '';
+      position: absolute;
+      top: -100%;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(138,117,96,0.5);
+      animation: ctaFlow 2s ease-in-out infinite;
+    }
+    @keyframes ctaFlow {
+      0%   { top: -100%; }
+      100% { top: 100%; }
+    }
+    #hero-cta:hover .cta-text {
+      color: #fff;
+    }
+    #hero-cta:hover .cta-line {
+      background: rgba(255,255,255,0.3);
+    }
+    #hero-cta:hover .cta-line::after {
+      background: rgba(255,255,255,0.8);
+    }
+    #hero-cta.visible {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ════════════════════════════
+       SECTION 2 — PHILOSOPHY
+    ════════════════════════════ */
+    #s2 { background: var(--beige-light); }
+
+    .scroll-wrap {
+      height: 100%;
+      overflow-y: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .scroll-wrap::-webkit-scrollbar { display: none; }
+
+    .s2-inner {
+      max-width: 660px;
+      margin: 0 auto;
+      padding: 88px 32px 130px;
+    }
+
+    .section-eyebrow {
+      font-size: 10px;
+      letter-spacing: 0.32em;
+      font-weight: 300;
+      margin-bottom: 48px;
+    }
+    .section-eyebrow.on-light { color: var(--brown); }
+    .section-eyebrow.on-dark  { color: var(--brown); }
+
+    .hanja-block {
+      margin-bottom: 56px;
+    }
+    .hanja-main {
+      font-size: clamp(52px, 8vw, 88px);
+      font-weight: 700;
+      color: var(--text-dark);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+    .hanja-reading {
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      color: var(--text-mid);
+      font-weight: 300;
+    }
+
+    .rule-v {
+      width: 1px;
+      height: 52px;
+      background: var(--brown);
+      margin-bottom: 52px;
+    }
+
+    .phil-body { }
+
+    .phil-para {
+      font-size: clamp(15px, 1.8vw, 17px);
+      font-weight: 300;
+      color: var(--text-dark);
+      line-height: 2;
+      letter-spacing: -0.005em;
+      margin-bottom: 36px;
+    }
+
+    .phil-quote {
+      border-left: 2px solid var(--brown);
+      padding: 32px 28px;
+      margin: 48px 0;
+      background: rgba(138,125,107,0.07);
+    }
+    .phil-quote p {
+      font-size: clamp(16px, 2vw, 20px);
+      font-weight: 400;
+      color: var(--text-dark);
+      line-height: 1.8;
+      letter-spacing: -0.01em;
+    }
+
+    .phil-final {
+      margin-top: 56px;
+      padding: 36px 28px;
+      border: 1px solid rgba(138,125,107,0.25);
+      background: rgba(138,125,107,0.04);
+    }
+    .phil-final p {
+      font-size: clamp(20px, 2.8vw, 28px);
+      font-weight: 500;
+      color: var(--text-dark);
+      line-height: 1.6;
+      letter-spacing: -0.02em;
+    }
+    .phil-final .sub {
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      color: var(--text-mid);
+      font-weight: 300;
+      margin-top: 16px;
+    }
+
+    /* ════════════════════════════
+       SECTION 3 — PROJECTS
+    ════════════════════════════ */
+    #s3 { background: #faf8f5; }
+
+    .s3-inner {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 88px 32px 130px;
+    }
+
+    .section-heading {
+      margin-bottom: 64px;
+    }
+    .section-heading h2 {
+      font-size: clamp(24px, 3.2vw, 38px);
+      font-weight: 300;
+      color: var(--text-dark);
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+    .section-heading p {
+      font-size: 13px;
+      color: var(--text-mid);
+      font-weight: 300;
+    }
+
+    .projects-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .project-item {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      min-height: 260px;
+      overflow: hidden;
+      background: var(--beige-light);
+      transition: transform 0.4s ease;
+    }
+    .project-item:nth-child(even) {
+      grid-template-columns: 0.9fr 1.1fr;
+    }
+    .project-item:nth-child(even) .project-img { order: 2; }
+    .project-item:nth-child(even) .project-meta { order: 1; }
+
+    .project-img {
+      position: relative;
+      overflow: hidden;
+      min-height: 240px;
+    }
+    .project-item:nth-child(1) .project-img { background: linear-gradient(135deg, #c8bfb4 0%, #a09080 100%); }
+    .project-item:nth-child(2) .project-img { background: linear-gradient(135deg, #b5b0a8 0%, #8a8580 100%); }
+    .project-item:nth-child(3) .project-img { background: linear-gradient(135deg, #d0c8be 0%, #b0a898 100%); }
+
+    .img-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .img-placeholder span {
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      color: rgba(255,255,255,0.45);
+      font-weight: 300;
+    }
+
+    .project-meta {
+      padding: 44px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .project-num {
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      color: var(--brown);
+      font-weight: 300;
+      margin-bottom: 18px;
+    }
+    .project-name {
+      font-size: clamp(18px, 2.2vw, 24px);
+      font-weight: 400;
+      color: var(--text-dark);
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+    .project-type {
+      font-size: 12px;
+      color: var(--text-mid);
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      margin-bottom: 20px;
+    }
+    .project-desc {
+      font-size: 13px;
+      color: var(--text-mid);
+      line-height: 1.85;
+      font-weight: 300;
+    }
+
+    @media (max-width: 600px) {
+      .project-item,
+      .project-item:nth-child(even) {
+        grid-template-columns: 1fr;
+      }
+      .project-item:nth-child(even) .project-img { order: 0; }
+      .project-item:nth-child(even) .project-meta { order: 0; }
+      .project-meta { padding: 28px 24px; }
+    }
+
+    /* ════════════════════════════
+       SECTION 4 — CONSULTATION
+    ════════════════════════════ */
+    #s4 { background: var(--dark-2); }
+
+    .s4-inner {
+      max-width: 620px;
+      margin: 0 auto;
+      padding: 88px 32px 130px;
+    }
+
+    .s4-inner .section-heading h2 { color: var(--white); }
+    .s4-inner .section-heading p  { color: rgba(245,240,235,0.4); }
+
+    .form-group { margin-bottom: 28px; }
+
+    .form-label {
+      display: block;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      color: rgba(245,240,235,0.38);
+      font-weight: 300;
+      margin-bottom: 10px;
+    }
+    .form-label .req { color: var(--brown); }
+
+    .form-input {
+      width: 100%;
+      background: rgba(245,240,235,0.05);
+      border: 1px solid rgba(245,240,235,0.1);
+      color: var(--white);
+      padding: 13px 15px;
+      font-family: 'Pretendard', sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      outline: none;
+      transition: border-color 0.3s;
+      border-radius: 0;
+      -webkit-appearance: none;
+    }
+    .form-input:focus { border-color: var(--brown); }
+    .form-input::placeholder { color: rgba(245,240,235,0.2); }
+
+    textarea.form-input { resize: none; height: 90px; }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    @media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
+
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      padding: 8px 15px;
+      border: 1px solid rgba(245,240,235,0.12);
+      color: rgba(245,240,235,0.4);
+      font-size: 12px;
+      font-weight: 300;
+      font-family: 'Pretendard', sans-serif;
+      background: none;
+      cursor: pointer;
+      transition: all 0.22s;
+      border-radius: 0;
+      letter-spacing: 0.02em;
+    }
+    .chip:hover { border-color: rgba(245,240,235,0.3); color: rgba(245,240,235,0.7); }
+    .chip.on  { border-color: var(--brown); color: var(--white); background: rgba(138,125,107,0.14); }
+
+    .submit-btn {
+      width: 100%;
+      padding: 17px;
+      background: var(--brown);
+      color: var(--white);
+      border: none;
+      font-family: 'Pretendard', sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.22em;
+      font-weight: 400;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-top: 12px;
+    }
+    .submit-btn:hover { background: #7a6d5b; }
+
+    /* ════════════════════════════
+       SECTION 5 — COMPLETE
+    ════════════════════════════ */
+    #s5 {
+      background: var(--dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    .complete-wrap {
+      text-align: center;
+      padding: 0 32px;
+    }
+
+    .check-circle {
+      width: 52px; height: 52px;
+      border: 1px solid rgba(138,125,107,0.5);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 36px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.3s forwards;
+    }
+    .check-circle svg { stroke: var(--brown); }
+
+    .complete-title {
+      font-size: clamp(20px, 2.8vw, 30px);
+      font-weight: 300;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.55s forwards;
+    }
+    .complete-sub {
+      font-size: 13px;
+      color: rgba(245,240,235,0.38);
+      font-weight: 300;
+      line-height: 1.9;
+      margin-bottom: 60px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.75s forwards;
+    }
+
+    .social-rule {
+      width: 36px; height: 1px;
+      background: rgba(245,240,235,0.12);
+      margin: 0 auto 32px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.95s forwards;
+    }
+    .social-hint {
+      font-size: 10px;
+      letter-spacing: 0.28em;
+      color: rgba(245,240,235,0.2);
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 1.05s forwards;
+    }
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 28px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 1.15s forwards;
+    }
+    .social-link {
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      color: rgba(245,240,235,0.35);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .social-link:hover { color: var(--white); }
+
+    .site-footer {
+      position: absolute;
+      bottom: 28px;
+      left: 0; right: 0;
+      text-align: center;
+      font-size: 9px;
+      color: rgba(245,240,235,0.12);
+      letter-spacing: 0.12em;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 1.3s forwards;
+    }
+  </style>
+</head>
+<body>
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+<div id="app">
+
+
+  <!-- Next button -->
+  <button id="next-btn" class="light" aria-label="다음">
+    <span class="btn-label">NEXT</span>
+    <span class="btn-arrow"></span>
+  </button>
+
+  <!-- ① HERO -->
+  <section class="section active" id="s1">
+    <div class="hero-bg"></div>
+    <p class="hero-logo">J E O N G D O</p>
+    <div class="hero-content">
+      <h1 class="hero-title">공간의 처음과 끝을 정도와 동행합니다.</h1>
+    </div>
+  </section>
+
+  <!-- Hero 전용 CTA -->
+  <button id="hero-cta">
+    <span class="cta-text">알아보기</span>
+    <span class="cta-line"></span>
+  </button>
+
+  <!-- ② PHILOSOPHY -->
+  <section class="section" id="s2">
+    <div class="scroll-wrap" id="scroll-s2">
+      <div class="s2-inner">
+        <p class="section-eyebrow on-light">ABOUT JEONGDO</p>
+
+        <div class="hanja-block">
+          <div class="hanja-main">正道</div>
+          <div class="hanja-reading">바를 정(正) &nbsp;·&nbsp; 길 도(道)</div>
+        </div>
+
+        <div class="rule-v"></div>
+
+        <div class="phil-body">
+          <p class="phil-para">
+            수많은 길 중 정도는 인테리어라는 하나의 길을 택했습니다.<br>
+            출발점은 언제나 정직함이며,<br>
+            그 정직함을 보여주는 태도라고 믿습니다.
+          </p>
+
+          <div class="phil-quote">
+            <p>
+              공간 디자인에서 중요한 것은<br>
+              화려함이 아니라 <strong>본질과 방향성</strong>입니다.<br><br>
+              철학이 있는 공간은<br>
+              반드시 깊이 있는 공간을 만듭니다.
+            </p>
+          </div>
+
+          <p class="phil-para">
+            정도는 단순한 형태를 넘어서<br>
+            사용자의 삶의 궤적이 담긴<br>
+            기억에 남을 공간을 만들어드리겠습니다.
+          </p>
+
+          <div class="phil-final">
+            <p>속도보다 방향을.<br>빠름보다 바름을.</p>
+            <p class="sub">DESIGN STUDIO JEONGDO</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ③ PROJECTS -->
+  <section class="section" id="s3">
+    <div class="scroll-wrap" id="scroll-s3">
+      <div class="s3-inner">
+        <p class="section-eyebrow on-light">SELECTED WORKS</p>
+        <div class="section-heading">
+          <h2>정도의 공간들</h2>
+          <p>선별된 세 개의 프로젝트를 소개합니다</p>
+        </div>
+
+        <div class="projects-list">
+          <div class="project-item">
+            <div class="project-img">
+              <div class="img-placeholder"><span>PHOTO</span></div>
+            </div>
+            <div class="project-meta">
+              <p class="project-num">PROJECT. 01</p>
+              <h3 class="project-name">성북동 단독주택</h3>
+              <p class="project-type">주거 · 150㎡</p>
+              <p class="project-desc">조용한 골목 안, 빛과 소재가 대화하는 공간.<br>거주자의 일상이 자연스럽게 스며드는<br>구조를 설계했습니다.</p>
+            </div>
+          </div>
+
+          <div class="project-item">
+            <div class="project-img">
+              <div class="img-placeholder"><span>PHOTO</span></div>
+            </div>
+            <div class="project-meta">
+              <p class="project-num">PROJECT. 02</p>
+              <h3 class="project-name">마포 오피스</h3>
+              <p class="project-type">상업 · 80㎡</p>
+              <p class="project-desc">브랜드의 가치를 공간으로 번역한 작업.<br>방문자가 들어서는 순간 회사의 철학이<br>느껴지도록 했습니다.</p>
+            </div>
+          </div>
+
+          <div class="project-item">
+            <div class="project-img">
+              <div class="img-placeholder"><span>PHOTO</span></div>
+            </div>
+            <div class="project-meta">
+              <p class="project-num">PROJECT. 03</p>
+              <h3 class="project-name">한남 아파트</h3>
+              <p class="project-type">주거 · 115㎡</p>
+              <p class="project-desc">과하지 않은 절제미.<br>재료 본연의 질감이 공간을 채우도록<br>의도한 프리미엄 주거 프로젝트입니다.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ④ CONSULTATION -->
+  <section class="section" id="s4">
+    <div class="scroll-wrap" id="scroll-s4">
+      <div class="s4-inner">
+        <p class="section-eyebrow on-dark">CONSULTATION</p>
+        <div class="section-heading" style="margin-bottom:44px;">
+          <h2>상담 신청</h2>
+          <p>정도와 함께할 공간에 대해 이야기해 주세요</p>
+        </div>
+
+        <form id="consult-form" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">성함 <span class="req">*</span></label>
+              <input class="form-input" type="text" placeholder="홍길동" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">연락처 <span class="req">*</span></label>
+              <input class="form-input" type="tel" placeholder="010-0000-0000" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">이메일</label>
+            <input class="form-input" type="email" placeholder="example@email.com">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">어떻게 알게 되셨나요?</label>
+            <div class="chips">
+              <button type="button" class="chip" data-g="ref">인스타그램</button>
+              <button type="button" class="chip" data-g="ref">유튜브</button>
+              <button type="button" class="chip" data-g="ref">블로그</button>
+              <button type="button" class="chip" data-g="ref">지인 소개</button>
+              <button type="button" class="chip" data-g="ref">기타</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">공간 유형 <span class="req">*</span></label>
+            <div class="chips">
+              <button type="button" class="chip" data-g="space" data-single="true">아파트</button>
+              <button type="button" class="chip" data-g="space" data-single="true">빌라 / 투룸</button>
+              <button type="button" class="chip" data-g="space" data-single="true">단독주택</button>
+              <button type="button" class="chip" data-g="space" data-single="true">상업공간</button>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">예산 규모</label>
+              <div class="chips" style="flex-direction:column; align-items:flex-start;">
+                <button type="button" class="chip" data-g="budget" data-single="true">3천 ~ 5천만원</button>
+                <button type="button" class="chip" data-g="budget" data-single="true">5천 ~ 1억원</button>
+                <button type="button" class="chip" data-g="budget" data-single="true">1억원 이상</button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">공사 범위</label>
+              <div class="chips" style="flex-direction:column; align-items:flex-start;">
+                <button type="button" class="chip" data-g="scope" data-single="true">전체 인테리어</button>
+                <button type="button" class="chip" data-g="scope" data-single="true">부분 인테리어</button>
+                <button type="button" class="chip" data-g="scope" data-single="true">아직 미정</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">공간에 대해 이야기해 주세요</label>
+            <textarea class="form-input" placeholder="원하시는 분위기, 라이프스타일, 참고 이미지 링크 등 자유롭게 적어주세요."></textarea>
+          </div>
+
+          <button type="submit" class="submit-btn">상담 신청하기 →</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ⑤ COMPLETE -->
+  <section class="section" id="s5">
+    <div class="complete-wrap">
+      <div class="check-circle">
+        <svg width="18" height="13" viewBox="0 0 18 13" fill="none" stroke-width="1.2">
+          <polyline points="1,6.5 6.5,12 17,1"/>
+        </svg>
+      </div>
+      <h2 class="complete-title">신청이 완료되었습니다</h2>
+      <p class="complete-sub">
+        정도가 소중한 연락을 확인 후<br>
+        빠르게 연락드리겠습니다.
+      </p>
+      <div class="social-rule"></div>
+      <p class="social-hint">FOLLOW JEONGDO</p>
+      <div class="social-links">
+        <a href="https://www.instagram.com" target="_blank" class="social-link">INSTAGRAM</a>
+        <a href="#" class="social-link">BLOG</a>
+        <a href="#" class="social-link">YOUTUBE</a>
+      </div>
+    </div>
+    <p class="site-footer">© 2025 DESIGN STUDIO JEONGDO · ALL RIGHTS RESERVED</p>
+  </section>
+
+</div>
+
+<script>
+  const TOTAL = 5;
+  let cur = 0, maxV = 0, moving = false;
+
+  const secs    = [...document.querySelectorAll('.section')];
+  const nextBtn = document.getElementById('next-btn');
+  const heroCta = document.getElementById('hero-cta');
+
+  const scrollEls = {
+    1: document.getElementById('scroll-s2'),
+    2: document.getElementById('scroll-s3'),
+    3: document.getElementById('scroll-s4'),
+  };
+
+  const lightBg = [1, 2]; // s2(철학), s3(프로젝트) — 밝은 배경
+
+  function goTo(idx) {
+    if (idx === cur || moving || idx > maxV + 1 || idx >= TOTAL) return;
+    moving = true;
+    secs[cur].classList.remove('active');
+    cur = idx;
+    if (cur > maxV) maxV = cur;
+    secs[cur].classList.add('active');
+
+    if (scrollEls[cur]) scrollEls[cur].scrollTop = 0;
+
+    updateNext();
+    setTimeout(() => moving = false, 950);
+  }
+
+  function showNext() {
+    if (cur === TOTAL - 1) return;
+    if (cur === 0) {
+      heroCta.classList.add('visible');
+    } else {
+      nextBtn.className = nextBtn.className.replace(/\b(light|dark)\b/g, '').trim();
+      nextBtn.classList.add(lightBg.includes(cur) ? 'dark' : 'light');
+      nextBtn.classList.add('visible');
+    }
+  }
+
+  function hideNext() {
+    nextBtn.classList.remove('visible');
+    heroCta.classList.remove('visible');
+  }
+
+  function checkBottom(i) {
+    const el = scrollEls[i];
+    if (!el) return;
+    const reached = el.scrollHeight - el.scrollTop - el.clientHeight < 48;
+    reached ? showNext() : hideNext();
+  }
+
+  function updateNext() {
+    hideNext();
+    if (cur === TOTAL - 1) return;
+
+    if (scrollEls[cur]) {
+      checkBottom(cur);
+    } else {
+      setTimeout(showNext, 1800);
+    }
+  }
+
+  // Scroll listeners
+  Object.keys(scrollEls).forEach(i => {
+    scrollEls[i].addEventListener('scroll', () => {
+      if (cur === +i) checkBottom(+i);
+    }, { passive: true });
+  });
+
+  // 버튼 이벤트
+  nextBtn.addEventListener('click', () => goTo(cur + 1));
+  heroCta.addEventListener('click', () => goTo(1));
+
+  // Chip toggle
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const g = chip.dataset.g;
+      if (chip.dataset.single === 'true') {
+        document.querySelectorAll(`.chip[data-g="${g}"]`).forEach(c => c.classList.remove('on'));
+        chip.classList.add('on');
+      } else {
+        chip.classList.toggle('on');
+      }
+    });
+  });
+
+  // Form submit → 완료 페이지
+  document.getElementById('consult-form').addEventListener('submit', e => {
+    e.preventDefault();
+    goTo(4);
+  });
+
+  // 커스텀 커서
+  const curDot = document.getElementById('cursor-dot');
+  const curRing = document.getElementById('cursor-ring');
+  document.addEventListener('mousemove', e => {
+    curDot.style.left = e.clientX + 'px';
+    curDot.style.top = e.clientY + 'px';
+    curRing.style.left = e.clientX + 'px';
+    curRing.style.top = e.clientY + 'px';
+  });
+
+  // Init
+  setTimeout(showNext, 800);
+</script>
+</body>
+</html>
