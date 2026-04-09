@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>프로젝트</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200;300;400;500&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { width:100%; height:100%; overflow:hidden; background:#fff; font-family:'Noto Serif KR',serif; }
+
+.wrap { width:100%; height:100vh; display:flex; }
+
+/* 왼쪽 텍스트 */
+.txt { width:42%; height:100%; display:flex; flex-direction:column; justify-content:center; padding:0 6vw; }
+.pj-label { font-family:'Pretendard',sans-serif; font-size:10px; letter-spacing:0.4em; color:#bbb; margin-bottom:48px; }
+.pj-name { font-size:32px; font-weight:300; color:#2b2824; letter-spacing:0.06em; margin-bottom:8px; }
+.pj-type { font-family:'Pretendard',sans-serif; font-size:11px; letter-spacing:0.2em; color:#aaa; margin-bottom:32px; }
+.pj-line { width:32px; height:1px; background:rgba(138,117,96,0.25); margin-bottom:32px; }
+.pj-desc { font-size:14px; font-weight:300; color:#666; line-height:2; max-width:360px; }
+.pj-quote { margin-top:40px; font-size:13px; font-style:italic; font-weight:300; color:#8a7560; }
+
+/* 오른쪽 사진 */
+.pic {
+  width:58%; height:100%; position:relative; cursor:pointer; overflow:hidden;
+}
+.pic img {
+  width:100%; height:100%; object-fit:cover; display:block;
+}
+
+/* 호버 오버레이 */
+.overlay {
+  position:absolute; top:0; left:0; width:100%; height:100%;
+  background:rgba(0,0,0,0.3);
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; transition:opacity 0.4s;
+}
+.pic:hover .overlay { opacity:1; }
+.overlay span {
+  font-family:'Noto Serif KR',serif;
+  font-size:17px; font-weight:300; letter-spacing:0.25em; color:#fff;
+}
+
+/* 하단 네비 */
+.bnav {
+  position:fixed; bottom:44px; left:6vw;
+  display:flex; gap:40px; z-index:5;
+}
+.bi { cursor:pointer; opacity:0.3; transition:opacity 0.4s; display:flex; flex-direction:column; gap:6px; }
+.bi.on { opacity:1; }
+.bi:hover { opacity:0.6; }
+.bi-n { font-size:13px; font-weight:300; color:#2b2824; letter-spacing:0.06em; }
+.bi-t { font-family:'Pretendard',sans-serif; font-size:10px; color:#aaa; letter-spacing:0.08em; }
+.bi-l { width:100%; height:1px; background:rgba(138,117,96,0.3); transform:scaleX(0); transform-origin:left; transition:transform 0.4s; }
+.bi.on .bi-l { transform:scaleX(1); }
+
+/* 갤러리 */
+.gal {
+  display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+  background:#fff; z-index:100; flex-direction:column;
+}
+.gal.open { display:flex; }
+.gal-top { display:flex; justify-content:space-between; align-items:center; padding:24px 6vw; border-bottom:1px solid #f0ebe4; }
+.gal-ti { font-size:15px; font-weight:300; color:#2b2824; letter-spacing:0.06em; }
+.gal-x { font-family:'Pretendard',sans-serif; font-size:11px; letter-spacing:0.15em; color:#8a7560; cursor:pointer; border:none; background:none; }
+.gal-body { flex:1; position:relative; }
+.gs { position:absolute; top:0; left:0; width:100%; height:100%; display:none; }
+.gs.on { display:flex; }
+.gs-i { flex:1; }
+.gs-i img { width:100%; height:100%; object-fit:cover; display:block; }
+.gs-t { width:36%; display:flex; flex-direction:column; justify-content:center; padding:0 5vw; }
+.gs-t p { font-size:14px; font-weight:300; color:#555; line-height:2.2; }
+.gs-t .q { margin-top:32px; font-size:13px; font-style:italic; color:#8a7560; }
+.gal-dots { position:absolute; bottom:36px; left:50%; transform:translateX(-50%); display:flex; gap:14px; z-index:10; }
+.gd { width:28px; height:2px; background:#ddd; cursor:pointer; }
+.gd.on { background:#8a7560; }
+</style>
+</head>
+<body>
+
+<div class="wrap" id="mainWrap">
+  <div class="txt">
+    <p class="pj-label">PROJECT</p>
+    <h2 class="pj-name" id="pN">서초 더샵 포레</h2>
+    <p class="pj-type" id="pT">RESIDENTIAL · 34평</p>
+    <div class="pj-line"></div>
+    <p class="pj-desc" id="pD">욕조에서 자연을 바라볼 수 있도록 설계한 공간.<br>자갈과 원목, 빛이 만드는 고요한 쉼터.<br>일상 속 작은 여행을 담았습니다.</p>
+    <p class="pj-quote" id="pQ">"자연을 담은 욕실, 하루의 끝을 위한 공간."</p>
+  </div>
+  <div class="pic" id="picArea">
+    <img src="proj1-a.jpg" id="picImg" alt="서초 더샵 포레">
+    <div class="overlay"><span>자세히 보기</span></div>
+  </div>
+</div>
+
+<div class="bnav" id="bNav">
+  <div class="bi on" data-i="0"><span class="bi-n">서초 더샵 포레</span><span class="bi-t">RESIDENTIAL · 34평</span><div class="bi-l"></div></div>
+  <div class="bi" data-i="1"><span class="bi-n">마포 오피스</span><span class="bi-t">COMMERCIAL · 80㎡</span><div class="bi-l"></div></div>
+  <div class="bi" data-i="2"><span class="bi-n">한남 아파트</span><span class="bi-t">RESIDENTIAL · 115㎡</span><div class="bi-l"></div></div>
+</div>
+
+<div class="gal" id="gal">
+  <div class="gal-top">
+    <span class="gal-ti">서초 더샵 포레 · 34평</span>
+    <button class="gal-x" id="galX">돌아가기</button>
+  </div>
+  <div class="gal-body">
+    <div class="gs on" data-s="0"><div class="gs-i"><img src="proj1-a.jpg"></div><div class="gs-t"><p>욕조 너머로 펼쳐지는 자연 풍경.<br>자갈 위에 놓인 욕조가<br>리조트가 아닌 집에서의 쉼을 완성합니다.</p><p class="q">"자연을 담은 욕실, 하루의 끝을 위한 공간."</p></div></div>
+    <div class="gs" data-s="1"><div class="gs-i"><img src="proj1-b.jpg"></div><div class="gs-t"><p>문을 열면 보이는 프레임.<br>원목과 자갈이 만드는 경계가<br>일상과 휴식을 자연스럽게 나눕니다.</p></div></div>
+    <div class="gs" data-s="2"><div class="gs-i"><img src="proj1-c.jpg"></div><div class="gs-t"><p>빛이 들어오는 방향으로 욕조를 배치.<br>한지 펜던트 조명이<br>공간에 따뜻한 깊이를 더합니다.</p></div></div>
+    <div class="gal-dots"><div class="gd on" data-g="0"></div><div class="gd" data-g="1"></div><div class="gd" data-g="2"></div></div>
+  </div>
+</div>
+
+<script>
+// 사진 클릭 → 갤러리
+document.getElementById('picArea').onclick = function() {
+  document.getElementById('gal').classList.add('open');
+};
+
+// 갤러리 닫기
+document.getElementById('galX').onclick = function() {
+  document.getElementById('gal').classList.remove('open');
+};
+
+// 갤러리 슬라이드
+document.querySelectorAll('.gd').forEach(function(d) {
+  d.onclick = function() {
+    document.querySelectorAll('.gs').forEach(function(s) { s.classList.remove('on'); });
+    document.querySelectorAll('.gd').forEach(function(x) { x.classList.remove('on'); });
+    document.querySelectorAll('.gs')[parseInt(d.dataset.g)].classList.add('on');
+    d.classList.add('on');
+  };
+});
+
+// 프로젝트 전환
+var pj = [
+  {n:'서초 더샵 포레',t:'RESIDENTIAL · 34평',img:'proj1-a.jpg',d:'욕조에서 자연을 바라볼 수 있도록 설계한 공간.<br>자갈과 원목, 빛이 만드는 고요한 쉼터.<br>일상 속 작은 여행을 담았습니다.',q:'"자연을 담은 욕실, 하루의 끝을 위한 공간."'},
+  {n:'마포 오피스',t:'COMMERCIAL · 80㎡',img:'',d:'브랜드의 가치를 공간으로 번역한 작업.<br>방문자가 들어서는 순간<br>회사의 철학이 느껴지도록 했습니다.',q:'"공간이 곧 브랜드의 첫인상입니다."'},
+  {n:'한남 아파트',t:'RESIDENTIAL · 115㎡',img:'',d:'과하지 않은 절제미.<br>재료 본연의 질감이 공간을 채우도록<br>의도한 프리미엄 주거 프로젝트입니다.',q:'"비움으로 채운 공간."'}
+];
+document.querySelectorAll('.bi').forEach(function(item) {
+  item.onclick = function() {
+    var i = parseInt(item.dataset.i);
+    var p = pj[i];
+    document.querySelectorAll('.bi').forEach(function(x) { x.classList.remove('on'); });
+    item.classList.add('on');
+    document.getElementById('pN').textContent = p.n;
+    document.getElementById('pT').textContent = p.t;
+    document.getElementById('pD').innerHTML = p.d;
+    document.getElementById('pQ').textContent = p.q;
+    document.getElementById('picImg').src = p.img || '';
+    if (!p.img) document.getElementById('picImg').style.display = 'none';
+    else document.getElementById('picImg').style.display = 'block';
+  };
+});
+</script>
+</body>
+</html>
