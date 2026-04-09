@@ -517,6 +517,49 @@
     #s3.active .proc-step:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 3.0s; }
     #s3.active .proc-step:nth-child(6) { opacity: 1; transform: translateY(0); transition-delay: 3.3s; }
 
+    /* 3페이지 전용 CTA */
+    .s3-cta {
+      position: absolute;
+      bottom: 52px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 1s;
+    }
+    #s3.active .s3-cta {
+      opacity: 1;
+      transition-delay: 4s;
+    }
+    .s3-cta-text {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 17px;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      color: #8a7560;
+      transition: color 0.4s;
+    }
+    .s3-cta:hover .s3-cta-text { color: #5c4a3a; }
+    .s3-cta-line {
+      width: 1px;
+      height: 36px;
+      background: rgba(138,117,96,0.2);
+      position: relative;
+      overflow: hidden;
+    }
+    .s3-cta-line::after {
+      content: '';
+      position: absolute;
+      top: -100%; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(138,117,96,0.5);
+      animation: lineFlow 2s ease-in-out infinite;
+    }
+
     /* ════════════════════════════
        SECTION 4 — CONSULTATION
     ════════════════════════════ */
@@ -745,9 +788,6 @@
           <p class="s2-brand">DESIGN STUDIO JEONGDO</p>
         </div>
       </div>
-          </div>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -793,6 +833,12 @@
           <p class="proc-step-title">완공·사후관리</p>
           <p class="proc-step-desc">완성된 공간을 철저히 검수하고<br>입주 후에도 이어지는 사후관리로<br>오래도록 바르게 유지되도록<br>도움 드리겠습니다.</p>
         </div>
+      <!-- 3페이지 전용 버튼 -->
+      <div class="s3-cta">
+        <span class="s3-cta-text">공간 보기</span>
+        <span class="s3-cta-line"></span>
+      </div>
+
       </div>
     </div>
   </section>
@@ -934,6 +980,9 @@
     if (cur === 0) {
       heroCta.classList.add('visible');
     } else {
+      // 페이지별 버튼 텍스트
+      const labels = { 1: '동행하기', 2: '공간 보기', 3: '상담하기' };
+      nextBtn.querySelector('.btn-label').textContent = labels[cur] || '다음으로';
       nextBtn.className = nextBtn.className.replace(/\b(light|dark)\b/g, '').trim();
       nextBtn.classList.add(lightBg.includes(cur) ? 'dark' : 'light');
       nextBtn.classList.add('visible');
@@ -963,7 +1012,7 @@
       setTimeout(showNext, 6500);
     } else if (cur === 2) {
       // 3페이지: 프로세스 애니메이션 끝난 뒤
-      setTimeout(showNext, 4500);
+      setTimeout(showNext, 4000);
     } else {
       setTimeout(showNext, 1800);
     }
@@ -979,6 +1028,7 @@
   // 버튼 이벤트
   nextBtn.addEventListener('click', () => goTo(cur + 1));
   heroCta.addEventListener('click', () => goTo(1));
+  document.querySelector('.s3-cta').addEventListener('click', () => goTo(3));
 
   // Chip toggle
   document.querySelectorAll('.chip').forEach(chip => {
