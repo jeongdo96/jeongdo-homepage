@@ -610,7 +610,144 @@
       grid-template-columns: 1fr 1fr;
       gap: 14px;
     }
-    @media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
+    /* ════════════════════════════
+       MOBILE — 모바일 반응형
+    ════════════════════════════ */
+    @media (max-width: 768px) {
+
+      /* 커서 모바일에서 숨김 */
+      #cursor-dot, #cursor-ring { display: none !important; }
+      html, body { cursor: auto; }
+
+      /* 1페이지 — Hero */
+      #s1 { padding-bottom: 6vh; }
+      .hero-logo {
+        font-size: 13px;
+        top: 24px;
+      }
+      .hero-title {
+        font-size: 14px;
+        letter-spacing: 0.1em;
+        white-space: normal;
+        text-align: center;
+        line-height: 1.8;
+      }
+      #hero-cta .cta-text { font-size: 14px; }
+      #hero-cta { bottom: 36px; }
+
+      /* 2페이지 — 철학 (모바일: 완전 다른 레이아웃) */
+      .s2-layout {
+        flex-direction: column;
+        height: 100%;
+        overflow-y: auto;
+      }
+      .s2-left {
+        padding: 72px 32px 24px;
+        justify-content: center;
+        align-items: center;
+      }
+      /* 세로 텍스트 → 가로 중앙 정렬로 변환 */
+      .s2-vgroup {
+        flex-direction: column;
+        gap: 0;
+        align-items: center;
+        text-align: center;
+      }
+      .s2-tag-box {
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 36px;
+      }
+      .s2-tag-hanja {
+        font-size: 44px;
+        writing-mode: horizontal-tb;
+        letter-spacing: 0.15em;
+      }
+      .s2-tag-kr {
+        writing-mode: horizontal-tb;
+        font-size: 10px;
+        margin-top: 10px;
+      }
+      .s2-vcol, .s2-vcol-main {
+        writing-mode: horizontal-tb;
+        font-size: 13px;
+        letter-spacing: 0.06em;
+        line-height: 1;
+        white-space: nowrap;
+        margin-bottom: 20px;
+      }
+      .s2-vcol-main { font-size: 14px; }
+      .s2-pt { font-size: 1.05em; }
+
+      .s2-divider {
+        width: 40px;
+        height: 1px;
+        align-self: center;
+        margin: 28px auto;
+      }
+      .s2-right {
+        padding: 20px 32px 80px;
+        justify-content: center;
+      }
+      .s2-right-inner { text-align: center; }
+      .s2-accent {
+        font-size: 20px;
+        text-align: center;
+        letter-spacing: 0.06em;
+      }
+      .s2-brand {
+        margin-top: 20px;
+        font-size: 9px;
+      }
+
+      /* 3페이지 — 프로세스 (모바일: 미니멀) */
+      .s3-process {
+        padding: 64px 32px 80px;
+        overflow-y: auto;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .process-header {
+        margin-bottom: 48px;
+        text-align: center;
+      }
+      .process-intro { font-size: 13px; text-align: center; }
+
+      .proc-timeline {
+        flex-direction: column;
+        gap: 28px;
+      }
+      .proc-timeline::before { display: none; }
+      .proc-timeline::after { display: none; }
+
+      .proc-step {
+        padding: 0;
+        padding-right: 0;
+        text-align: center;
+      }
+      .proc-step-num {
+        font-size: 22px;
+        font-weight: 200;
+        margin-bottom: 6px;
+        color: #8a7560;
+      }
+      .proc-step-title {
+        font-size: 14px;
+        margin-bottom: 0;
+      }
+      .proc-step-desc {
+        display: none;
+      }
+
+      .s3-cta { bottom: 24px; }
+      .s3-cta-text { font-size: 14px; }
+      .s3-cta-line { height: 20px; }
+
+      /* 상담 폼 */
+      .form-row { grid-template-columns: 1fr; }
+    }
 
     .chips { display: flex; flex-wrap: wrap; gap: 8px; }
     .chip {
@@ -1008,8 +1145,21 @@
     if (scrollEls[cur]) {
       checkBottom(cur);
     } else if (cur === 1) {
-      // 2페이지: 애니메이션 끝난 뒤 NEXT
-      setTimeout(showNext, 6500);
+      // 2페이지: 모바일이면 스크롤 끝에, 데스크탑이면 애니메이션 후
+      if (window.innerWidth <= 768) {
+        // 모바일: s2-layout 스크롤 감지
+        const s2scroll = document.querySelector('#s2 .s2-layout');
+        if (s2scroll) {
+          const s2handler = () => {
+            const atBottom = s2scroll.scrollHeight - s2scroll.scrollTop - s2scroll.clientHeight < 48;
+            if (atBottom) showNext();
+            else hideNext();
+          };
+          s2scroll.addEventListener('scroll', s2handler, { passive: true });
+        }
+      } else {
+        setTimeout(showNext, 6500);
+      }
     } else if (cur === 2) {
       // 3페이지: 프로세스 애니메이션 끝난 뒤
       setTimeout(showNext, 4000);
