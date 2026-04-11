@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3페이지 — PROCESS</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200;300;400;500&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html, body { background: #ffffff; height: 100%; overflow: hidden; font-family: 'Noto Serif KR', serif; }
+
+.page {
+  height: 100vh;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 60px 8vw;
+}
+
+/* 헤더 */
+.process-header {
+  margin-bottom: 64px;
+  opacity: 0;
+  animation: fadeIn 1.5s ease 0.3s forwards;
+}
+
+.process-label {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.4em;
+  color: #bbb;
+  margin-bottom: 24px;
+}
+
+.process-intro {
+  font-size: 15px;
+  font-weight: 300;
+  color: #333;
+  line-height: 2;
+  letter-spacing: 0.06em;
+}
+
+.process-intro strong {
+  font-weight: 500;
+  color: #111;
+}
+
+/* 가로 타임라인 */
+.timeline {
+  display: flex;
+  gap: 0;
+  position: relative;
+}
+
+/* 연결선 — 배경 (회색) */
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 16px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #e8e4de;
+}
+
+/* 연결선 — 진행 (브라운) */
+.timeline::after {
+  content: '';
+  position: absolute;
+  top: 16px;
+  left: 0;
+  height: 2px;
+  background: #8a7560;
+  width: 0%;
+  animation: lineGrow 2s cubic-bezier(0.16, 1, 0.3, 1) 1.5s forwards;
+}
+
+@keyframes lineGrow {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+.step {
+  flex: 1;
+  padding-right: 2vw;
+  position: relative;
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+.step:nth-child(1) { animation: stepIn 0.8s ease forwards; animation-delay: 1.8s; }
+.step:nth-child(2) { animation: stepIn 0.8s ease forwards; animation-delay: 2.1s; }
+.step:nth-child(3) { animation: stepIn 0.8s ease forwards; animation-delay: 2.4s; }
+.step:nth-child(4) { animation: stepIn 0.8s ease forwards; animation-delay: 2.7s; }
+.step:nth-child(5) { animation: stepIn 0.8s ease forwards; animation-delay: 3.0s; }
+.step:nth-child(6) { animation: stepIn 0.8s ease forwards; animation-delay: 3.3s; }
+
+@keyframes stepIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* 번호 */
+.step-num {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 28px;
+  font-weight: 200;
+  color: #8a7560;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.step-title {
+  font-size: 15px;
+  font-weight: 400;
+  color: #111;
+  letter-spacing: 0.06em;
+  margin-bottom: 14px;
+}
+
+.step-desc {
+  font-size: 12px;
+  font-weight: 300;
+  color: #666;
+  line-height: 1.9;
+  letter-spacing: 0.03em;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <div class="process-header">
+    <p class="process-label">PROCESS</p>
+    <p class="process-intro">
+      <strong>대면 상담은 필수입니다.</strong><br>
+      상담을 통해 공간의 바른 길이 시작됩니다.
+    </p>
+  </div>
+
+  <div class="timeline">
+
+    <div class="step">
+      <p class="step-num">01</p>
+      <p class="step-title">상담</p>
+      <p class="step-desc">
+        고객님이 좋아하는 분위기, 생활습관,<br>
+        예산과 일정을 듣습니다.<br>
+        공간을 통해 이루고 싶은 삶의 방향을<br>
+        함께 이야기합니다.
+      </p>
+    </div>
+
+    <div class="step">
+      <p class="step-num">02</p>
+      <p class="step-title">현장 조사</p>
+      <p class="step-desc">
+        현장 담당자가 직접 방문하여<br>
+        세부 치수와 현장의 상황을<br>
+        정확히 파악합니다.
+      </p>
+    </div>
+
+    <div class="step">
+      <p class="step-num">03</p>
+      <p class="step-title">계약</p>
+      <p class="step-desc">
+        설계 범위, 일정, 비용, 사후관리까지<br>
+        모든 조건을 명확히 정해<br>
+        안심할 수 있도록 약속합니다.
+      </p>
+    </div>
+
+    <div class="step">
+      <p class="step-num">04</p>
+      <p class="step-title">기획·디자인</p>
+      <p class="step-desc">
+        평면도, 3D 이미지보드로<br>
+        쉽게 확인할 수 있으며,<br>
+        함께 조율해 오래도록 사랑받는<br>
+        공간을 만듭니다.
+      </p>
+    </div>
+
+    <div class="step">
+      <p class="step-num">05</p>
+      <p class="step-title">시공</p>
+      <p class="step-desc">
+        정도의 철저한 감리로<br>
+        설계 그대로 구현합니다.<br>
+        작은 디테일까지 놓치지 않고<br>
+        완성합니다.
+      </p>
+    </div>
+
+    <div class="step">
+      <p class="step-num">06</p>
+      <p class="step-title">완공·사후관리</p>
+      <p class="step-desc">
+        완성된 공간을 철저히 검수하고<br>
+        입주 후에도 이어지는 사후관리로<br>
+        오래도록 바르게 유지되도록<br>
+        도움 드리겠습니다.
+      </p>
+    </div>
+
+  </div>
+  <!-- 버튼 비교 -->
+  <div style="position:fixed; bottom:48px; left:0; right:0; display:flex; justify-content:center; gap:80px; z-index:10; opacity:0; animation: fadeIn 1s ease 4s forwards;">
+    <div style="display:flex; flex-direction:column; align-items:center; gap:12px; cursor:pointer;">
+      <span style="font-family:'Noto Serif KR',serif; font-size:17px; font-weight:400; letter-spacing:0.2em; color:#8a7560;">정도의 공간</span>
+      <span style="width:1px; height:36px; background:rgba(138,117,96,0.2); position:relative; overflow:hidden; display:block;">
+        <span style="position:absolute; top:-100%; left:0; width:100%; height:100%; background:rgba(138,117,96,0.5); animation: lineFlow 2s ease-in-out infinite; display:block;"></span>
+      </span>
+      <span style="font-family:sans-serif; font-size:9px; color:#bbb; letter-spacing:0.1em;">A</span>
+    </div>
+    <div style="display:flex; flex-direction:column; align-items:center; gap:12px; cursor:pointer;">
+      <span style="font-family:'Noto Serif KR',serif; font-size:17px; font-weight:400; letter-spacing:0.2em; color:#8a7560;">공간 보기</span>
+      <span style="width:1px; height:36px; background:rgba(138,117,96,0.2); position:relative; overflow:hidden; display:block;">
+        <span style="position:absolute; top:-100%; left:0; width:100%; height:100%; background:rgba(138,117,96,0.5); animation: lineFlow 2s ease-in-out infinite; display:block;"></span>
+      </span>
+      <span style="font-family:sans-serif; font-size:9px; color:#bbb; letter-spacing:0.1em;">B</span>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

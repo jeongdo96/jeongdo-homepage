@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>커서 V2</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 100%; height: 100%; overflow: hidden; cursor: none; }
+
+    .split { display: flex; width: 100%; height: 100%; }
+    .panel {
+      flex: 1; display: flex; align-items: flex-end; justify-content: center;
+      padding-bottom: 40px; position: relative;
+    }
+    .panel:nth-child(1) { background: #f0ebe4; }
+    .panel:nth-child(2) { background: #2b2824; }
+    .panel:nth-child(3) { background: #f0ebe4; }
+    .panel + .panel { border-left: 1px solid rgba(128,128,128,0.1); }
+    .num { font-family: sans-serif; font-size: 9px; letter-spacing: 0.15em; color: rgba(128,128,128,0.45); text-align: center; line-height: 1.6; }
+
+    .cursor { position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); }
+
+    /* ── A: 점 + 회전 갭 링 ── */
+    #ca-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(92,74,58,0.8); }
+    #ca-ring {
+      width: 34px; height: 34px; border-radius: 50%;
+      border: 1.5px solid rgba(92,74,58,0.35);
+      border-top-color: transparent;
+      animation: spinRing 2.5s linear infinite;
+      transition: left 0.14s ease-out, top 0.14s ease-out;
+    }
+    @keyframes spinRing { to { transform: translate(-50%,-50%) rotate(360deg); } }
+
+    /* ── B: 다이아몬드 + 펄스 ── */
+    #cb {
+      width: 10px; height: 10px;
+      border: 1.5px solid rgba(220,215,207,0.7);
+      transform: translate(-50%, -50%) rotate(45deg);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    #cb-outer {
+      width: 22px; height: 22px;
+      border: 1px solid rgba(220,215,207,0.15);
+      transform: translate(-50%, -50%) rotate(45deg);
+      transition: left 0.18s ease-out, top 0.18s ease-out;
+      animation: pulseOuter 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    @keyframes pulseOuter {
+      0%, 100% { opacity: 0.4; transform: translate(-50%,-50%) rotate(45deg) scale(1); }
+      50% { opacity: 0.15; transform: translate(-50%,-50%) rotate(45deg) scale(1.2); }
+    }
+
+    /* ── C: 점 + 링 모프 (평소 원 → 호버 다이아몬드) ── */
+    #cc-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(92,74,58,0.8); }
+    #cc-ring {
+      width: 30px; height: 30px;
+      border: 1.5px solid rgba(92,74,58,0.3);
+      border-radius: 50%;
+      transition: left 0.13s ease-out, top 0.13s ease-out, border-radius 0.4s, transform 0.4s, border-color 0.3s;
+    }
+    #cc-ring.morph {
+      border-radius: 2px;
+      transform: translate(-50%, -50%) rotate(45deg) scale(0.8);
+      border-color: rgba(92,74,58,0.5);
+    }
+  </style>
+</head>
+<body>
+  <div class="split">
+    <div class="panel" data-p="0"><span class="num">A<br>점 + 회전 갭 링</span></div>
+    <div class="panel" data-p="1"><span class="num">B<br>다이아몬드 + 펄스</span></div>
+    <div class="panel" data-p="2"><span class="num">C<br>원 ↔ 다이아 모프<br><small>(텍스트 호버시 변형)</small></span></div>
+  </div>
+
+  <!-- A -->
+  <div class="cursor" id="ca-dot"></div>
+  <div class="cursor" id="ca-ring"></div>
+  <!-- B -->
+  <div class="cursor" id="cb" style="display:none;"></div>
+  <div class="cursor" id="cb-outer" style="display:none;"></div>
+  <!-- C -->
+  <div class="cursor" id="cc-dot" style="display:none;"></div>
+  <div class="cursor" id="cc-ring" style="display:none;"></div>
+
+  <!-- 호버 테스트용 텍스트 -->
+  <div style="position:fixed; top:50%; left:75%; transform:translate(-50%,-50%); z-index:5; text-align:center;">
+    <p class="hoverable" style="font-family:sans-serif; font-size:14px; color:rgba(92,74,58,0.6); letter-spacing:0.15em; cursor:none;">마우스를 올려보세요</p>
+  </div>
+
+  <script>
+    const groups = {
+      0: [document.getElementById('ca-dot'), document.getElementById('ca-ring')],
+      1: [document.getElementById('cb'), document.getElementById('cb-outer')],
+      2: [document.getElementById('cc-dot'), document.getElementById('cc-ring')],
+    };
+    let active = -1;
+
+    function hideAll() { Object.values(groups).flat().forEach(c => c.style.display = 'none'); }
+    function showG(i) { hideAll(); groups[i].forEach(c => c.style.display = 'block'); }
+
+    document.addEventListener('mousemove', e => {
+      const pw = window.innerWidth / 3;
+      const idx = Math.min(2, Math.floor(e.clientX / pw));
+      if (idx !== active) { active = idx; showG(idx); }
+
+      Object.values(groups).flat().forEach(c => {
+        c.style.left = e.clientX + 'px';
+        c.style.top = e.clientY + 'px';
+      });
+    });
+
+    // C: 호버 모프
+    const ccRing = document.getElementById('cc-ring');
+    document.querySelectorAll('.hoverable').forEach(el => {
+      el.addEventListener('mouseenter', () => ccRing.classList.add('morph'));
+      el.addEventListener('mouseleave', () => ccRing.classList.remove('morph'));
+    });
+  </script>
+</body>
+</html>

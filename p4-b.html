@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>프로젝트 B — 3단 그리드</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200;300;400&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;background:#fff;font-family:'Noto Serif KR',serif}
+
+.page{height:100vh;display:flex;flex-direction:column;padding:60px 6vw}
+
+.header{margin-bottom:48px}
+.header-label{font-family:'Pretendard',sans-serif;font-size:10px;letter-spacing:0.4em;color:#bbb;margin-bottom:16px}
+.header-title{font-size:clamp(22px,2.8vw,32px);font-weight:300;color:#111;letter-spacing:0.04em}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;flex:1}
+
+.card{position:relative;overflow:hidden;cursor:pointer}
+.card-img{width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease}
+.card-bg{position:absolute;inset:0;transition:transform 0.6s ease}
+.card:nth-child(1) .card-bg{background:linear-gradient(160deg,#c8bfb4,#a09080)}
+.card:nth-child(2) .card-bg{background:linear-gradient(160deg,#b0a898,#8a8078)}
+.card:nth-child(3) .card-bg{background:linear-gradient(160deg,#d0c8be,#b0a090)}
+.card:hover .card-bg{transform:scale(1.05)}
+
+.card-overlay{position:absolute;inset:0;background:linear-gradient(transparent 50%,rgba(0,0,0,0.5));z-index:1}
+
+.card-info{position:absolute;bottom:28px;left:28px;z-index:2}
+.card-num{font-family:'Pretendard',sans-serif;font-size:10px;letter-spacing:0.3em;color:rgba(255,255,255,0.4);margin-bottom:10px}
+.card-name{font-size:18px;font-weight:300;color:#fff;letter-spacing:0.04em;margin-bottom:4px}
+.card-type{font-family:'Pretendard',sans-serif;font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:0.08em}
+
+.label{position:fixed;top:20px;left:50%;transform:translateX(-50%);font-family:sans-serif;font-size:10px;letter-spacing:0.2em;color:rgba(0,0,0,0.2);z-index:20}
+</style>
+</head>
+<body>
+<p class="label">B — 3단 그리드</p>
+<div class="page">
+  <div class="header">
+    <p class="header-label">PROJECT</p>
+    <h2 class="header-title">정도의 공간들</h2>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-bg"></div>
+      <div class="card-overlay"></div>
+      <div class="card-info">
+        <p class="card-num">01</p>
+        <h3 class="card-name">성북동 단독주택</h3>
+        <p class="card-type">주거 · 150㎡</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-bg"></div>
+      <div class="card-overlay"></div>
+      <div class="card-info">
+        <p class="card-num">02</p>
+        <h3 class="card-name">마포 오피스</h3>
+        <p class="card-type">상업 · 80㎡</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-bg"></div>
+      <div class="card-overlay"></div>
+      <div class="card-info">
+        <p class="card-num">03</p>
+        <h3 class="card-name">한남 아파트</h3>
+        <p class="card-type">주거 · 115㎡</p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

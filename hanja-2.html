@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>正道 — 세로 사이드</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 100%; height: 100%; overflow: hidden; }
+
+    .hero {
+      width: 100%; height: 100%;
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+      padding-bottom: 10vh;
+    }
+
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(rgba(20,18,16,0.28), rgba(20,18,16,0.28)),
+        url('hero.jpg') center / cover no-repeat;
+    }
+
+    /* 正道 — 세로 사이드 */
+    .hanja-side {
+      position: absolute;
+      right: 48px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .hanja-line-top, .hanja-line-bottom {
+      width: 1px;
+      height: 40px;
+      background: rgba(220,215,207,0.2);
+    }
+
+    .hanja-chars {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 28px;
+      font-weight: 400;
+      color: rgba(220,215,207,0.35);
+      writing-mode: vertical-rl;
+      letter-spacing: 0.3em;
+      line-height: 1;
+    }
+
+    h1 {
+      position: relative; z-index: 2;
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(14.4px, 1.92vw, 28.8px);
+      font-weight: 400;
+      color: #fff;
+      letter-spacing: 0.16em;
+      white-space: nowrap;
+    }
+
+    .label {
+      position: fixed; top: 24px; left: 50%;
+      transform: translateX(-50%);
+      font-family: sans-serif;
+      font-size: 11px; letter-spacing: 0.2em;
+      color: rgba(255,255,255,0.35); z-index: 10;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+  <p class="label">02 — 正道 세로 사이드 (오른쪽에 라인과 함께)</p>
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hanja-side">
+      <div class="hanja-line-top"></div>
+      <span class="hanja-chars">正道</span>
+      <div class="hanja-line-bottom"></div>
+    </div>
+    <h1>공간의 처음과 끝을 정도와 동행합니다.</h1>
+  </div>
+</body>
+</html>

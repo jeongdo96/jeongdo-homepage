@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>프로젝트 A — 풀스크린 슬라이드</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200;300;400&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;background:#111;font-family:'Noto Serif KR',serif}
+
+.slider{position:relative;width:100%;height:100%}
+
+.slide{position:absolute;inset:0;opacity:0;transition:opacity 0.8s ease;display:flex;align-items:flex-end;padding:60px 8vw}
+.slide.active{opacity:1}
+
+.slide-bg{position:absolute;inset:0;background-size:cover;background-position:center}
+.slide:nth-child(1) .slide-bg{background:linear-gradient(135deg,#b8b0a4,#8a8078)}
+.slide:nth-child(2) .slide-bg{background:linear-gradient(135deg,#a09888,#7a7068)}
+.slide:nth-child(3) .slide-bg{background:linear-gradient(135deg,#c8c0b8,#9a9088)}
+.slide-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(transparent 40%,rgba(0,0,0,0.6))}
+
+.slide-info{position:relative;z-index:2;max-width:500px}
+.slide-num{font-family:'Pretendard',sans-serif;font-size:11px;letter-spacing:0.3em;color:rgba(255,255,255,0.4);margin-bottom:16px}
+.slide-name{font-size:clamp(24px,3vw,36px);font-weight:300;color:#fff;letter-spacing:0.04em;margin-bottom:8px}
+.slide-type{font-family:'Pretendard',sans-serif;font-size:12px;color:rgba(255,255,255,0.5);letter-spacing:0.1em;margin-bottom:16px}
+.slide-desc{font-size:13px;font-weight:300;color:rgba(255,255,255,0.6);line-height:1.8}
+
+/* 네비게이션 */
+.nav{position:absolute;bottom:60px;right:8vw;display:flex;gap:12px;z-index:10}
+.nav-dot{width:32px;height:2px;background:rgba(255,255,255,0.2);cursor:pointer;transition:background 0.3s}
+.nav-dot.active{background:#fff}
+
+.counter{position:absolute;top:40px;right:8vw;font-family:'Pretendard',sans-serif;font-size:12px;color:rgba(255,255,255,0.3);letter-spacing:0.1em;z-index:10}
+
+.label{position:fixed;top:20px;left:50%;transform:translateX(-50%);font-family:sans-serif;font-size:10px;letter-spacing:0.2em;color:rgba(255,255,255,0.2);z-index:20}
+</style>
+</head>
+<body>
+<p class="label">A — 풀스크린 슬라이드</p>
+<div class="slider">
+  <p class="counter"><span id="cur">01</span> / 03</p>
+
+  <div class="slide active">
+    <div class="slide-bg"></div>
+    <div class="slide-info">
+      <p class="slide-num">PROJECT. 01</p>
+      <h2 class="slide-name">성북동 단독주택</h2>
+      <p class="slide-type">주거 · 150㎡</p>
+      <p class="slide-desc">조용한 골목 안, 빛과 소재가 대화하는 공간.<br>거주자의 일상이 자연스럽게 스며드는 구조를 설계했습니다.</p>
+    </div>
+  </div>
+
+  <div class="slide">
+    <div class="slide-bg"></div>
+    <div class="slide-info">
+      <p class="slide-num">PROJECT. 02</p>
+      <h2 class="slide-name">마포 오피스</h2>
+      <p class="slide-type">상업 · 80㎡</p>
+      <p class="slide-desc">브랜드의 가치를 공간으로 번역한 작업.<br>방문자가 들어서는 순간 회사의 철학이 느껴지도록 했습니다.</p>
+    </div>
+  </div>
+
+  <div class="slide">
+    <div class="slide-bg"></div>
+    <div class="slide-info">
+      <p class="slide-num">PROJECT. 03</p>
+      <h2 class="slide-name">한남 아파트</h2>
+      <p class="slide-type">주거 · 115㎡</p>
+      <p class="slide-desc">과하지 않은 절제미.<br>재료 본연의 질감이 공간을 채우도록 의도한 프로젝트입니다.</p>
+    </div>
+  </div>
+
+  <div class="nav">
+    <div class="nav-dot active" data-i="0"></div>
+    <div class="nav-dot" data-i="1"></div>
+    <div class="nav-dot" data-i="2"></div>
+  </div>
+</div>
+
+<script>
+const slides=document.querySelectorAll('.slide');
+const dots=document.querySelectorAll('.nav-dot');
+const counter=document.getElementById('cur');
+let idx=0;
+
+function go(i){
+  slides[idx].classList.remove('active');
+  dots[idx].classList.remove('active');
+  idx=i;
+  slides[idx].classList.add('active');
+  dots[idx].classList.add('active');
+  counter.textContent=String(idx+1).padStart(2,'0');
+}
+
+dots.forEach(d=>d.addEventListener('click',()=>go(+d.dataset.i)));
+
+// 자동 슬라이드
+setInterval(()=>go((idx+1)%3),5000);
+</script>
+</body>
+</html>

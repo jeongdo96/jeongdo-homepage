@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>커서 비교</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 100%; height: 100%; overflow: hidden; cursor: none; }
+
+    .split {
+      display: flex; width: 100%; height: 100%;
+    }
+
+    .panel {
+      flex: 1;
+      display: flex; align-items: flex-end; justify-content: center;
+      padding-bottom: 40px;
+      position: relative;
+    }
+
+    .panel:nth-child(1) { background: #f0ebe4; }
+    .panel:nth-child(2) { background: #dcd7cf; }
+    .panel:nth-child(3) { background: #2b2824; }
+    .panel:nth-child(4) { background: #f0ebe4; }
+    .panel:nth-child(5) { background: #2b2824; }
+
+    .panel + .panel { border-left: 1px solid rgba(128,128,128,0.15); }
+
+    .num {
+      font-family: sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: rgba(128,128,128,0.5);
+    }
+
+    /* 커서들 */
+    .cursor { position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); }
+
+    /* 01: 작은 점 + 링 (현재) */
+    #c1-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(92,74,58,0.7); }
+    #c1-ring { width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(92,74,58,0.2);
+      transition: left 0.15s ease-out, top 0.15s ease-out; }
+
+    /* 02: 십자선 (크로스헤어) */
+    #c2 { width: 24px; height: 24px; }
+    #c2::before, #c2::after {
+      content: ''; position: absolute; background: rgba(92,74,58,0.5);
+    }
+    #c2::before { width: 1px; height: 100%; left: 50%; top: 0; }
+    #c2::after { width: 100%; height: 1px; top: 50%; left: 0; }
+
+    /* 03: 큰 링 (두꺼운 테두리) */
+    #c3 { width: 28px; height: 28px; border-radius: 50%; border: 2px solid rgba(220,215,207,0.6);
+      transition: left 0.1s ease-out, top 0.1s ease-out; }
+
+    /* 04: 다이아몬드 */
+    #c4 { width: 12px; height: 12px; border: 1px solid rgba(92,74,58,0.6);
+      transform: translate(-50%, -50%) rotate(45deg); }
+
+    /* 05: 점 + 대시 원 */
+    #c5-dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(220,215,207,0.8); }
+    #c5-ring { width: 36px; height: 36px; border-radius: 50%;
+      border: 1px dashed rgba(220,215,207,0.3);
+      transition: left 0.18s ease-out, top 0.18s ease-out;
+      animation: c5spin 8s linear infinite; }
+    @keyframes c5spin { from { transform: translate(-50%,-50%) rotate(0deg); } to { transform: translate(-50%,-50%) rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <div class="split">
+    <div class="panel"><span class="num">01 점+링</span></div>
+    <div class="panel"><span class="num">02 십자선</span></div>
+    <div class="panel"><span class="num">03 두꺼운 링</span></div>
+    <div class="panel"><span class="num">04 다이아몬드</span></div>
+    <div class="panel"><span class="num">05 점+대시원</span></div>
+  </div>
+
+  <!-- 01 -->
+  <div class="cursor" id="c1-dot"></div>
+  <div class="cursor" id="c1-ring"></div>
+  <!-- 02 -->
+  <div class="cursor" id="c2" style="display:none;"></div>
+  <!-- 03 -->
+  <div class="cursor" id="c3" style="display:none;"></div>
+  <!-- 04 -->
+  <div class="cursor" id="c4" style="display:none;"></div>
+  <!-- 05 -->
+  <div class="cursor" id="c5-dot" style="display:none;"></div>
+  <div class="cursor" id="c5-ring" style="display:none;"></div>
+
+  <script>
+    const panels = document.querySelectorAll('.panel');
+    const cursors = {
+      0: [document.getElementById('c1-dot'), document.getElementById('c1-ring')],
+      1: [document.getElementById('c2')],
+      2: [document.getElementById('c3')],
+      3: [document.getElementById('c4')],
+      4: [document.getElementById('c5-dot'), document.getElementById('c5-ring')],
+    };
+
+    let activePanel = -1;
+
+    function hideAll() {
+      Object.values(cursors).flat().forEach(c => c.style.display = 'none');
+    }
+
+    function showPanel(i) {
+      hideAll();
+      cursors[i].forEach(c => c.style.display = 'block');
+    }
+
+    document.addEventListener('mousemove', e => {
+      // 어느 패널 위에 있는지
+      const pw = window.innerWidth / 5;
+      const idx = Math.min(4, Math.floor(e.clientX / pw));
+
+      if (idx !== activePanel) {
+        activePanel = idx;
+        showPanel(idx);
+      }
+
+      // 모든 커서 위치 업데이트
+      Object.values(cursors).flat().forEach(c => {
+        c.style.left = e.clientX + 'px';
+        c.style.top = e.clientY + 'px';
+      });
+    });
+  </script>
+</body>
+</html>

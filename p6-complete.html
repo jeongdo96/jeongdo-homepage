@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>완료</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200;300;400;500&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { width:100%; height:100%; overflow:hidden; background:#ffffff; font-family:'Noto Serif KR',serif; }
+
+.page {
+  width:100%; height:100vh;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:0 32px;
+}
+
+.done-icon {
+  width:52px; height:52px; border-radius:50%;
+  background:#ffffff;
+  box-shadow: 6px 6px 14px rgba(0,0,0,0.07), -6px -6px 14px rgba(255,255,255,0.8);
+  display:flex; align-items:center; justify-content:center;
+  margin-bottom:36px;
+  opacity:0; animation:fadeIn 1s ease 0.3s forwards;
+}
+.done-icon svg { stroke:#8a7560; }
+
+.done-title {
+  font-size:clamp(20px,2.5vw,28px); font-weight:300; color:#2b2824;
+  letter-spacing:0.04em; margin-bottom:10px;
+  opacity:0; animation:fadeIn 1s ease 0.6s forwards;
+}
+
+.done-sub {
+  font-size:13px; font-weight:300; color:#999;
+  line-height:1.8; text-align:center; margin-bottom:56px;
+  opacity:0; animation:fadeIn 1s ease 0.9s forwards;
+}
+
+.explore-label {
+  font-family:'Pretendard',sans-serif;
+  font-size:10px; letter-spacing:0.35em; color:#bbb;
+  margin-bottom:32px;
+  opacity:0; animation:fadeIn 1s ease 1.1s forwards;
+}
+
+/* 토글 리스트 */
+.toggles {
+  width:100%; max-width:360px;
+  display:flex; flex-direction:column; gap:20px;
+  opacity:0; animation:fadeIn 1s ease 1.3s forwards;
+}
+
+.toggle-row {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:20px 28px;
+  background:#ffffff;
+  border-radius:16px;
+  box-shadow: 6px 6px 14px rgba(0,0,0,0.06), -6px -6px 14px rgba(255,255,255,0.75);
+}
+
+.toggle-info { display:flex; flex-direction:column; gap:4px; }
+.toggle-name {
+  font-family:'Pretendard',sans-serif;
+  font-size:14px; font-weight:400; color:#2b2824; letter-spacing:0.06em;
+}
+.toggle-desc {
+  font-size:11px; font-weight:300; color:#aaa; letter-spacing:0.02em;
+}
+
+/* 토글 스위치 — 뉴모피즘 */
+.toggle-switch {
+  width:52px; height:28px;
+  border-radius:14px;
+  background:#e8e4de;
+  box-shadow: inset 2px 2px 5px rgba(0,0,0,0.08), inset -2px -2px 5px rgba(255,255,255,0.7);
+  position:relative;
+  cursor:pointer;
+  transition:background 0.3s;
+  flex-shrink:0;
+}
+.toggle-switch.on {
+  background:#8a7560;
+  box-shadow: inset 2px 2px 5px rgba(0,0,0,0.15), inset -2px -2px 5px rgba(160,140,120,0.3);
+}
+
+.toggle-knob {
+  width:22px; height:22px;
+  border-radius:50%;
+  background:#ffffff;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.1), -1px -1px 4px rgba(255,255,255,0.9);
+  position:absolute;
+  top:3px; left:3px;
+  transition:left 0.3s;
+}
+.toggle-switch.on .toggle-knob {
+  left:27px;
+  background:#fff;
+}
+
+/* 링크 표시 */
+.toggle-link {
+  max-height:0; overflow:hidden;
+  transition:max-height 0.4s, margin 0.4s, opacity 0.3s;
+  opacity:0;
+  display:flex; align-items:center; justify-content:center;
+}
+.toggle-row.active + .toggle-link,
+.toggle-link.show {
+  max-height:40px; margin-top:-4px; margin-bottom:4px; opacity:1;
+}
+.toggle-link a {
+  font-family:'Pretendard',sans-serif;
+  font-size:11px; letter-spacing:0.15em;
+  color:#8a7560; text-decoration:none;
+  padding:8px 0;
+  transition:color 0.3s;
+}
+.toggle-link a:hover { color:#5c4a3a; }
+
+/* 하단 */
+.footer {
+  position:fixed; bottom:28px; left:0; right:0;
+  text-align:center;
+  font-family:'Pretendard',sans-serif;
+  font-size:9px; color:#ccc; letter-spacing:0.12em;
+  opacity:0; animation:fadeIn 1s ease 1.8s forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity:0; }
+  to { opacity:1; }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="done-icon">
+    <svg width="18" height="13" viewBox="0 0 18 13" fill="none" stroke-width="1.5">
+      <polyline points="1,6.5 6.5,12 17,1"/>
+    </svg>
+  </div>
+  <h2 class="done-title">신청이 완료되었습니다</h2>
+  <p class="done-sub">정도가 소중한 연락을 확인 후<br>빠르게 연락드리겠습니다.</p>
+
+  <p class="explore-label">정도를 더 알아보기</p>
+
+  <div class="toggles">
+    <div>
+      <div class="toggle-row" data-url="https://www.instagram.com">
+        <div class="toggle-info">
+          <span class="toggle-name">Instagram</span>
+          <span class="toggle-desc">정도의 일상과 공간 이야기</span>
+        </div>
+        <div class="toggle-switch"><div class="toggle-knob"></div></div>
+      </div>
+      <div class="toggle-link"><a href="https://www.instagram.com" target="_blank">바로가기 →</a></div>
+    </div>
+
+    <div>
+      <div class="toggle-row" data-url="https://www.youtube.com">
+        <div class="toggle-info">
+          <span class="toggle-name">YouTube</span>
+          <span class="toggle-desc">시공 과정과 공간 투어 영상</span>
+        </div>
+        <div class="toggle-switch"><div class="toggle-knob"></div></div>
+      </div>
+      <div class="toggle-link"><a href="https://www.youtube.com" target="_blank">바로가기 →</a></div>
+    </div>
+
+    <div>
+      <div class="toggle-row" data-url="https://blog.naver.com">
+        <div class="toggle-info">
+          <span class="toggle-name">Blog</span>
+          <span class="toggle-desc">인테리어 노하우와 프로젝트 후기</span>
+        </div>
+        <div class="toggle-switch"><div class="toggle-knob"></div></div>
+      </div>
+      <div class="toggle-link"><a href="https://blog.naver.com" target="_blank">바로가기 →</a></div>
+    </div>
+  </div>
+</div>
+
+<p class="footer">© 2025 DESIGN STUDIO JEONGDO · ALL RIGHTS RESERVED</p>
+
+<script>
+document.querySelectorAll('.toggle-switch').forEach(function(sw) {
+  sw.onclick = function() {
+    sw.classList.toggle('on');
+    var link = sw.closest('.toggle-row').nextElementSibling;
+    if (sw.classList.contains('on')) {
+      link.classList.add('show');
+    } else {
+      link.classList.remove('show');
+    }
+  };
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>완료 — V1 토글 확대</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200;300;400;500&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#fff;font-family:'Noto Serif KR',serif}
+.page{width:100%;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 32px}
+.done-title{font-size:24px;font-weight:300;color:#2b2824;letter-spacing:0.04em;margin-bottom:10px}
+.done-sub{font-size:13px;font-weight:300;color:#999;line-height:1.8;text-align:center;margin-bottom:56px}
+.label{font-family:'Pretendard',sans-serif;font-size:10px;letter-spacing:0.35em;color:#bbb;margin-bottom:28px}
+
+.toggles{width:100%;max-width:380px;display:flex;flex-direction:column;gap:16px}
+
+.tgl-card{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 28px;
+  border:1px solid #f0ebe4;
+  border-radius:12px;
+  cursor:pointer;
+  transition:transform 0.3s,border-color 0.3s,box-shadow 0.3s;
+}
+.tgl-card.on{
+  transform:scale(1.03);
+  border-color:#8a7560;
+  box-shadow:0 4px 20px rgba(138,117,96,0.08);
+}
+.tgl-name{font-family:'Pretendard',sans-serif;font-size:14px;font-weight:400;color:#2b2824;letter-spacing:0.06em}
+.tgl-sub{font-size:11px;font-weight:300;color:#aaa;margin-top:3px}
+
+.tgl-sw{
+  width:48px;height:26px;border-radius:13px;
+  background:#e8e4de;position:relative;flex-shrink:0;
+  transition:background 0.3s;
+}
+.tgl-card.on .tgl-sw{background:#8a7560}
+.tgl-knob{
+  width:20px;height:20px;border-radius:50%;
+  background:#fff;box-shadow:1px 1px 4px rgba(0,0,0,0.1);
+  position:absolute;top:3px;left:3px;
+  transition:left 0.3s;
+}
+.tgl-card.on .tgl-knob{left:25px}
+
+.tgl-link{
+  max-height:0;overflow:hidden;opacity:0;
+  transition:max-height 0.4s,opacity 0.3s,margin 0.3s;
+  text-align:center;
+}
+.tgl-link.show{max-height:40px;opacity:1;margin-top:8px}
+.tgl-link a{font-family:'Pretendard',sans-serif;font-size:11px;letter-spacing:0.15em;color:#8a7560;text-decoration:none}
+
+.tag{position:fixed;top:20px;left:50%;transform:translateX(-50%);font-family:sans-serif;font-size:10px;letter-spacing:0.2em;color:#ccc}
+</style>
+</head>
+<body>
+<p class="tag">V1 — 토글 ON 시 카드 확대 + 보더</p>
+<div class="page">
+  <h2 class="done-title">신청이 완료되었습니다</h2>
+  <p class="done-sub">정도가 소중한 연락을 확인 후<br>빠르게 연락드리겠습니다.</p>
+  <p class="label">정도를 더 알아보기</p>
+  <div class="toggles">
+    <div>
+      <div class="tgl-card"><div><span class="tgl-name">Instagram</span><p class="tgl-sub">정도의 일상과 공간 이야기</p></div><div class="tgl-sw"><div class="tgl-knob"></div></div></div>
+      <div class="tgl-link"><a href="#" target="_blank">바로가기 →</a></div>
+    </div>
+    <div>
+      <div class="tgl-card"><div><span class="tgl-name">YouTube</span><p class="tgl-sub">시공 과정과 공간 투어 영상</p></div><div class="tgl-sw"><div class="tgl-knob"></div></div></div>
+      <div class="tgl-link"><a href="#" target="_blank">바로가기 →</a></div>
+    </div>
+    <div>
+      <div class="tgl-card"><div><span class="tgl-name">Blog</span><p class="tgl-sub">인테리어 노하우와 프로젝트 후기</p></div><div class="tgl-sw"><div class="tgl-knob"></div></div></div>
+      <div class="tgl-link"><a href="#" target="_blank">바로가기 →</a></div>
+    </div>
+  </div>
+</div>
+<script>
+document.querySelectorAll('.tgl-card').forEach(function(c){
+  c.onclick=function(){
+    c.classList.toggle('on');
+    var lk=c.parentElement.querySelector('.tgl-link');
+    c.classList.contains('on')?lk.classList.add('show'):lk.classList.remove('show');
+  };
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>완료 — V3 카드 플립</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200;300;400;500&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#fff;font-family:'Noto Serif KR',serif}
+.page{width:100%;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 32px}
+.done-title{font-size:24px;font-weight:300;color:#2b2824;letter-spacing:0.04em;margin-bottom:10px}
+.done-sub{font-size:13px;font-weight:300;color:#999;line-height:1.8;text-align:center;margin-bottom:56px}
+.label{font-family:'Pretendard',sans-serif;font-size:10px;letter-spacing:0.35em;color:#bbb;margin-bottom:28px}
+
+.cards{display:flex;gap:20px;perspective:800px}
+
+.flip-wrap{width:160px;height:180px;cursor:pointer}
+.flip-inner{
+  width:100%;height:100%;position:relative;
+  transition:transform 0.7s;
+  transform-style:preserve-3d;
+}
+.flip-wrap.flipped .flip-inner{transform:rotateY(180deg)}
+
+.flip-front,.flip-back{
+  position:absolute;width:100%;height:100%;
+  backface-visibility:hidden;
+  border-radius:12px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+.flip-front{
+  background:#fff;
+  border:1px solid #f0ebe4;
+}
+.flip-back{
+  background:#8a7560;
+  transform:rotateY(180deg);
+}
+.flip-name{font-family:'Pretendard',sans-serif;font-size:14px;font-weight:400;color:#2b2824;letter-spacing:0.08em;margin-bottom:6px}
+.flip-sub{font-size:10px;font-weight:300;color:#aaa;text-align:center;line-height:1.6}
+.flip-hint{font-family:'Pretendard',sans-serif;font-size:9px;color:#ccc;letter-spacing:0.1em;margin-top:16px}
+
+.flip-back-name{font-family:'Pretendard',sans-serif;font-size:13px;font-weight:300;color:#fff;letter-spacing:0.12em;margin-bottom:16px}
+.flip-back a{
+  font-family:'Pretendard',sans-serif;font-size:11px;letter-spacing:0.15em;
+  color:rgba(255,255,255,0.8);text-decoration:none;
+  padding:8px 20px;border:1px solid rgba(255,255,255,0.3);
+  border-radius:4px;transition:all 0.3s;
+}
+.flip-back a:hover{background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.6)}
+
+.tag{position:fixed;top:20px;left:50%;transform:translateX(-50%);font-family:sans-serif;font-size:10px;letter-spacing:0.2em;color:#ccc}
+</style>
+</head>
+<body>
+<p class="tag">V3 — 카드 클릭하면 뒤집힘</p>
+<div class="page">
+  <h2 class="done-title">신청이 완료되었습니다</h2>
+  <p class="done-sub">정도가 소중한 연락을 확인 후<br>빠르게 연락드리겠습니다.</p>
+  <p class="label">정도를 더 알아보기</p>
+  <div class="cards">
+    <div class="flip-wrap">
+      <div class="flip-inner">
+        <div class="flip-front"><span class="flip-name">Instagram</span><span class="flip-sub">정도의 일상과<br>공간 이야기</span><span class="flip-hint">클릭</span></div>
+        <div class="flip-back"><span class="flip-back-name">Instagram</span><a href="#" target="_blank">바로가기 →</a></div>
+      </div>
+    </div>
+    <div class="flip-wrap">
+      <div class="flip-inner">
+        <div class="flip-front"><span class="flip-name">YouTube</span><span class="flip-sub">시공 과정과<br>공간 투어 영상</span><span class="flip-hint">클릭</span></div>
+        <div class="flip-back"><span class="flip-back-name">YouTube</span><a href="#" target="_blank">바로가기 →</a></div>
+      </div>
+    </div>
+    <div class="flip-wrap">
+      <div class="flip-inner">
+        <div class="flip-front"><span class="flip-name">Blog</span><span class="flip-sub">인테리어 노하우와<br>프로젝트 후기</span><span class="flip-hint">클릭</span></div>
+        <div class="flip-back"><span class="flip-back-name">Blog</span><a href="#" target="_blank">바로가기 →</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+document.querySelectorAll('.flip-wrap').forEach(function(w){
+  w.onclick=function(){w.classList.toggle('flipped')};
+});
+</script>
+</body>
+</html>

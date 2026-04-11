@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>상담 신청</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200;300;400;500&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { width:100%; height:100%; overflow:hidden; background:#fff; font-family:'Noto Serif KR',serif; }
+
+.container { width:100%; height:100vh; position:relative; }
+
+.step {
+  position:absolute; top:0; left:0; width:100%; height:100%;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:0 32px;
+  opacity:0; pointer-events:none; transition:opacity 0.6s;
+}
+.step.on { opacity:1; pointer-events:all; }
+
+.step-label {
+  font-family:'Pretendard',sans-serif;
+  font-size:10px; letter-spacing:0.4em; color:#bbb;
+  margin-bottom:16px;
+}
+.step-num {
+  font-family:'Pretendard',sans-serif;
+  font-size:11px; letter-spacing:0.15em; color:#8a7560;
+  margin-bottom:48px;
+}
+.step-q {
+  font-size:clamp(20px,2.5vw,30px); font-weight:300;
+  color:#2b2824; letter-spacing:0.04em;
+  text-align:center; margin-bottom:48px; line-height:1.6;
+}
+
+.choices {
+  display:flex; gap:16px; flex-wrap:wrap; justify-content:center;
+  max-width:600px;
+}
+.choice {
+  padding:16px 32px;
+  border:1px solid #e0dbd5;
+  background:#fff;
+  font-family:'Noto Serif KR',serif;
+  font-size:14px; font-weight:300; color:#555;
+  letter-spacing:0.06em;
+  cursor:pointer;
+  transition:all 0.3s;
+}
+.choice:hover { border-color:#8a7560; color:#2b2824; }
+.choice.picked { border-color:#8a7560; color:#2b2824; background:rgba(138,117,96,0.06); }
+
+.fields {
+  display:flex; flex-direction:column; gap:20px;
+  width:100%; max-width:400px;
+}
+.field-label {
+  font-family:'Pretendard',sans-serif;
+  font-size:10px; letter-spacing:0.2em; color:#aaa;
+  margin-bottom:6px;
+}
+.field-label .req { color:#8a7560; }
+.field-input {
+  width:100%; padding:14px 0;
+  border:none; border-bottom:1px solid #e0dbd5;
+  font-family:'Noto Serif KR',serif;
+  font-size:15px; font-weight:300; color:#2b2824;
+  outline:none; background:none;
+  transition:border-color 0.3s;
+}
+.field-input:focus { border-color:#8a7560; }
+.field-input::placeholder { color:#ccc; }
+
+.field-textarea {
+  width:100%; padding:14px 0;
+  border:none; border-bottom:1px solid #e0dbd5;
+  font-family:'Noto Serif KR',serif;
+  font-size:14px; font-weight:300; color:#2b2824;
+  outline:none; background:none; resize:none; height:80px;
+  transition:border-color 0.3s;
+}
+.field-textarea:focus { border-color:#8a7560; }
+.field-textarea::placeholder { color:#ccc; }
+
+.next-step {
+  margin-top:48px;
+  font-family:'Noto Serif KR',serif;
+  font-size:14px; font-weight:300; letter-spacing:0.2em;
+  color:#8a7560; cursor:pointer;
+  border:none; background:none;
+  opacity:0; pointer-events:none;
+  transition:opacity 0.4s, color 0.3s;
+}
+.next-step.show { opacity:1; pointer-events:all; }
+.next-step:hover { color:#5c4a3a; }
+
+.submit-final {
+  margin-top:48px;
+  padding:16px 48px;
+  background:#8a7560;
+  color:#fff; border:none;
+  font-family:'Noto Serif KR',serif;
+  font-size:14px; font-weight:300; letter-spacing:0.2em;
+  cursor:pointer; transition:background 0.3s;
+}
+.submit-final:hover { background:#7a6550; }
+
+.progress-bar {
+  position:fixed; top:0; left:0;
+  height:2px; background:#8a7560;
+  transition:width 0.6s ease;
+  z-index:10;
+}
+
+.done-icon {
+  width:48px; height:48px; border-radius:50%;
+  border:1px solid rgba(138,117,96,0.4);
+  display:flex; align-items:center; justify-content:center;
+  margin-bottom:32px;
+}
+.done-icon svg { stroke:#8a7560; }
+.done-title {
+  font-size:24px; font-weight:300; color:#2b2824;
+  letter-spacing:0.04em; margin-bottom:12px;
+}
+.done-sub {
+  font-size:13px; font-weight:300; color:#999;
+  line-height:1.8; text-align:center;
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="pbar" style="width:0%"></div>
+
+<div class="container">
+
+  <!-- 1: 공간 유형 -->
+  <div class="step on" id="st1">
+    <p class="step-label">CONSULTATION</p>
+    <p class="step-num">01 / 06</p>
+    <h2 class="step-q">어떤 공간을 계획하고 계신가요?</h2>
+    <div class="choices" id="ch1">
+      <div class="choice">아파트</div>
+      <div class="choice">빌라 / 투룸</div>
+      <div class="choice">단독주택</div>
+      <div class="choice">상업공간</div>
+    </div>
+    <button class="next-step" id="nx1">다음으로</button>
+  </div>
+
+  <!-- 2: 평수 -->
+  <div class="step" id="st2">
+    <p class="step-label">CONSULTATION</p>
+    <p class="step-num">02 / 06</p>
+    <h2 class="step-q">공간의 크기는 어느 정도인가요?</h2>
+    <div class="choices" id="ch2">
+      <div class="choice">10평</div>
+      <div class="choice">20평</div>
+      <div class="choice">30평</div>
+      <div class="choice">40평</div>
+      <div class="choice">50평 이상</div>
+    </div>
+    <button class="next-step" id="nx2">다음으로</button>
+  </div>
+
+  <!-- 3: 공사 범위 -->
+  <div class="step" id="st3">
+    <p class="step-label">CONSULTATION</p>
+    <p class="step-num">03 / 06</p>
+    <h2 class="step-q">어떤 범위의 공사를 원하시나요?</h2>
+    <div class="choices" id="ch3">
+      <div class="choice">전체 인테리어</div>
+      <div class="choice">부분 인테리어</div>
+    </div>
+    <button class="next-step" id="nx3">다음으로</button>
+  </div>
+
+  <!-- 4: 예산 -->
+  <div class="step" id="st4">
+    <p class="step-label">CONSULTATION</p>
+    <p class="step-num">04 / 06</p>
+    <h2 class="step-q">예산은 어느 정도 생각하고 계신가요?</h2>
+    <div class="choices" id="ch4">
+      <div class="choice">3천 ~ 5천만원</div>
+      <div class="choice">5천 ~ 1억원</div>
+      <div class="choice">1억원 이상</div>
+    </div>
+    <button class="next-step" id="nx4">다음으로</button>
+  </div>
+
+  <!-- 5: 유입 경로 -->
+  <div class="step" id="st5">
+    <p class="step-label">CONSULTATION</p>
+    <p class="step-num">05 / 06</p>
+    <h2 class="step-q">정도를 어떻게 알게 되셨나요?</h2>
+    <div class="choices" id="ch5">
+      <div class="choice">인스타그램</div>
+      <div class="choice">유튜브</div>
+      <div class="choice">블로그</div>
+      <div class="choice">지인 소개</div>
+      <div class="choice">기타</div>
+    </div>
+    <button class="next-step" id="nx5">다음으로</button>
+  </div>
+
+  <!-- 6: 연락처 + 메모 -->
+  <div class="step" id="st6">
+    <p class="step-label">CONSULTATION</p>
+    <p class="step-num">06 / 06</p>
+    <h2 class="step-q">연락처를 남겨주세요</h2>
+    <div class="fields">
+      <div>
+        <p class="field-label">성함 <span class="req">*</span></p>
+        <input class="field-input" type="text" placeholder="홍길동">
+      </div>
+      <div>
+        <p class="field-label">연락처 <span class="req">*</span></p>
+        <input class="field-input" type="tel" placeholder="010-0000-0000">
+      </div>
+      <div>
+        <p class="field-label">지역</p>
+        <input class="field-input" type="text" placeholder="서울 서초구">
+      </div>
+      <div>
+        <p class="field-label">하고 싶은 말</p>
+        <textarea class="field-textarea" placeholder="궁금한 점이나 요청사항이 있으시면 자유롭게 적어주세요."></textarea>
+      </div>
+    </div>
+    <button class="submit-final" id="submitBtn">상담 신청하기</button>
+  </div>
+
+  <!-- 완료 -->
+  <div class="step" id="st7">
+    <div class="done-icon">
+      <svg width="18" height="13" viewBox="0 0 18 13" fill="none" stroke-width="1.5">
+        <polyline points="1,6.5 6.5,12 17,1"/>
+      </svg>
+    </div>
+    <h2 class="done-title">신청이 완료되었습니다</h2>
+    <p class="done-sub">정도가 소중한 연락을 확인 후<br>빠르게 연락드리겠습니다.</p>
+  </div>
+
+</div>
+
+<script>
+var cur = 1;
+var total = 6;
+
+function go(n) {
+  document.getElementById('st' + cur).classList.remove('on');
+  cur = n;
+  document.getElementById('st' + cur).classList.add('on');
+  document.getElementById('pbar').style.width = ((cur - 1) / total * 100) + '%';
+}
+
+// 칩 선택 → 다음 버튼 보이기
+document.querySelectorAll('.choices').forEach(function(group) {
+  group.querySelectorAll('.choice').forEach(function(c) {
+    c.onclick = function() {
+      group.querySelectorAll('.choice').forEach(function(x) { x.classList.remove('picked'); });
+      c.classList.add('picked');
+      var btn = c.closest('.step').querySelector('.next-step');
+      if (btn) btn.classList.add('show');
+    };
+  });
+});
+
+document.getElementById('nx1').onclick = function() { go(2); };
+document.getElementById('nx2').onclick = function() { go(3); };
+document.getElementById('nx3').onclick = function() { go(4); };
+document.getElementById('nx4').onclick = function() { go(5); };
+document.getElementById('nx5').onclick = function() { go(6); };
+
+document.getElementById('submitBtn').onclick = function() {
+  go(7);
+  document.getElementById('pbar').style.width = '100%';
+};
+</script>
+</body>
+</html>

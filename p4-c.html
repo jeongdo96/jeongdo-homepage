@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>프로젝트 C — 좌우 분할</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200;300;400&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;background:#fff;font-family:'Noto Serif KR',serif}
+
+.page{height:100vh;display:flex}
+
+/* 왼쪽 — 정보 */
+.left{
+  width:38%;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:60px 5vw;
+  background:#fff;
+}
+
+.proj-label{font-family:'Pretendard',sans-serif;font-size:10px;letter-spacing:0.4em;color:#bbb;margin-bottom:48px}
+
+.proj-item{margin-bottom:40px;cursor:pointer;opacity:0.35;transition:opacity 0.4s}
+.proj-item.active{opacity:1}
+
+.proj-num{font-family:'Pretendard',sans-serif;font-size:24px;font-weight:200;color:#8a7560;margin-bottom:8px}
+.proj-name{font-size:18px;font-weight:400;color:#111;letter-spacing:0.04em;margin-bottom:4px}
+.proj-type{font-family:'Pretendard',sans-serif;font-size:11px;color:#999;letter-spacing:0.08em;margin-bottom:10px}
+.proj-desc{font-size:12px;font-weight:300;color:#666;line-height:1.8;max-height:0;overflow:hidden;transition:max-height 0.5s ease,opacity 0.5s;opacity:0}
+.proj-item.active .proj-desc{max-height:100px;opacity:1}
+
+/* 오른쪽 — 사진 */
+.right{
+  width:62%;
+  position:relative;
+  overflow:hidden;
+}
+
+.proj-img{
+  position:absolute;inset:0;
+  background-size:cover;background-position:center;
+  opacity:0;transition:opacity 0.8s ease;
+}
+.proj-img.active{opacity:1}
+.proj-img:nth-child(1){background:linear-gradient(135deg,#c8bfb4,#a09080)}
+.proj-img:nth-child(2){background:linear-gradient(135deg,#b0a898,#8a8078)}
+.proj-img:nth-child(3){background:linear-gradient(135deg,#d0c8be,#b0a090)}
+
+.label{position:fixed;top:20px;left:50%;transform:translateX(-50%);font-family:sans-serif;font-size:10px;letter-spacing:0.2em;color:rgba(0,0,0,0.2);z-index:20}
+</style>
+</head>
+<body>
+<p class="label">C — 좌우 분할 (클릭하면 사진 변경)</p>
+<div class="page">
+  <div class="left">
+    <p class="proj-label">PROJECT</p>
+
+    <div class="proj-item active" data-i="0">
+      <p class="proj-num">01</p>
+      <h3 class="proj-name">성북동 단독주택</h3>
+      <p class="proj-type">주거 · 150㎡</p>
+      <p class="proj-desc">조용한 골목 안, 빛과 소재가 대화하는 공간.<br>거주자의 일상이 자연스럽게 스며드는 구조를 설계했습니다.</p>
+    </div>
+
+    <div class="proj-item" data-i="1">
+      <p class="proj-num">02</p>
+      <h3 class="proj-name">마포 오피스</h3>
+      <p class="proj-type">상업 · 80㎡</p>
+      <p class="proj-desc">브랜드의 가치를 공간으로 번역한 작업.<br>방문자가 들어서는 순간 회사의 철학이 느껴지도록 했습니다.</p>
+    </div>
+
+    <div class="proj-item" data-i="2">
+      <p class="proj-num">03</p>
+      <h3 class="proj-name">한남 아파트</h3>
+      <p class="proj-type">주거 · 115㎡</p>
+      <p class="proj-desc">과하지 않은 절제미.<br>재료 본연의 질감이 공간을 채우도록 의도한 프로젝트입니다.</p>
+    </div>
+  </div>
+
+  <div class="right">
+    <div class="proj-img active"></div>
+    <div class="proj-img"></div>
+    <div class="proj-img"></div>
+  </div>
+</div>
+
+<script>
+const items=document.querySelectorAll('.proj-item');
+const imgs=document.querySelectorAll('.proj-img');
+
+items.forEach(item=>{
+  item.addEventListener('click',()=>{
+    items.forEach(i=>i.classList.remove('active'));
+    imgs.forEach(i=>i.classList.remove('active'));
+    item.classList.add('active');
+    imgs[+item.dataset.i].classList.add('active');
+  });
+});
+</script>
+</body>
+</html>

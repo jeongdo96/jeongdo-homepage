@@ -54,6 +54,7 @@
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+      background: #fff;
     }
     .section.active {
       opacity: 1;
@@ -561,18 +562,112 @@
     }
 
     /* ════════════════════════════
-       SECTION 4 — CONSULTATION
+       SECTION 4 — PROJECT
     ════════════════════════════ */
-    #s4 { background: var(--dark-2); }
+    #s4 { background:#fff; }
 
-    .s4-inner {
-      max-width: 620px;
-      margin: 0 auto;
-      padding: 88px 32px 130px;
-    }
+    .s4-wrap{width:100%;height:100%;display:flex}
+    .s4-txt{width:42%;height:100%;display:flex;flex-direction:column;justify-content:center;padding:0 6vw}
+    .s4-label{font-family:'Pretendard',sans-serif;font-size:10px;letter-spacing:0.4em;color:#bbb;margin-bottom:48px}
+    .s4-name{font-size:32px;font-weight:300;color:#2b2824;letter-spacing:0.06em;margin-bottom:8px}
+    .s4-type{font-family:'Pretendard',sans-serif;font-size:11px;letter-spacing:0.2em;color:#aaa;margin-bottom:32px}
+    .s4-line{width:32px;height:1px;background:rgba(138,117,96,0.25);margin-bottom:32px}
+    .s4-desc{font-size:14px;font-weight:300;color:#666;line-height:2;max-width:360px}
+    .s4-quote{margin-top:40px;font-size:13px;font-style:italic;font-weight:300;color:#8a7560}
 
-    .s4-inner .section-heading h2 { color: var(--white); }
-    .s4-inner .section-heading p  { color: rgba(245,240,235,0.4); }
+    .s4-pic{width:58%;height:100%;position:relative;cursor:pointer;overflow:hidden}
+    .s4-pic img{width:100%;height:100%;object-fit:cover;display:block}
+    .s4-overlay{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.4s}
+    .s4-pic:hover .s4-overlay{opacity:1}
+    .s4-overlay span{font-family:'Noto Serif KR',serif;font-size:17px;font-weight:300;letter-spacing:0.25em;color:#fff}
+
+    .s4-bnav{position:absolute;bottom:44px;left:6vw;display:flex;gap:40px;z-index:5}
+    .s4-bi{cursor:pointer;opacity:0.3;transition:opacity 0.4s;display:flex;flex-direction:column;gap:6px}
+    .s4-bi.active{opacity:1}
+    .s4-bi:hover{opacity:0.6}
+    .s4-bin{font-size:13px;font-weight:300;color:#2b2824;letter-spacing:0.06em}
+    .s4-bit{font-family:'Pretendard',sans-serif;font-size:10px;color:#aaa;letter-spacing:0.08em}
+    .s4-bil{width:100%;height:1px;background:rgba(138,117,96,0.3);transform:scaleX(0);transform-origin:left;transition:transform 0.4s}
+    .s4-bi.active .s4-bil{transform:scaleX(1)}
+
+    .s4-gal{display:none;position:absolute;top:0;left:0;width:100%;height:100%;background:#fff;z-index:50;flex-direction:column}
+    .s4-gal.open{display:flex}
+    .s4-gal-top{display:flex;justify-content:space-between;align-items:center;padding:24px 6vw;border-bottom:1px solid #f0ebe4}
+    .s4-gal-ti{font-size:15px;font-weight:300;color:#2b2824;letter-spacing:0.06em}
+    .s4-gal-x{font-family:'Pretendard',sans-serif;font-size:11px;letter-spacing:0.15em;color:#8a7560;cursor:pointer;border:none;background:none}
+    .s4-gal-body{flex:1;position:relative}
+    .s4-gs{position:absolute;top:0;left:0;width:100%;height:100%;display:none}
+    .s4-gs.on{display:flex}
+    .s4-gsi{flex:1}
+    .s4-gsi img{width:100%;height:100%;object-fit:cover;display:block}
+    .s4-gst{width:36%;display:flex;flex-direction:column;justify-content:center;padding:0 5vw}
+    .s4-gst p{font-size:14px;font-weight:300;color:#555;line-height:2.2}
+    .s4-gq{margin-top:32px;font-size:13px;font-style:italic;color:#8a7560}
+    .s4-gdots{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;gap:14px;z-index:10}
+    .s4-gd{width:28px;height:2px;background:#ddd;cursor:pointer}
+    .s4-gd.on{background:#8a7560}
+
+    /* ════════════════════════════
+       SECTION 5 — CONSULTATION
+    ════════════════════════════ */
+    /* ════════════════════════════
+       SECTION 5 — CONSULTATION (단계별)
+    ════════════════════════════ */
+    #s5{background:#fff;position:relative}
+    .s5-progress{position:absolute;top:0;left:0;height:2px;background:#8a7560;transition:width 0.6s;z-index:10}
+    .s5-step{display:none;width:100%;height:100%;flex-direction:column;align-items:center;justify-content:center;padding:0 32px;background:#ffffff}
+    .s5-step.on{display:flex}
+    .s5-label{font-family:'Pretendard',sans-serif;font-size:10px;letter-spacing:0.4em;color:#bbb;margin-bottom:16px}
+    .s5-num{font-family:'Pretendard',sans-serif;font-size:11px;letter-spacing:0.15em;color:#8a7560;margin-bottom:48px}
+    .s5-q{font-family:'Noto Serif KR',serif;font-size:clamp(20px,2.5vw,30px);font-weight:300;color:#2b2824;letter-spacing:0.04em;text-align:center;margin-bottom:48px;line-height:1.6}
+    .s5-choices{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;max-width:600px}
+    .s5-choice{padding:16px 32px;border:1px solid #e0dbd5;background:#fff;font-family:'Noto Serif KR',serif;font-size:14px;font-weight:300;color:#555;letter-spacing:0.06em;cursor:pointer;transition:all 0.3s}
+    .s5-choice:hover{border-color:#8a7560;color:#2b2824}
+    .s5-choice.picked{border-color:#8a7560;color:#2b2824;background:rgba(138,117,96,0.06)}
+    .s5-next{margin-top:48px;font-family:'Noto Serif KR',serif;font-size:14px;font-weight:300;letter-spacing:0.2em;color:#8a7560;cursor:pointer;border:none;background:none;opacity:0;pointer-events:none;transition:opacity 0.4s,color 0.3s}
+    .s5-next.show{opacity:1;pointer-events:all}
+    .s5-next:hover{color:#5c4a3a}
+    .s5-fields{display:flex;flex-direction:column;gap:20px;width:100%;max-width:400px}
+    .s5-fl{font-family:'Pretendard',sans-serif;font-size:10px;letter-spacing:0.2em;color:#aaa;margin-bottom:6px}
+    .s5-req{color:#8a7560}
+    .s5-input{width:100%;padding:14px 0;border:none;border-bottom:1px solid #e0dbd5;font-family:'Noto Serif KR',serif;font-size:15px;font-weight:300;color:#2b2824;outline:none;background:none;transition:border-color 0.3s}
+    .s5-input:focus{border-color:#8a7560}
+    .s5-input::placeholder{color:#ccc}
+    .s5-textarea{width:100%;padding:14px 0;border:none;border-bottom:1px solid #e0dbd5;font-family:'Noto Serif KR',serif;font-size:14px;font-weight:300;color:#2b2824;outline:none;background:none;resize:none;height:80px}
+    .s5-textarea:focus{border-color:#8a7560}
+    .s5-textarea::placeholder{color:#ccc}
+    .s5-submit{margin-top:48px;padding:16px 48px;background:#8a7560;color:#fff;border:none;font-family:'Noto Serif KR',serif;font-size:14px;font-weight:300;letter-spacing:0.2em;cursor:pointer;transition:background 0.3s}
+    .s5-submit:hover{background:#7a6550}
+
+    /* ════════════════════════════
+       SECTION 6 — COMPLETE
+    ════════════════════════════ */
+    #s6{background:#fff}
+    .s6-page{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 32px;background:#ffffff}
+    .s6-msg{text-align:center;margin-bottom:64px}
+    .s6-top{font-family:'Pretendard',sans-serif;font-size:11px;letter-spacing:0.3em;color:#8a7560;margin-bottom:32px}
+    .s6-main{font-family:'Noto Serif KR',serif;font-size:clamp(22px,3vw,36px);font-weight:200;color:#2b2824;letter-spacing:0.08em;line-height:1.6;margin-bottom:20px;white-space:nowrap}
+    .s6-line{width:1px;height:40px;background:rgba(138,117,96,0.2);margin:0 auto 20px}
+    .s6-closing{font-family:'Noto Serif KR',serif;font-size:13px;font-weight:300;color:#999;line-height:1.8}
+    .s6-tgl-area{width:100%;max-width:420px}
+    .s6-explore{font-family:'Pretendard',sans-serif;font-size:10px;letter-spacing:0.35em;color:#ccc;text-align:center;margin-bottom:20px}
+    .s6-tgl{position:relative;overflow:hidden;border:1px solid #ece8e3;border-radius:8px;cursor:pointer;margin-bottom:10px;transition:border-color 0.5s}
+    .s6-tgl.on{border-color:#8a7560}
+    .s6-tgl-fill{position:absolute;top:0;left:0;width:0%;height:100%;background:#8a7560;transition:width 0.6s cubic-bezier(0.16,1,0.3,1);z-index:0}
+    .s6-tgl.on .s6-tgl-fill{width:100%}
+    .s6-tgl-content{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;padding:18px 24px}
+    .s6-tgl-name{font-family:'Noto Serif KR',serif;font-size:15px;font-weight:300;color:#2b2824;letter-spacing:0.12em;transition:color 0.4s}
+    .s6-tgl.on .s6-tgl-name{color:#fff}
+    .s6-tgl-sw{width:44px;height:24px;border-radius:12px;background:#e8e4de;position:relative;flex-shrink:0;transition:background 0.4s}
+    .s6-tgl.on .s6-tgl-sw{background:rgba(255,255,255,0.25)}
+    .s6-tgl-knob{width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,0.1);position:absolute;top:3px;left:3px;transition:left 0.35s cubic-bezier(0.16,1,0.3,1)}
+    .s6-tgl.on .s6-tgl-knob{left:23px}
+    .s6-tgl-link{position:relative;z-index:1;max-height:0;overflow:hidden;transition:max-height 0.5s,padding 0.4s;text-align:center;background:#7a6550}
+    .s6-tgl.on .s6-tgl-link{max-height:50px;padding:12px 0}
+    .s6-tgl-link a{font-family:'Pretendard',sans-serif;font-size:11px;letter-spacing:0.2em;color:rgba(255,255,255,0.8);text-decoration:none}
+    .s6-tgl-link a:hover{color:#fff}
+    .s6-footer{position:absolute;bottom:24px;left:0;right:0;text-align:center}
+    .s6-footer p{font-family:'Pretendard',sans-serif;font-size:9px;color:#ddd;letter-spacing:0.2em}
 
     .form-group { margin-bottom: 28px; }
 
@@ -782,94 +877,6 @@
     }
     .submit-btn:hover { background: #7a6d5b; }
 
-    /* ════════════════════════════
-       SECTION 5 — COMPLETE
-    ════════════════════════════ */
-    #s5 {
-      background: var(--dark);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-    }
-
-    .complete-wrap {
-      text-align: center;
-      padding: 0 32px;
-    }
-
-    .check-circle {
-      width: 52px; height: 52px;
-      border: 1px solid rgba(138,125,107,0.5);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 36px;
-      opacity: 0;
-      animation: fadeUp 0.8s ease 0.3s forwards;
-    }
-    .check-circle svg { stroke: var(--brown); }
-
-    .complete-title {
-      font-size: clamp(20px, 2.8vw, 30px);
-      font-weight: 300;
-      color: var(--white);
-      letter-spacing: -0.02em;
-      margin-bottom: 12px;
-      opacity: 0;
-      animation: fadeUp 0.8s ease 0.55s forwards;
-    }
-    .complete-sub {
-      font-size: 13px;
-      color: rgba(245,240,235,0.38);
-      font-weight: 300;
-      line-height: 1.9;
-      margin-bottom: 60px;
-      opacity: 0;
-      animation: fadeUp 0.8s ease 0.75s forwards;
-    }
-
-    .social-rule {
-      width: 36px; height: 1px;
-      background: rgba(245,240,235,0.12);
-      margin: 0 auto 32px;
-      opacity: 0;
-      animation: fadeUp 0.8s ease 0.95s forwards;
-    }
-    .social-hint {
-      font-size: 10px;
-      letter-spacing: 0.28em;
-      color: rgba(245,240,235,0.2);
-      margin-bottom: 20px;
-      opacity: 0;
-      animation: fadeUp 0.8s ease 1.05s forwards;
-    }
-    .social-links {
-      display: flex;
-      justify-content: center;
-      gap: 28px;
-      opacity: 0;
-      animation: fadeUp 0.8s ease 1.15s forwards;
-    }
-    .social-link {
-      font-size: 10px;
-      letter-spacing: 0.22em;
-      color: rgba(245,240,235,0.35);
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-    .social-link:hover { color: var(--white); }
-
-    .site-footer {
-      position: absolute;
-      bottom: 28px;
-      left: 0; right: 0;
-      text-align: center;
-      font-size: 9px;
-      color: rgba(245,240,235,0.12);
-      letter-spacing: 0.12em;
-      opacity: 0;
-      animation: fadeUp 0.8s ease 1.3s forwards;
-    }
   </style>
 </head>
 <body>
@@ -970,122 +977,154 @@
           <p class="proc-step-title">완공·사후관리</p>
           <p class="proc-step-desc">완성된 공간을 철저히 검수하고<br>입주 후에도 이어지는 사후관리로<br>오래도록 바르게 유지되도록<br>도움 드리겠습니다.</p>
         </div>
-      <!-- 3페이지 전용 버튼 -->
-      <div class="s3-cta">
-        <span class="s3-cta-text">공간 보기</span>
-        <span class="s3-cta-line"></span>
-      </div>
 
       </div>
     </div>
   </section>
 
-  <!-- ④ CONSULTATION -->
+  <!-- ④ PROJECT -->
   <section class="section" id="s4">
-    <div class="scroll-wrap" id="scroll-s4">
-      <div class="s4-inner">
-        <p class="section-eyebrow on-dark">CONSULTATION</p>
-        <div class="section-heading" style="margin-bottom:44px;">
-          <h2>상담 신청</h2>
-          <p>정도와 함께할 공간에 대해 이야기해 주세요</p>
-        </div>
-
-        <form id="consult-form" novalidate>
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">성함 <span class="req">*</span></label>
-              <input class="form-input" type="text" placeholder="홍길동" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label">연락처 <span class="req">*</span></label>
-              <input class="form-input" type="tel" placeholder="010-0000-0000" required>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">이메일</label>
-            <input class="form-input" type="email" placeholder="example@email.com">
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">어떻게 알게 되셨나요?</label>
-            <div class="chips">
-              <button type="button" class="chip" data-g="ref">인스타그램</button>
-              <button type="button" class="chip" data-g="ref">유튜브</button>
-              <button type="button" class="chip" data-g="ref">블로그</button>
-              <button type="button" class="chip" data-g="ref">지인 소개</button>
-              <button type="button" class="chip" data-g="ref">기타</button>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">공간 유형 <span class="req">*</span></label>
-            <div class="chips">
-              <button type="button" class="chip" data-g="space" data-single="true">아파트</button>
-              <button type="button" class="chip" data-g="space" data-single="true">빌라 / 투룸</button>
-              <button type="button" class="chip" data-g="space" data-single="true">단독주택</button>
-              <button type="button" class="chip" data-g="space" data-single="true">상업공간</button>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">예산 규모</label>
-              <div class="chips" style="flex-direction:column; align-items:flex-start;">
-                <button type="button" class="chip" data-g="budget" data-single="true">3천 ~ 5천만원</button>
-                <button type="button" class="chip" data-g="budget" data-single="true">5천 ~ 1억원</button>
-                <button type="button" class="chip" data-g="budget" data-single="true">1억원 이상</button>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="form-label">공사 범위</label>
-              <div class="chips" style="flex-direction:column; align-items:flex-start;">
-                <button type="button" class="chip" data-g="scope" data-single="true">전체 인테리어</button>
-                <button type="button" class="chip" data-g="scope" data-single="true">부분 인테리어</button>
-                <button type="button" class="chip" data-g="scope" data-single="true">아직 미정</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">공간에 대해 이야기해 주세요</label>
-            <textarea class="form-input" placeholder="원하시는 분위기, 라이프스타일, 참고 이미지 링크 등 자유롭게 적어주세요."></textarea>
-          </div>
-
-          <button type="submit" class="submit-btn">상담 신청하기 →</button>
-        </form>
+    <div class="s4-wrap" id="s4Wrap">
+      <div class="s4-txt">
+        <p class="s4-label">PROJECT</p>
+        <h2 class="s4-name" id="s4N">서초 더샵 포레</h2>
+        <p class="s4-type" id="s4T">RESIDENTIAL · 34평</p>
+        <div class="s4-line"></div>
+        <p class="s4-desc" id="s4D">욕조에서 자연을 바라볼 수 있도록 설계한 공간.<br>자갈과 원목, 빛이 만드는 고요한 쉼터.<br>일상 속 작은 여행을 담았습니다.</p>
+        <p class="s4-quote" id="s4Q">"자연을 담은 욕실, 하루의 끝을 위한 공간."</p>
+      </div>
+      <div class="s4-pic" id="s4Pic">
+        <img src="proj1-a.jpg" id="s4Img" alt="">
+        <div class="s4-overlay"><span>자세히 보기</span></div>
+      </div>
+    </div>
+    <div class="s4-bnav" id="s4Bnav">
+      <div class="s4-bi active" data-pi="0"><span class="s4-bin">서초 더샵 포레</span><span class="s4-bit">RESIDENTIAL · 34평</span><div class="s4-bil"></div></div>
+      <div class="s4-bi" data-pi="1"><span class="s4-bin">사당 대림아파트</span><span class="s4-bit">RENOVATION · 34평</span><div class="s4-bil"></div></div>
+      <div class="s4-bi" data-pi="2"><span class="s4-bin">한남 아파트</span><span class="s4-bit">RESIDENTIAL · 115㎡</span><div class="s4-bil"></div></div>
+    </div>
+    <div class="s4-gal" id="s4Gal">
+      <div class="s4-gal-top"><span class="s4-gal-ti">서초 더샵 포레 · 34평</span><button class="s4-gal-x" id="s4GalX">돌아가기</button></div>
+      <div class="s4-gal-body">
+        <div class="s4-gs on"><div class="s4-gsi"><img src="proj1-a.jpg"></div><div class="s4-gst"><p>욕조 너머로 펼쳐지는 자연 풍경.<br>자갈 위에 놓인 욕조가<br>리조트가 아닌 집에서의 쉼을 완성합니다.</p><p class="s4-gq">"자연을 담은 욕실, 하루의 끝을 위한 공간."</p></div></div>
+        <div class="s4-gs"><div class="s4-gsi"><img src="proj1-b.jpg"></div><div class="s4-gst"><p>문을 열면 보이는 프레임.<br>원목과 자갈이 만드는 경계가<br>일상과 휴식을 자연스럽게 나눕니다.</p></div></div>
+        <div class="s4-gs"><div class="s4-gsi"><img src="proj1-c.jpg"></div><div class="s4-gst"><p>빛이 들어오는 방향으로 욕조를 배치.<br>한지 펜던트 조명이<br>공간에 따뜻한 깊이를 더합니다.</p></div></div>
+        <div class="s4-gdots"><div class="s4-gd on" data-gi="0"></div><div class="s4-gd" data-gi="1"></div><div class="s4-gd" data-gi="2"></div></div>
       </div>
     </div>
   </section>
 
-  <!-- ⑤ COMPLETE -->
-  <section class="section" id="s5">
-    <div class="complete-wrap">
-      <div class="check-circle">
-        <svg width="18" height="13" viewBox="0 0 18 13" fill="none" stroke-width="1.2">
-          <polyline points="1,6.5 6.5,12 17,1"/>
-        </svg>
+  <!-- ⑤ CONSULTATION (단계별) -->
+  <section class="section" id="s5" style="background:#ffffff !important; position:absolute; inset:0;">
+    <div class="s5-progress" id="s5pbar" style="width:0%"></div>
+    <div class="s5-step on" id="cst1">
+      <p class="s5-label">CONSULTATION</p>
+      <p class="s5-num">01 / 06</p>
+      <h2 class="s5-q">어떤 공간을 계획하고 계신가요?</h2>
+      <div class="s5-choices" id="cch1">
+        <div class="s5-choice">아파트</div>
+        <div class="s5-choice">빌라 / 투룸</div>
+        <div class="s5-choice">단독주택</div>
+        <div class="s5-choice">상업공간</div>
       </div>
-      <h2 class="complete-title">신청이 완료되었습니다</h2>
-      <p class="complete-sub">
-        정도가 소중한 연락을 확인 후<br>
-        빠르게 연락드리겠습니다.
-      </p>
-      <div class="social-rule"></div>
-      <p class="social-hint">FOLLOW JEONGDO</p>
-      <div class="social-links">
-        <a href="https://www.instagram.com" target="_blank" class="social-link">INSTAGRAM</a>
-        <a href="#" class="social-link">BLOG</a>
-        <a href="#" class="social-link">YOUTUBE</a>
+      <button class="s5-next" id="cnx1">다음으로</button>
+    </div>
+    <div class="s5-step" id="cst2">
+      <p class="s5-label">CONSULTATION</p>
+      <p class="s5-num">02 / 06</p>
+      <h2 class="s5-q">공간의 크기는 어느 정도인가요?</h2>
+      <div class="s5-choices" id="cch2">
+        <div class="s5-choice">10평</div>
+        <div class="s5-choice">20평</div>
+        <div class="s5-choice">30평</div>
+        <div class="s5-choice">40평</div>
+        <div class="s5-choice">50평 이상</div>
+      </div>
+      <button class="s5-next" id="cnx2">다음으로</button>
+    </div>
+    <div class="s5-step" id="cst3">
+      <p class="s5-label">CONSULTATION</p>
+      <p class="s5-num">03 / 06</p>
+      <h2 class="s5-q">어떤 범위의 공사를 원하시나요?</h2>
+      <div class="s5-choices" id="cch3">
+        <div class="s5-choice">전체 인테리어</div>
+        <div class="s5-choice">부분 인테리어</div>
+      </div>
+      <button class="s5-next" id="cnx3">다음으로</button>
+    </div>
+    <div class="s5-step" id="cst4">
+      <p class="s5-label">CONSULTATION</p>
+      <p class="s5-num">04 / 06</p>
+      <h2 class="s5-q">예산은 어느 정도 생각하고 계신가요?</h2>
+      <div class="s5-choices" id="cch4">
+        <div class="s5-choice">3천 ~ 5천만원</div>
+        <div class="s5-choice">5천 ~ 1억원</div>
+        <div class="s5-choice">1억원 이상</div>
+      </div>
+      <button class="s5-next" id="cnx4">다음으로</button>
+    </div>
+    <div class="s5-step" id="cst5">
+      <p class="s5-label">CONSULTATION</p>
+      <p class="s5-num">05 / 06</p>
+      <h2 class="s5-q">정도를 어떻게 알게 되셨나요?</h2>
+      <div class="s5-choices" id="cch5">
+        <div class="s5-choice">인스타그램</div>
+        <div class="s5-choice">유튜브</div>
+        <div class="s5-choice">블로그</div>
+        <div class="s5-choice">지인 소개</div>
+        <div class="s5-choice">기타</div>
+      </div>
+      <button class="s5-next" id="cnx5">다음으로</button>
+    </div>
+    <div class="s5-step" id="cst6">
+      <p class="s5-label">CONSULTATION</p>
+      <p class="s5-num">06 / 06</p>
+      <h2 class="s5-q">연락처를 남겨주세요</h2>
+      <div class="s5-fields">
+        <div><p class="s5-fl">성함 <span class="s5-req">*</span></p><input class="s5-input" type="text" placeholder="홍길동"></div>
+        <div><p class="s5-fl">연락처 <span class="s5-req">*</span></p><input class="s5-input" type="tel" placeholder="010-0000-0000"></div>
+        <div><p class="s5-fl">지역</p><input class="s5-input" type="text" placeholder="서울 서초구"></div>
+        <div><p class="s5-fl">하고 싶은 말</p><textarea class="s5-textarea" placeholder="궁금한 점이나 요청사항이 있으시면 자유롭게 적어주세요."></textarea></div>
+      </div>
+      <button class="s5-submit" id="cSubmit">상담 신청하기</button>
+    </div>
+  </section>
+
+  <!-- ⑥ COMPLETE -->
+  <section class="section" id="s6" style="background:#ffffff !important;">
+    <div class="s6-page">
+      <div class="s6-msg">
+        <p class="s6-top">CONSULTATION COMPLETE</p>
+        <h1 class="s6-main">정도와의 동행이 시작됩니다.</h1>
+        <div class="s6-line"></div>
+        <p class="s6-closing">정도가 소중한 연락을 확인 후<br>빠르게 연락드리겠습니다.</p>
+      </div>
+      <div class="s6-tgl-area">
+        <p class="s6-explore">정도를 더 알아보기</p>
+        <div class="s6-tgl">
+          <div class="s6-tgl-fill"></div>
+          <div class="s6-tgl-content"><span class="s6-tgl-name">Instagram</span><div class="s6-tgl-sw"><div class="s6-tgl-knob"></div></div></div>
+          <div class="s6-tgl-link"><a href="https://www.instagram.com" target="_blank">바로가기 →</a></div>
+        </div>
+        <div class="s6-tgl">
+          <div class="s6-tgl-fill"></div>
+          <div class="s6-tgl-content"><span class="s6-tgl-name">YouTube</span><div class="s6-tgl-sw"><div class="s6-tgl-knob"></div></div></div>
+          <div class="s6-tgl-link"><a href="https://www.youtube.com" target="_blank">바로가기 →</a></div>
+        </div>
+        <div class="s6-tgl">
+          <div class="s6-tgl-fill"></div>
+          <div class="s6-tgl-content"><span class="s6-tgl-name">Blog</span><div class="s6-tgl-sw"><div class="s6-tgl-knob"></div></div></div>
+          <div class="s6-tgl-link"><a href="https://blog.naver.com" target="_blank">바로가기 →</a></div>
+        </div>
       </div>
     </div>
-    <p class="site-footer">© 2025 DESIGN STUDIO JEONGDO · ALL RIGHTS RESERVED</p>
+    <div class="s6-footer"><p>DESIGN STUDIO JEONGDO · 正道</p></div>
   </section>
 
 </div>
 
 <script>
-  const TOTAL = 5;
+  const TOTAL = 6;
   let cur = 0, maxV = 0, moving = false;
 
   const secs    = [...document.querySelectorAll('.section')];
@@ -1093,10 +1132,9 @@
   const heroCta = document.getElementById('hero-cta');
 
   const scrollEls = {
-    3: document.getElementById('scroll-s4'),
   };
 
-  const lightBg = [1, 2]; // s2(철학), s3(프로젝트) — 밝은 배경
+  const lightBg = [1, 2, 3, 4]; // s2(철학), s3(프로세스), s4(프로젝트), s5(상담) — 밝은 배경
 
   function goTo(idx) {
     if (idx === cur || moving || idx > maxV + 1 || idx >= TOTAL) return;
@@ -1118,7 +1156,7 @@
       heroCta.classList.add('visible');
     } else {
       // 페이지별 버튼 텍스트
-      const labels = { 1: '동행하기', 2: '공간 보기', 3: '상담하기' };
+      const labels = { 1: '동행하기', 2: '공간 보기', 3: '상담하기', 4: '상담하기' };
       nextBtn.querySelector('.btn-label').textContent = labels[cur] || '다음으로';
       nextBtn.className = nextBtn.className.replace(/\b(light|dark)\b/g, '').trim();
       nextBtn.classList.add(lightBg.includes(cur) ? 'dark' : 'light');
@@ -1163,6 +1201,11 @@
     } else if (cur === 2) {
       // 3페이지: 프로세스 애니메이션 끝난 뒤
       setTimeout(showNext, 4000);
+    } else if (cur === 3) {
+      // 4페이지: 프로젝트
+      setTimeout(showNext, 2000);
+    } else if (cur === 4) {
+      // 5페이지: 상담 — 내부 단계에서 마지막에 goTo(5)로 이동하니까 버튼 불필요
     } else {
       setTimeout(showNext, 1800);
     }
@@ -1178,7 +1221,6 @@
   // 버튼 이벤트
   nextBtn.addEventListener('click', () => goTo(cur + 1));
   heroCta.addEventListener('click', () => goTo(1));
-  document.querySelector('.s3-cta').addEventListener('click', () => goTo(3));
 
   // Chip toggle
   document.querySelectorAll('.chip').forEach(chip => {
@@ -1193,11 +1235,6 @@
     });
   });
 
-  // Form submit → 완료 페이지
-  document.getElementById('consult-form').addEventListener('submit', e => {
-    e.preventDefault();
-    goTo(4);
-  });
 
   // 커스텀 커서
   const curDot = document.getElementById('cursor-dot');
@@ -1207,6 +1244,79 @@
     curDot.style.top = e.clientY + 'px';
     curRing.style.left = e.clientX + 'px';
     curRing.style.top = e.clientY + 'px';
+  });
+
+  // ── 4페이지: 프로젝트 ──
+  var s4pj = [
+    {n:'서초 더샵 포레',t:'RESIDENTIAL · 34평',img:'proj1-a.jpg',d:'욕조에서 자연을 바라볼 수 있도록 설계한 공간.<br>자갈과 원목, 빛이 만드는 고요한 쉼터.<br>일상 속 작은 여행을 담았습니다.',q:'"자연을 담은 욕실, 하루의 끝을 위한 공간."'},
+    {n:'사당 대림아파트',t:'RENOVATION · 34평',img:'proj2-a.jpg',d:'오래된 구축 아파트를 새로운 삶의 공간으로.<br>원목 파티션이 공간을 나누면서도 이어주는<br>열린 구조를 설계했습니다.',q:'"낡은 벽을 허물고, 빛이 흐르는 길을 만들었습니다."'},
+    {n:'한남 아파트',t:'RESIDENTIAL · 115㎡',img:'',d:'과하지 않은 절제미.<br>재료 본연의 질감이 공간을 채우도록<br>의도한 프리미엄 주거 프로젝트입니다.',q:'"비움으로 채운 공간."'}
+  ];
+  document.querySelectorAll('.s4-bi').forEach(function(item){
+    item.onclick = function(){
+      var i = parseInt(item.dataset.pi);
+      var p = s4pj[i];
+      document.querySelectorAll('.s4-bi').forEach(function(x){x.classList.remove('active')});
+      item.classList.add('active');
+      document.getElementById('s4N').textContent = p.n;
+      document.getElementById('s4T').textContent = p.t;
+      document.getElementById('s4D').innerHTML = p.d;
+      document.getElementById('s4Q').textContent = p.q;
+      var img = document.getElementById('s4Img');
+      if(p.img){img.src=p.img;img.style.display='block';}
+      else{img.style.display='none';}
+    };
+  });
+
+  // 갤러리 진입
+  document.getElementById('s4Pic').onclick = function(){
+    document.getElementById('s4Gal').classList.add('open');
+  };
+  document.getElementById('s4GalX').onclick = function(){
+    document.getElementById('s4Gal').classList.remove('open');
+  };
+
+  // 갤러리 슬라이드
+  document.querySelectorAll('.s4-gd').forEach(function(d){
+    d.onclick = function(){
+      document.querySelectorAll('.s4-gs').forEach(function(s){s.classList.remove('on')});
+      document.querySelectorAll('.s4-gd').forEach(function(x){x.classList.remove('on')});
+      document.querySelectorAll('.s4-gs')[parseInt(d.dataset.gi)].classList.add('on');
+      d.classList.add('on');
+    };
+  });
+
+  // ── 5페이지: 상담 단계별 ──
+  var cStep = 1;
+  function goConsult(n) {
+    document.getElementById('cst' + cStep).classList.remove('on');
+    cStep = n;
+    document.getElementById('cst' + cStep).classList.add('on');
+    document.getElementById('s5pbar').style.width = ((cStep - 1) / 6 * 100) + '%';
+  }
+  document.querySelectorAll('.s5-choices').forEach(function(group) {
+    group.querySelectorAll('.s5-choice').forEach(function(c) {
+      c.onclick = function() {
+        group.querySelectorAll('.s5-choice').forEach(function(x) { x.classList.remove('picked'); });
+        c.classList.add('picked');
+        var btn = c.closest('.s5-step').querySelector('.s5-next');
+        if (btn) btn.classList.add('show');
+      };
+    });
+  });
+  document.getElementById('cnx1').onclick = function() { goConsult(2); };
+  document.getElementById('cnx2').onclick = function() { goConsult(3); };
+  document.getElementById('cnx3').onclick = function() { goConsult(4); };
+  document.getElementById('cnx4').onclick = function() { goConsult(5); };
+  document.getElementById('cnx5').onclick = function() { goConsult(6); };
+  document.getElementById('cSubmit').onclick = function() {
+    document.getElementById('s5pbar').style.width = '100%';
+    goTo(5);
+  };
+
+  // ── 6페이지: 토글 ──
+  document.querySelectorAll('.s6-tgl-content').forEach(function(c) {
+    c.onclick = function() { c.closest('.s6-tgl').classList.toggle('on'); };
   });
 
   // Init

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>완료</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200;300;400;500&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#fff;font-family:'Noto Serif KR',serif}
+
+.page{
+  width:100%;height:100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:0 32px;
+  position:relative;
+}
+
+/* 배경 正道 워터마크 */
+.watermark{
+  position:absolute;
+  font-family:'Noto Serif KR',serif;
+  font-size:clamp(200px,30vw,400px);
+  font-weight:200;
+  color:rgba(0,0,0,0.018);
+  letter-spacing:0.1em;
+  user-select:none;pointer-events:none;
+  opacity:0;animation:wmFade 3s ease 0.5s forwards;
+}
+@keyframes wmFade{to{opacity:1}}
+
+/* 메인 메시지 */
+.msg{text-align:center;margin-bottom:64px}
+
+.msg-top{
+  font-family:'Pretendard',sans-serif;
+  font-size:11px;letter-spacing:0.3em;color:#8a7560;
+  margin-bottom:32px;
+  opacity:0;animation:fadeUp 1.2s ease 1s forwards;
+}
+
+.msg-main{
+  font-size:clamp(24px,3.5vw,42px);font-weight:200;
+  color:#2b2824;letter-spacing:0.08em;line-height:1.6;
+  margin-bottom:20px;
+  opacity:0;animation:fadeUp 1.5s ease 1.4s forwards;
+}
+
+.msg-line{
+  width:1px;height:40px;background:rgba(138,117,96,0.2);
+  margin:0 auto 20px;
+  opacity:0;animation:fadeUp 1s ease 2s forwards;
+}
+
+.msg-closing{
+  font-size:15px;font-weight:300;color:#999;
+  letter-spacing:0.1em;line-height:1.8;
+  opacity:0;animation:fadeUp 1.2s ease 2.3s forwards;
+}
+
+/* 토글 영역 */
+.tgl-area{
+  width:100%;max-width:420px;
+  opacity:0;animation:fadeUp 1s ease 2.8s forwards;
+}
+
+.tgl-label{
+  font-family:'Pretendard',sans-serif;
+  font-size:10px;letter-spacing:0.35em;color:#ccc;
+  text-align:center;margin-bottom:20px;
+}
+
+.tgl{
+  position:relative;overflow:hidden;
+  border:1px solid #ece8e3;border-radius:8px;
+  cursor:pointer;margin-bottom:10px;
+  transition:border-color 0.5s;
+}
+.tgl.on{border-color:#8a7560}
+
+.tgl-fill{
+  position:absolute;top:0;left:0;
+  width:0%;height:100%;
+  background:#8a7560;
+  transition:width 0.6s cubic-bezier(0.16,1,0.3,1);
+  z-index:0;
+}
+.tgl.on .tgl-fill{width:100%}
+
+.tgl-content{
+  position:relative;z-index:1;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 24px;
+}
+
+.tgl-name{
+  font-family:'Noto Serif KR',serif;
+  font-size:15px;font-weight:300;color:#2b2824;
+  letter-spacing:0.12em;transition:color 0.4s;
+}
+.tgl.on .tgl-name{color:#fff}
+
+.tgl-sw{
+  width:44px;height:24px;border-radius:12px;
+  background:#e8e4de;position:relative;flex-shrink:0;
+  transition:background 0.4s;
+}
+.tgl.on .tgl-sw{background:rgba(255,255,255,0.25)}
+.tgl-knob{
+  width:18px;height:18px;border-radius:50%;background:#fff;
+  box-shadow:0 1px 4px rgba(0,0,0,0.1);
+  position:absolute;top:3px;left:3px;
+  transition:left 0.35s cubic-bezier(0.16,1,0.3,1);
+}
+.tgl.on .tgl-knob{left:23px}
+
+.tgl-link{
+  position:relative;z-index:1;
+  max-height:0;overflow:hidden;
+  transition:max-height 0.5s,padding 0.4s;
+  text-align:center;background:#7a6550;
+}
+.tgl.on .tgl-link{max-height:50px;padding:12px 0}
+.tgl-link a{
+  font-family:'Pretendard',sans-serif;
+  font-size:11px;letter-spacing:0.2em;
+  color:rgba(255,255,255,0.8);text-decoration:none;
+}
+.tgl-link a:hover{color:#fff}
+
+/* 하단 브랜드 */
+.brand-end{
+  position:fixed;bottom:32px;left:0;right:0;
+  text-align:center;
+  opacity:0;animation:fadeUp 1s ease 3.2s forwards;
+}
+.brand-end p{
+  font-family:'Pretendard',sans-serif;
+  font-size:9px;letter-spacing:0.2em;color:#ddd;
+}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(12px)}
+  to{opacity:1;transform:translateY(0)}
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="msg">
+    <p class="msg-top">CONSULTATION COMPLETE</p>
+    <h1 class="msg-main">정도와의 동행이 시작됩니다.</h1>
+    <div class="msg-line"></div>
+    <p class="msg-closing">정도가 소중한 연락을 확인 후<br>빠르게 연락드리겠습니다.</p>
+  </div>
+
+  <div class="tgl-area">
+    <p class="tgl-label">정도를 더 알아보기</p>
+
+    <div class="tgl">
+      <div class="tgl-fill"></div>
+      <div class="tgl-content">
+        <span class="tgl-name">Instagram</span>
+        <div class="tgl-sw"><div class="tgl-knob"></div></div>
+      </div>
+      <div class="tgl-link"><a href="https://www.instagram.com" target="_blank">바로가기 →</a></div>
+    </div>
+
+    <div class="tgl">
+      <div class="tgl-fill"></div>
+      <div class="tgl-content">
+        <span class="tgl-name">YouTube</span>
+        <div class="tgl-sw"><div class="tgl-knob"></div></div>
+      </div>
+      <div class="tgl-link"><a href="https://www.youtube.com" target="_blank">바로가기 →</a></div>
+    </div>
+
+    <div class="tgl">
+      <div class="tgl-fill"></div>
+      <div class="tgl-content">
+        <span class="tgl-name">Blog</span>
+        <div class="tgl-sw"><div class="tgl-knob"></div></div>
+      </div>
+      <div class="tgl-link"><a href="https://blog.naver.com" target="_blank">바로가기 →</a></div>
+    </div>
+  </div>
+</div>
+
+<div class="brand-end">
+  <p>DESIGN STUDIO JEONGDO · 正道</p>
+</div>
+
+<script>
+document.querySelectorAll('.tgl-content').forEach(function(c){
+  c.onclick = function(){
+    c.closest('.tgl').classList.toggle('on');
+  };
+});
+</script>
+</body>
+</html>

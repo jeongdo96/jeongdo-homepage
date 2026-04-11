@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Button Styles</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400&family=Pretendard:wght@300;400&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 100%; height: 100%; overflow: hidden; }
+
+    .hero {
+      width: 100%; height: 100%;
+      position: relative;
+      display: flex; align-items: center; justify-content: center; flex-direction: column;
+      background:
+        linear-gradient(rgba(20,18,16,0.28), rgba(20,18,16,0.28)),
+        url('hero.jpg') center / cover no-repeat;
+    }
+
+    h1 {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(17px, 2.4vw, 34px);
+      font-weight: 300;
+      color: rgba(232, 226, 218, 0.82);
+      letter-spacing: 0.16em;
+      white-space: nowrap;
+      margin-bottom: 80px;
+    }
+
+    .buttons {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      padding: 48px 24px;
+      background: linear-gradient(transparent, rgba(0,0,0,0.6));
+      flex-wrap: wrap;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .btn-num {
+      font-family: 'Pretendard', sans-serif;
+      font-size: 9px;
+      letter-spacing: 0.3em;
+      color: rgba(255,255,255,0.3);
+    }
+
+    /* ── 01: 현재 — 테두리 사각 ── */
+    .btn-1 {
+      border: 1px solid rgba(245,240,235,0.3);
+      background: transparent;
+      color: rgba(245,240,235,0.85);
+      font-family: 'Pretendard', sans-serif;
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.28em;
+      padding: 14px 36px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-1:hover { border-color: rgba(245,240,235,0.7); color: #fff; }
+
+    /* ── 02: 텍스트 + 밑줄 ── */
+    .btn-2 {
+      border: none;
+      background: transparent;
+      color: rgba(245,240,235,0.75);
+      font-family: 'Noto Serif KR', serif;
+      font-size: 13px;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      cursor: pointer;
+      padding: 8px 0;
+      position: relative;
+    }
+    .btn-2::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%; height: 1px;
+      background: rgba(245,240,235,0.3);
+      transform: scaleX(0.3);
+      transform-origin: left;
+      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .btn-2:hover::after { transform: scaleX(1); }
+    .btn-2:hover { color: #fff; }
+
+    /* ── 03: 원형 화살표 ── */
+    .btn-3 {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      border: 1px solid rgba(245,240,235,0.25);
+      background: transparent;
+      color: rgba(245,240,235,0.7);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.4s;
+    }
+    .btn-3:hover { border-color: rgba(245,240,235,0.6); background: rgba(245,240,235,0.06); }
+    .btn-3 svg { transition: transform 0.3s; }
+    .btn-3:hover svg { transform: translateY(2px); }
+
+    /* ── 04: 라인 — 텍스트 — 라인 ── */
+    .btn-4 {
+      border: none;
+      background: transparent;
+      color: rgba(245,240,235,0.7);
+      font-family: 'Pretendard', sans-serif;
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      cursor: pointer;
+      display: flex; align-items: center; gap: 16px;
+      padding: 12px 0;
+      transition: color 0.3s;
+    }
+    .btn-4::before, .btn-4::after {
+      content: '';
+      width: 28px; height: 1px;
+      background: rgba(245,240,235,0.25);
+      transition: width 0.4s, background 0.3s;
+    }
+    .btn-4:hover { color: #fff; }
+    .btn-4:hover::before, .btn-4:hover::after { width: 40px; background: rgba(245,240,235,0.5); }
+
+    /* ── 05: 반투명 배경 + 블러 ── */
+    .btn-5 {
+      border: 1px solid rgba(245,240,235,0.12);
+      background: rgba(245,240,235,0.06);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: rgba(245,240,235,0.82);
+      font-family: 'Pretendard', sans-serif;
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.22em;
+      padding: 15px 40px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-5:hover { background: rgba(245,240,235,0.12); border-color: rgba(245,240,235,0.25); }
+  </style>
+</head>
+<body>
+  <div class="hero">
+    <h1>공간의 처음과 끝을 정도와 동행합니다.</h1>
+
+    <div class="buttons">
+      <div class="btn-group">
+        <span class="btn-num">01</span>
+        <button class="btn-1">우리를 알아보기 →</button>
+      </div>
+
+      <div class="btn-group">
+        <span class="btn-num">02</span>
+        <button class="btn-2">우리를 알아보기</button>
+      </div>
+
+      <div class="btn-group">
+        <span class="btn-num">03</span>
+        <button class="btn-3">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1">
+            <path d="M8 2 L8 14 M3 9 L8 14 L13 9"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="btn-group">
+        <span class="btn-num">04</span>
+        <button class="btn-4">알아보기</button>
+      </div>
+
+      <div class="btn-group">
+        <span class="btn-num">05</span>
+        <button class="btn-5">우리를 알아보기</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

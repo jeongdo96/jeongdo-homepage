@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2페이지 배경 비교</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body { overflow-x: hidden; }
+
+.section {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Noto Serif KR', serif;
+  padding: 5rem 4rem;
+  position: relative;
+}
+
+/* 배경 1: 따뜻한 아이보리 */
+.s1 { background: #f5f0ea; }
+/* 배경 2: 쿨톤 라이트 그레이 */
+.s2 { background: #edeae6; }
+/* 배경 3: 미세 그라데이션 (위 밝고 아래 살짝 어둡게) */
+.s3 { background: linear-gradient(180deg, #f7f4ef 0%, #ebe6df 100%); }
+
+.label {
+  position: absolute; top: 24px; left: 50%;
+  transform: translateX(-50%);
+  font-family: sans-serif; font-size: 10px;
+  letter-spacing: 0.2em; color: rgba(0,0,0,0.2);
+}
+
+.vgroup{display:flex;flex-direction:row;gap:5.5rem;align-items:flex-start}
+.col-tag-box{display:flex;flex-direction:column;align-items:center;gap:12px;flex-shrink:0}
+.tag-hanja{font-size:46px;color:#111;font-weight:200;writing-mode:vertical-lr;letter-spacing:0.2em}
+.tag-kr{writing-mode:vertical-lr;font-size:11px;color:#111;letter-spacing:0.4em;margin-top:14px;font-family:'Noto Serif KR',serif;font-weight:300}
+.vcol{writing-mode:vertical-lr;font-size:13px;color:#111;line-height:1;font-weight:300;letter-spacing:0.28em;flex-shrink:0;white-space:nowrap}
+.vcol-main{writing-mode:vertical-lr;font-size:14px;color:#111;line-height:1;font-weight:300;letter-spacing:0.28em;flex-shrink:0;white-space:nowrap}
+.pt{font-weight:400;letter-spacing:0.32em}
+</style>
+</head>
+<body>
+
+<div class="section s1">
+  <span class="label">01 — 따뜻한 아이보리 #f5f0ea</span>
+  <div class="vgroup">
+    <div class="col-tag-box"><div class="tag-hanja">正道</div><div class="tag-kr">바를 정 · 길 도</div></div>
+    <div class="vcol-main">수많은 길 중 <span class="pt">정도</span>는 인테리어라는 하나의 길을 택했습니다</div>
+    <div class="vcol">출발점은 언제나 <span class="pt">정직함</span>이며 그 정직함을 보여주는 태도라고 믿습니다</div>
+    <div class="vcol">공간디자인에서 중요한 것은 화려함이 아니라 <span class="pt">본질과 방향성</span>입니다</div>
+    <div class="vcol">철학이 있는 공간은 반드시 <span class="pt">깊이</span> 있는 공간을 만듭니다</div>
+    <div class="vcol"><span class="pt">삶의 궤적</span>이 담긴 기억에 남을 공간을 만듭니다</div>
+  </div>
+</div>
+
+<div class="section s2">
+  <span class="label">02 — 쿨톤 라이트 그레이 #edeae6</span>
+  <div class="vgroup">
+    <div class="col-tag-box"><div class="tag-hanja">正道</div><div class="tag-kr">바를 정 · 길 도</div></div>
+    <div class="vcol-main">수많은 길 중 <span class="pt">정도</span>는 인테리어라는 하나의 길을 택했습니다</div>
+    <div class="vcol">출발점은 언제나 <span class="pt">정직함</span>이며 그 정직함을 보여주는 태도라고 믿습니다</div>
+    <div class="vcol">공간디자인에서 중요한 것은 화려함이 아니라 <span class="pt">본질과 방향성</span>입니다</div>
+    <div class="vcol">철학이 있는 공간은 반드시 <span class="pt">깊이</span> 있는 공간을 만듭니다</div>
+    <div class="vcol"><span class="pt">삶의 궤적</span>이 담긴 기억에 남을 공간을 만듭니다</div>
+  </div>
+</div>
+
+<div class="section s3">
+  <span class="label">03 — 미세 그라데이션 (위 밝음 → 아래 살짝 어둡게)</span>
+  <div class="vgroup">
+    <div class="col-tag-box"><div class="tag-hanja">正道</div><div class="tag-kr">바를 정 · 길 도</div></div>
+    <div class="vcol-main">수많은 길 중 <span class="pt">정도</span>는 인테리어라는 하나의 길을 택했습니다</div>
+    <div class="vcol">출발점은 언제나 <span class="pt">정직함</span>이며 그 정직함을 보여주는 태도라고 믿습니다</div>
+    <div class="vcol">공간디자인에서 중요한 것은 화려함이 아니라 <span class="pt">본질과 방향성</span>입니다</div>
+    <div class="vcol">철학이 있는 공간은 반드시 <span class="pt">깊이</span> 있는 공간을 만듭니다</div>
+    <div class="vcol"><span class="pt">삶의 궤적</span>이 담긴 기억에 남을 공간을 만듭니다</div>
+  </div>
+</div>
+
+</body>
+</html>
