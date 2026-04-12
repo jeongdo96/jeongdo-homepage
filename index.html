@@ -166,6 +166,9 @@
       100% { top: 100%; }
     }
 
+    /* ── 모바일 프로젝트 바 (PC에서 숨김) ── */
+    .s4-mobile-bar { display: none; }
+
     /* ── 섹션 로고 ── */
     .section-logo {
       position: absolute;
@@ -995,14 +998,15 @@
       /* 3페이지 — 프로세스 (모바일) */
       .s3-process {
         padding: 64px 32px 80px;
+        padding-top: 80px;
         overflow-y: auto;
         height: 100%;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-start;
       }
       .process-header {
-        margin-bottom: 48px;
+        margin-bottom: 36px;
         text-align: center;
       }
       .process-intro { font-size: 13px; text-align: center; }
@@ -1033,6 +1037,124 @@
       .s3-cta { bottom: 24px; }
       .s3-cta-text { font-size: 14px; }
       .s3-cta-line { height: 20px; }
+
+      /* 섹션 로고 */
+      .section-logo {
+        font-size: 13px;
+        top: 24px;
+      }
+
+      /* 4페이지 — 프로젝트 (모바일) */
+      #s4 { overflow-y: auto; overflow-x: hidden; }
+      .s4-wrap {
+        flex-direction: column;
+        height: auto;
+        min-height: 100%;
+        padding-bottom: 80px;
+      }
+      .s4-txt {
+        width: 100%;
+        height: auto;
+        padding: 56px 24px 24px;
+        justify-content: flex-start;
+      }
+      .s4-label { margin-bottom: 24px; }
+      .s4-name { font-size: 24px; }
+      .s4-type { font-size: 11px; margin-bottom: 16px; }
+      .s4-line { margin-bottom: 16px; }
+      .s4-desc { font-size: 14px; max-width: 100%; line-height: 1.9; }
+      .s4-quote { font-size: 13px; margin-top: 20px; }
+
+      .s4-pic {
+        width: 100%;
+        height: auto;
+        cursor: default;
+        pointer-events: none;
+      }
+      .s4-pic img {
+        height: auto;
+        max-height: 60vh;
+      }
+      .s4-flash { display: none; }
+      .s4-overlay { display: none; }
+      .s4-gal { display: none !important; }
+
+      /* 프로젝트 선택 — 하단 고정, 이름/평수만 */
+      .s4-bnav {
+        position: fixed;
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        transform: none;
+        gap: 0;
+        background: #fff;
+        border-top: 1px solid #ece8e3;
+        justify-content: center;
+        padding: 12px 16px;
+        z-index: 60;
+      }
+      .s4-bi {
+        padding: 6px 14px;
+        border-bottom: 2px solid transparent;
+        text-align: center;
+      }
+      .s4-bi.active { border-bottom-color: #8a7560; }
+      .s4-bin { font-size: 13px; }
+      .s4-bit { font-size: 9px; }
+
+      /* 돌아가기 / 상담하기 — 기존 버튼 숨김 */
+      #prev-btn.on-project,
+      #next-btn.on-project {
+        display: none !important;
+      }
+
+      /* 모바일 전용 상단 고정 바 */
+      .s4-mobile-bar {
+        display: flex !important;
+        position: sticky;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 80;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 20px;
+        background: rgba(255,255,255,0.95);
+        backdrop-filter: blur(8px);
+        border-bottom: none;
+      }
+      .s4-mb-prev, .s4-mb-next {
+        font-family: 'Noto Serif KR', serif;
+        font-size: 12px;
+        font-weight: 300;
+        letter-spacing: 0.1em;
+        color: #8a7560;
+        cursor: pointer;
+        padding: 6px 12px;
+        transition: color 0.3s;
+      }
+      .s4-mb-prev:active, .s4-mb-next:active { color: #2b2824; }
+
+      /* 갤러리 */
+      .s4-gal-body { flex-direction: column; }
+      .s4-gs { flex-direction: column; }
+      .s4-gsi { height: 50vh; }
+      .s4-gst {
+        width: 100%;
+        padding: 24px 32px;
+      }
+      .s4-gst p { font-size: 13px; }
+
+      /* 5페이지 — 상담 */
+      .s5-q { font-size: 20px; }
+      .s5-choices { max-width: 100%; }
+      .s5-choice { padding: 12px 20px; font-size: 13px; }
+
+      /* 6페이지 — 완료 */
+      .s6-main { font-size: 22px; white-space: normal; text-align: center; }
+      .s6-tgl-area { max-width: 100%; padding: 0 16px; }
+      .s6-tgl-name { font-size: 14px; }
 
       /* 상담 폼 */
       .form-row { grid-template-columns: 1fr; }
@@ -1188,6 +1310,10 @@
 
   <!-- ④ PROJECT -->
   <section class="section" id="s4">
+    <div class="s4-mobile-bar" id="s4MobileBar">
+      <span class="s4-mb-prev" onclick="goTo(cur-1)">돌아가기</span>
+      <span class="s4-mb-next" onclick="goTo(cur+1)">상담하기</span>
+    </div>
     <div class="s4-wrap" id="s4Wrap">
       <div class="s4-txt">
         <p class="s4-label">PROJECT</p>
