@@ -118,7 +118,28 @@
     }
     #next-btn.light .btn-label { color: #8a7560; }
     #next-btn.dark .btn-label { color: #8a7560; }
-    #next-btn:hover .btn-label { color: #5c4a3a; }
+    .btn-label {
+      padding: 8px 16px;
+      border: 1px solid transparent;
+      transition: all 0.4s ease;
+    }
+    /* 어두운 배경: 흰색으로 */
+    #next-btn.light:hover .btn-label {
+      color: #fff;
+    }
+    /* 밝은 배경: 진한 차콜로 */
+    #next-btn.dark:hover .btn-label {
+      color: #2b2824;
+    }
+    .btn-hint {
+      font-family: 'Pretendard', sans-serif;
+      font-size: 8px;
+      letter-spacing: 0.3em;
+      color: rgba(138,117,96,0.3);
+      margin-top: 4px;
+      transition: color 0.4s;
+    }
+    #next-btn:hover .btn-hint { color: rgba(92,74,58,0.5); }
 
     .btn-arrow {
       width: 1px;
@@ -143,6 +164,135 @@
     @keyframes lineFlow {
       0%   { top: -100%; }
       100% { top: 100%; }
+    }
+
+    /* ── 섹션 로고 ── */
+    .section-logo {
+      position: absolute;
+      top: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 400;
+      letter-spacing: 0.45em;
+      color: #8a7560;
+    }
+
+    /* ── 4페이지 버튼 강조 ── */
+    #next-btn.on-project {
+      left: calc(42% - 6vw - 20px);
+      transform: none;
+      bottom: 48px;
+    }
+    #prev-btn.on-project {
+      left: 6vw;
+      bottom: 48px;
+    }
+    #next-btn.on-project .btn-label {
+      color: #8a7560;
+      background: none;
+      border-color: transparent;
+      padding: 0;
+      font-size: 14px;
+      letter-spacing: 0.15em;
+    }
+    #prev-btn.on-project .prev-label {
+      color: #8a7560;
+      background: none;
+      border-color: transparent;
+      padding: 0;
+      font-size: 13px;
+    }
+    #next-btn.on-project .btn-arrow,
+    #prev-btn.on-project .prev-arrow {
+      height: 20px;
+    }
+    #next-btn.on-project:hover .btn-label,
+    #prev-btn.on-project:hover .prev-label {
+      color: #2b2824;
+      background: none;
+      border-color: transparent;
+    }
+
+    /* ── PREV BUTTON ── */
+    #prev-btn {
+      position: fixed;
+      bottom: 52px;
+      left: 6vw;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 100;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      transition: opacity 0.6s, transform 0.6s;
+      transform: translateY(10px);
+    }
+    #prev-btn.visible {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateY(0);
+    }
+    .prev-label {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 13px;
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      color: #8a7560;
+      transition: all 0.4s ease;
+      padding: 8px 16px;
+      border: 1px solid transparent;
+    }
+    #prev-btn:hover .prev-label {
+      color: #fff;
+      background: #8a7560;
+      border-color: #8a7560;
+    }
+    #prev-btn.dark-mode .prev-label { color: #8a7560; }
+    #prev-btn.dark-mode:hover .prev-label {
+      color: #fff;
+      background: #8a7560;
+      border-color: #8a7560;
+    }
+    .prev-arrow {
+      width: 1px;
+      height: 24px;
+      position: relative;
+      overflow: hidden;
+      background: rgba(138,117,96,0.2);
+      transition: background 0.4s;
+    }
+    #prev-btn:hover .prev-arrow {
+      background: rgba(138,117,96,0.5);
+    }
+    .prev-arrow::after {
+      content: '';
+      position: absolute;
+      bottom: -100%;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(138,117,96,0.5);
+      animation: prevFlow 2s ease-in-out infinite;
+    }
+    #prev-btn:hover .prev-arrow::after {
+      background: #8a7560;
+    }
+    @keyframes prevFlow {
+      0%   { bottom: -100%; }
+      100% { bottom: 100%; }
+    }
+
+    @media (max-width: 768px) {
+      #prev-btn { left: 24px; bottom: 36px; }
+      .prev-label { font-size: 11px; }
+      .prev-arrow { height: 18px; }
     }
 
     /* ════════════════════════════
@@ -188,9 +338,9 @@
       left: 50%;
       transform: translateX(-50%);
       z-index: 3;
-      font-family: 'Pretendard', sans-serif;
-      font-size: 17px;
-      font-weight: 500;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 400;
       letter-spacing: 0.45em;
       color: #5c4a3a;
     }
@@ -283,6 +433,20 @@
       0%   { top: -100%; }
       100% { top: 100%; }
     }
+    .cta-hint {
+      font-family: 'Pretendard', sans-serif;
+      font-size: 8px;
+      letter-spacing: 0.3em;
+      color: rgba(138,117,96,0.35);
+      margin-top: 4px;
+      transition: color 0.4s;
+    }
+    #hero-cta:hover .cta-hint { color: rgba(255,255,255,0.5); }
+    .cta-text {
+      padding: 8px 16px;
+      border: 1px solid transparent;
+      transition: all 0.4s ease;
+    }
     #hero-cta:hover .cta-text {
       color: #fff;
     }
@@ -334,7 +498,7 @@
 
     .s2-tag-box { display: flex; flex-direction: column; align-items: center; gap: 12px; flex-shrink: 0; }
     .s2-tag-hanja { font-size: 48px; color: #111; font-weight: 200; writing-mode: vertical-lr; letter-spacing: 0.2em; }
-    .s2-tag-kr { writing-mode: vertical-lr; font-size: 11px; color: #999; letter-spacing: 0.4em; margin-top: 14px; font-weight: 300; }
+    .s2-tag-kr { writing-mode: vertical-lr; font-size: 11px; color: #666; letter-spacing: 0.4em; margin-top: 14px; font-weight: 400; }
 
     .s2-vcol { writing-mode: vertical-lr; font-size: 13px; color: #333; line-height: 1; font-weight: 300; letter-spacing: 0.26em; flex-shrink: 0; white-space: nowrap; }
     .s2-vcol-main { writing-mode: vertical-lr; font-size: 14px; color: #111; line-height: 1; font-weight: 300; letter-spacing: 0.26em; flex-shrink: 0; white-space: nowrap; }
@@ -367,11 +531,12 @@
     }
 
     .s2-brand {
-      font-family: 'Noto Serif KR', serif;
-      font-size: 10px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 12px;
       letter-spacing: 0.3em;
-      color: #bbb;
+      color: #888;
       margin-top: 40px;
+      font-weight: 400;
     }
 
     /* 2페이지 애니메이션 */
@@ -395,11 +560,11 @@
       opacity: 0;
       transition: opacity 1.5s ease;
     }
-    #s2.active .s2-tag-box { opacity: 1; transition-delay: 0.5s; }
+    #s2.active .s2-tag-box { opacity: 1; transition-delay: 0.3s; }
     #s2.active .s2-vcol,
-    #s2.active .s2-vcol-main { opacity: 1; transition-delay: 3s; }
-    #s2.active .s2-divider { opacity: 1; transition-delay: 3.5s; }
-    #s2.active .s2-accent { opacity: 1; transition-delay: 4.5s; }
+    #s2.active .s2-vcol-main { opacity: 1; transition-delay: 1.2s; }
+    #s2.active .s2-divider { opacity: 1; transition-delay: 2.5s; }
+    #s2.active .s2-accent { opacity: 1; transition-delay: 4s; }
     #s2.active .s2-brand { opacity: 1; transition-delay: 5.5s; }
 
     /* ════════════════════════════
@@ -413,91 +578,91 @@
       height: 100%;
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      padding: 60px 8vw;
+      justify-content: flex-start;
+      padding: 80px 8vw 60px;
+      padding-top: 17vh;
     }
 
     .process-header {
-      margin-bottom: 64px;
+      margin-bottom: calc(100px + 5vh);
     }
     .process-label {
       font-family: 'Pretendard', sans-serif;
-      font-size: 10px;
-      letter-spacing: 0.4em;
-      color: #bbb;
-      margin-bottom: 24px;
+      font-size: 13px;
+      letter-spacing: 0.5em;
+      color: #8a7560;
+      margin-bottom: 20px;
+      font-weight: 400;
     }
     .process-intro {
       font-family: 'Noto Serif KR', serif;
       font-size: 15px;
       font-weight: 300;
-      color: #333;
+      color: #555;
       line-height: 2;
       letter-spacing: 0.06em;
     }
     .process-intro strong {
-      font-weight: 500;
-      color: #111;
+      font-weight: 400;
+      color: #2b2824;
     }
 
-    .proc-timeline {
+    .proc-row {
       display: flex;
-      gap: 0;
-      position: relative;
-    }
-    .proc-timeline::before {
-      content: '';
-      position: absolute;
-      top: 16px; left: 0; right: 0;
-      height: 2px;
-      background: #e8e4de;
-    }
-    .proc-timeline::after {
-      content: '';
-      position: absolute;
-      top: 16px; left: 0;
-      height: 2px;
-      background: #8a7560;
-      width: 0%;
-    }
-    #s3.active .proc-timeline::after {
-      animation: procLine 2s cubic-bezier(0.16, 1, 0.3, 1) 1.5s forwards;
-    }
-    @keyframes procLine {
-      from { width: 0%; }
-      to { width: 100%; }
+      align-items: stretch;
     }
 
     .proc-step {
       flex: 1;
-      padding-right: 2vw;
-      position: relative;
+      padding: 24px 18px;
     }
+    .proc-step:first-child { padding-left: 0; }
     .proc-step-num {
       font-family: 'Pretendard', sans-serif;
-      font-size: 28px;
+      font-size: 30px;
       font-weight: 200;
-      color: #8a7560;
-      letter-spacing: -0.02em;
-      margin-bottom: 20px;
-      position: relative;
-      z-index: 1;
+      line-height: 1;
+      margin-bottom: 16px;
+      letter-spacing: 0.05em;
     }
+    .proc-step:nth-child(1) .proc-step-num  { color: rgba(138,117,96,0.4); }
+    .proc-step:nth-child(3) .proc-step-num  { color: rgba(138,117,96,0.48); }
+    .proc-step:nth-child(5) .proc-step-num  { color: rgba(138,117,96,0.56); }
+    .proc-step:nth-child(7) .proc-step-num  { color: rgba(138,117,96,0.64); }
+    .proc-step:nth-child(9) .proc-step-num  { color: rgba(138,117,96,0.72); }
+    .proc-step:nth-child(11) .proc-step-num { color: rgba(138,117,96,0.8); }
+
     .proc-step-title {
       font-family: 'Noto Serif KR', serif;
       font-size: 15px;
       font-weight: 400;
-      color: #111;
-      letter-spacing: 0.06em;
-      margin-bottom: 14px;
+      color: #333;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
     }
     .proc-step-desc {
       font-family: 'Noto Serif KR', serif;
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 300;
-      color: #666;
-      line-height: 1.9;
-      letter-spacing: 0.03em;
+      color: #777;
+      line-height: 2;
+      word-break: keep-all;
+      letter-spacing: 0.02em;
+    }
+
+    .proc-arrow {
+      flex-shrink: 0;
+      width: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .proc-arrow svg {
+      width: 20px;
+      height: 20px;
+      stroke: rgba(138,117,96,0.6);
+      fill: none;
+      stroke-width: 1.5;
     }
 
     /* 3페이지 애니메이션 */
@@ -510,13 +675,22 @@
       transform: translateY(12px);
       transition: opacity 0.8s ease, transform 0.8s ease;
     }
+    #s3 .proc-arrow {
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
     #s3.active .process-header { opacity: 1; transition-delay: 0.3s; }
-    #s3.active .proc-step:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 1.8s; }
-    #s3.active .proc-step:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 2.1s; }
-    #s3.active .proc-step:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 2.4s; }
-    #s3.active .proc-step:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 2.7s; }
-    #s3.active .proc-step:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 3.0s; }
-    #s3.active .proc-step:nth-child(6) { opacity: 1; transform: translateY(0); transition-delay: 3.3s; }
+    #s3.active .proc-step:nth-child(1)  { opacity: 1; transform: translateY(0); transition-delay: 1.2s; }
+    #s3.active .proc-arrow:nth-child(2) { opacity: 1; transition-delay: 1.5s; }
+    #s3.active .proc-step:nth-child(3)  { opacity: 1; transform: translateY(0); transition-delay: 1.6s; }
+    #s3.active .proc-arrow:nth-child(4) { opacity: 1; transition-delay: 1.9s; }
+    #s3.active .proc-step:nth-child(5)  { opacity: 1; transform: translateY(0); transition-delay: 2.0s; }
+    #s3.active .proc-arrow:nth-child(6) { opacity: 1; transition-delay: 2.3s; }
+    #s3.active .proc-step:nth-child(7)  { opacity: 1; transform: translateY(0); transition-delay: 2.4s; }
+    #s3.active .proc-arrow:nth-child(8) { opacity: 1; transition-delay: 2.7s; }
+    #s3.active .proc-step:nth-child(9)  { opacity: 1; transform: translateY(0); transition-delay: 2.8s; }
+    #s3.active .proc-arrow:nth-child(10) { opacity: 1; transition-delay: 3.1s; }
+    #s3.active .proc-step:nth-child(11) { opacity: 1; transform: translateY(0); transition-delay: 3.2s; }
 
     /* 3페이지 전용 CTA */
     .s3-cta {
@@ -569,26 +743,49 @@
     .s4-wrap{width:100%;height:100%;display:flex}
     .s4-txt{width:42%;height:100%;display:flex;flex-direction:column;justify-content:center;padding:0 6vw}
     .s4-label{font-family:'Pretendard',sans-serif;font-size:10px;letter-spacing:0.4em;color:#bbb;margin-bottom:48px}
-    .s4-name{font-size:32px;font-weight:300;color:#2b2824;letter-spacing:0.06em;margin-bottom:8px}
-    .s4-type{font-family:'Pretendard',sans-serif;font-size:11px;letter-spacing:0.2em;color:#aaa;margin-bottom:32px}
-    .s4-line{width:32px;height:1px;background:rgba(138,117,96,0.25);margin-bottom:32px}
-    .s4-desc{font-size:14px;font-weight:300;color:#666;line-height:2;max-width:360px}
-    .s4-quote{margin-top:40px;font-size:13px;font-style:italic;font-weight:300;color:#8a7560}
+    .s4-name{font-size:38px;font-weight:300;color:#2b2824;letter-spacing:0.06em;margin-bottom:10px}
+    .s4-type{font-family:'Pretendard',sans-serif;font-size:13px;letter-spacing:0.2em;color:#aaa;margin-bottom:36px}
+    .s4-line{width:32px;height:1px;background:rgba(138,117,96,0.25);margin-bottom:36px}
+    .s4-desc{font-size:16px;font-weight:300;color:#555;line-height:2;max-width:400px}
+    .s4-quote{margin-top:44px;font-size:15px;font-style:italic;font-weight:300;color:#8a7560}
 
     .s4-pic{width:58%;height:100%;position:relative;cursor:pointer;overflow:hidden}
     .s4-pic img{width:100%;height:100%;object-fit:cover;display:block}
+    /* 진입 애니메이션 오버레이 */
+    .s4-flash{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none}
+    .s4-flash span{font-family:'Noto Serif KR',serif;font-size:17px;font-weight:300;letter-spacing:0.25em;color:#fff;opacity:0;transform:translateY(8px)}
+    #s4.active .s4-flash{animation:s4Flash 8s ease 0.8s forwards}
+    #s4.active .s4-flash span{animation:s4FlashText 8s ease 0.8s forwards}
+    @keyframes s4Flash {
+      0%{opacity:0} 6%{opacity:1} 75%{opacity:1} 100%{opacity:0}
+    }
+    @keyframes s4FlashText {
+      0%{opacity:0;transform:translateY(10px)} 6%{opacity:1;transform:translateY(0)} 75%{opacity:1} 100%{opacity:0}
+    }
+    /* 호버 오버레이 */
     .s4-overlay{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.4s}
     .s4-pic:hover .s4-overlay{opacity:1}
     .s4-overlay span{font-family:'Noto Serif KR',serif;font-size:17px;font-weight:300;letter-spacing:0.25em;color:#fff}
 
-    .s4-bnav{position:absolute;bottom:44px;left:6vw;display:flex;gap:40px;z-index:5}
-    .s4-bi{cursor:pointer;opacity:0.3;transition:opacity 0.4s;display:flex;flex-direction:column;gap:6px}
-    .s4-bi.active{opacity:1}
-    .s4-bi:hover{opacity:0.6}
-    .s4-bin{font-size:13px;font-weight:300;color:#2b2824;letter-spacing:0.06em}
-    .s4-bit{font-family:'Pretendard',sans-serif;font-size:10px;color:#aaa;letter-spacing:0.08em}
-    .s4-bil{width:100%;height:1px;background:rgba(138,117,96,0.3);transform:scaleX(0);transform-origin:left;transition:transform 0.4s}
-    .s4-bi.active .s4-bil{transform:scaleX(1)}
+    .s4-bnav{position:absolute;top:100px;left:6vw;display:flex;gap:40px;z-index:5}
+    .s4-bi{cursor:pointer;opacity:0;transform:translateY(-16px);transition:all 0.4s;display:flex;flex-direction:column;gap:8px;padding-bottom:10px;border-bottom:2px solid transparent}
+    .s4-bi.active{border-bottom-color:#8a7560}
+    .s4-bi:hover{opacity:0.8 !important;border-bottom-color:rgba(138,117,96,0.3)}
+    #s4.active .s4-bi:nth-child(1){animation:s4Drop 1.2s ease 0.5s forwards}
+    #s4.active .s4-bi:nth-child(2){animation:s4DropDim 1.2s ease 1s forwards}
+    #s4.active .s4-bi:nth-child(3){animation:s4DropDim 1.2s ease 1.5s forwards}
+    #s4.active .s4-bi.active{animation-name:s4Drop !important}
+    @keyframes s4Drop {
+      from{opacity:0;transform:translateY(-16px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+    @keyframes s4DropDim {
+      from{opacity:0;transform:translateY(-16px)}
+      to{opacity:0.4;transform:translateY(0)}
+    }
+    .s4-bin{font-size:17px;font-weight:300;color:#8a7560;letter-spacing:0.06em}
+    .s4-bit{font-family:'Pretendard',sans-serif;font-size:12px;color:#a89880;letter-spacing:0.08em}
+    .s4-bil{display:none}
 
     .s4-gal{display:none;position:absolute;top:0;left:0;width:100%;height:100%;background:#fff;z-index:50;flex-direction:column}
     .s4-gal.open{display:flex}
@@ -620,7 +817,7 @@
     .s5-label{font-family:'Pretendard',sans-serif;font-size:10px;letter-spacing:0.4em;color:#bbb;margin-bottom:16px}
     .s5-num{font-family:'Pretendard',sans-serif;font-size:11px;letter-spacing:0.15em;color:#8a7560;margin-bottom:48px}
     .s5-q{font-family:'Noto Serif KR',serif;font-size:clamp(20px,2.5vw,30px);font-weight:300;color:#2b2824;letter-spacing:0.04em;text-align:center;margin-bottom:48px;line-height:1.6}
-    .s5-choices{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;max-width:600px}
+    .s5-choices{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;max-width:800px}
     .s5-choice{padding:16px 32px;border:1px solid #e0dbd5;background:#fff;font-family:'Noto Serif KR',serif;font-size:14px;font-weight:300;color:#555;letter-spacing:0.06em;cursor:pointer;transition:all 0.3s}
     .s5-choice:hover{border-color:#8a7560;color:#2b2824}
     .s5-choice.picked{border-color:#8a7560;color:#2b2824;background:rgba(138,117,96,0.06)}
@@ -647,16 +844,16 @@
     .s6-msg{text-align:center;margin-bottom:64px}
     .s6-top{font-family:'Pretendard',sans-serif;font-size:11px;letter-spacing:0.3em;color:#8a7560;margin-bottom:32px}
     .s6-main{font-family:'Noto Serif KR',serif;font-size:clamp(22px,3vw,36px);font-weight:200;color:#2b2824;letter-spacing:0.08em;line-height:1.6;margin-bottom:20px;white-space:nowrap}
-    .s6-line{width:1px;height:40px;background:rgba(138,117,96,0.2);margin:0 auto 20px}
-    .s6-closing{font-family:'Noto Serif KR',serif;font-size:13px;font-weight:300;color:#999;line-height:1.8}
+    .s6-line{width:1px;height:40px;background:rgba(138,117,96,0.4);margin:0 auto 20px}
+    .s6-closing{font-family:'Noto Serif KR',serif;font-size:13px;font-weight:300;color:#666;line-height:1.8}
     .s6-tgl-area{width:100%;max-width:420px}
-    .s6-explore{font-family:'Pretendard',sans-serif;font-size:10px;letter-spacing:0.35em;color:#ccc;text-align:center;margin-bottom:20px}
+    .s6-explore{font-family:'Noto Serif KR',serif;font-size:13px;letter-spacing:0.25em;color:#888;text-align:center;margin-bottom:20px;font-weight:300}
     .s6-tgl{position:relative;overflow:hidden;border:1px solid #ece8e3;border-radius:8px;cursor:pointer;margin-bottom:10px;transition:border-color 0.5s}
     .s6-tgl.on{border-color:#8a7560}
     .s6-tgl-fill{position:absolute;top:0;left:0;width:0%;height:100%;background:#8a7560;transition:width 0.6s cubic-bezier(0.16,1,0.3,1);z-index:0}
     .s6-tgl.on .s6-tgl-fill{width:100%}
     .s6-tgl-content{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;padding:18px 24px}
-    .s6-tgl-name{font-family:'Noto Serif KR',serif;font-size:15px;font-weight:300;color:#2b2824;letter-spacing:0.12em;transition:color 0.4s}
+    .s6-tgl-name{font-family:'Pretendard',sans-serif;font-size:15px;font-weight:300;color:#2b2824;letter-spacing:0.15em;transition:color 0.4s}
     .s6-tgl.on .s6-tgl-name{color:#fff}
     .s6-tgl-sw{width:44px;height:24px;border-radius:12px;background:#e8e4de;position:relative;flex-shrink:0;transition:background 0.4s}
     .s6-tgl.on .s6-tgl-sw{background:rgba(255,255,255,0.25)}
@@ -667,7 +864,7 @@
     .s6-tgl-link a{font-family:'Pretendard',sans-serif;font-size:11px;letter-spacing:0.2em;color:rgba(255,255,255,0.8);text-decoration:none}
     .s6-tgl-link a:hover{color:#fff}
     .s6-footer{position:absolute;bottom:24px;left:0;right:0;text-align:center}
-    .s6-footer p{font-family:'Pretendard',sans-serif;font-size:9px;color:#ddd;letter-spacing:0.2em}
+    .s6-footer p{font-family:'Cormorant Garamond',serif;font-size:12px;color:#666;letter-spacing:0.3em;font-weight:400}
 
     .form-group { margin-bottom: 28px; }
 
@@ -795,7 +992,7 @@
         font-size: 9px;
       }
 
-      /* 3페이지 — 프로세스 (모바일: 미니멀) */
+      /* 3페이지 — 프로세스 (모바일) */
       .s3-process {
         padding: 64px 32px 80px;
         overflow-y: auto;
@@ -810,23 +1007,20 @@
       }
       .process-intro { font-size: 13px; text-align: center; }
 
-      .proc-timeline {
+      .proc-row {
         flex-direction: column;
-        gap: 28px;
+        gap: 0;
       }
-      .proc-timeline::before { display: none; }
-      .proc-timeline::after { display: none; }
+      .proc-arrow { display: none; }
 
       .proc-step {
-        padding: 0;
-        padding-right: 0;
+        padding: 16px 0;
         text-align: center;
       }
+      .proc-step:first-child { padding-left: 0; }
       .proc-step-num {
-        font-size: 22px;
-        font-weight: 200;
+        font-size: 24px;
         margin-bottom: 6px;
-        color: #8a7560;
       }
       .proc-step-title {
         font-size: 14px;
@@ -884,6 +1078,12 @@
 <div id="cursor-ring"></div>
 <div id="app">
 
+
+  <!-- Prev button -->
+  <button id="prev-btn" aria-label="이전">
+    <span class="prev-arrow"></span>
+    <span class="prev-label">돌아가기</span>
+  </button>
 
   <!-- Next button -->
   <button id="next-btn" class="light" aria-label="다음">
@@ -946,38 +1146,42 @@
         </p>
       </div>
 
-      <div class="proc-timeline">
+      <div class="proc-row">
         <div class="proc-step">
           <p class="proc-step-num">01</p>
           <p class="proc-step-title">상담</p>
-          <p class="proc-step-desc">고객님이 좋아하는 분위기, 생활습관,<br>예산과 일정을 듣습니다.<br>공간을 통해 이루고 싶은 삶의 방향을<br>함께 이야기합니다.</p>
+          <p class="proc-step-desc">고객님이 좋아하는 분위기, 생활습관,<br>예산과 일정을 듣습니다.<br>공간을 통해 이루고 싶은<br>삶의 방향을 함께 이야기합니다.</p>
         </div>
+        <div class="proc-arrow"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"></polyline></svg></div>
         <div class="proc-step">
           <p class="proc-step-num">02</p>
           <p class="proc-step-title">현장 조사</p>
           <p class="proc-step-desc">현장 담당자가 직접 방문하여<br>세부 치수와 현장의 상황을<br>정확히 파악합니다.</p>
         </div>
+        <div class="proc-arrow"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"></polyline></svg></div>
         <div class="proc-step">
           <p class="proc-step-num">03</p>
           <p class="proc-step-title">계약</p>
           <p class="proc-step-desc">설계 범위, 일정, 비용, 사후관리까지<br>모든 조건을 명확히 정해<br>안심할 수 있도록 약속합니다.</p>
         </div>
+        <div class="proc-arrow"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"></polyline></svg></div>
         <div class="proc-step">
           <p class="proc-step-num">04</p>
-          <p class="proc-step-title">기획·디자인</p>
-          <p class="proc-step-desc">평면도, 3D 이미지보드로<br>쉽게 확인할 수 있으며,<br>함께 조율해 오래도록 사랑받는<br>공간을 만듭니다.</p>
+          <p class="proc-step-title">기획 · 디자인</p>
+          <p class="proc-step-desc">평면도, 3D 이미지보드로<br>쉽게 확인할 수 있으며,<br>함께 조율해 오래도록<br>사랑받는 공간을 만듭니다.</p>
         </div>
+        <div class="proc-arrow"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"></polyline></svg></div>
         <div class="proc-step">
           <p class="proc-step-num">05</p>
           <p class="proc-step-title">시공</p>
           <p class="proc-step-desc">정도의 철저한 감리로<br>설계 그대로 구현합니다.<br>작은 디테일까지 놓치지 않고<br>완성합니다.</p>
         </div>
+        <div class="proc-arrow"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"></polyline></svg></div>
         <div class="proc-step">
           <p class="proc-step-num">06</p>
-          <p class="proc-step-title">완공·사후관리</p>
+          <p class="proc-step-title">완공 · 사후관리</p>
           <p class="proc-step-desc">완성된 공간을 철저히 검수하고<br>입주 후에도 이어지는 사후관리로<br>오래도록 바르게 유지되도록<br>도움 드리겠습니다.</p>
         </div>
-
       </div>
     </div>
   </section>
@@ -995,6 +1199,7 @@
       </div>
       <div class="s4-pic" id="s4Pic">
         <img src="proj1-a.jpg" id="s4Img" alt="">
+        <div class="s4-flash"><span>자세히 보기</span></div>
         <div class="s4-overlay"><span>자세히 보기</span></div>
       </div>
     </div>
@@ -1016,6 +1221,7 @@
 
   <!-- ⑤ CONSULTATION (단계별) -->
   <section class="section" id="s5" style="background:#ffffff !important; position:absolute; inset:0;">
+    <p class="section-logo">J E O N G D O</p>
     <div class="s5-progress" id="s5pbar" style="width:0%"></div>
     <div class="s5-step on" id="cst1">
       <p class="s5-label">CONSULTATION</p>
@@ -1060,6 +1266,7 @@
         <div class="s5-choice">3천 ~ 5천만원</div>
         <div class="s5-choice">5천 ~ 1억원</div>
         <div class="s5-choice">1억원 이상</div>
+        <div class="s5-choice">기타</div>
       </div>
       <button class="s5-next" id="cnx4">다음으로</button>
     </div>
@@ -1071,7 +1278,7 @@
         <div class="s5-choice">인스타그램</div>
         <div class="s5-choice">유튜브</div>
         <div class="s5-choice">블로그</div>
-        <div class="s5-choice">지인 소개</div>
+        <div class="s5-choice">지인소개</div>
         <div class="s5-choice">기타</div>
       </div>
       <button class="s5-next" id="cnx5">다음으로</button>
@@ -1092,6 +1299,7 @@
 
   <!-- ⑥ COMPLETE -->
   <section class="section" id="s6" style="background:#ffffff !important;">
+    <p class="section-logo">J E O N G D O</p>
     <div class="s6-page">
       <div class="s6-msg">
         <p class="s6-top">CONSULTATION COMPLETE</p>
@@ -1118,7 +1326,7 @@
         </div>
       </div>
     </div>
-    <div class="s6-footer"><p>DESIGN STUDIO JEONGDO · 正道</p></div>
+    <div class="s6-footer"><p>DESIGN STUDIO JEONGDO</p></div>
   </section>
 
 </div>
@@ -1130,6 +1338,7 @@
   const secs    = [...document.querySelectorAll('.section')];
   const nextBtn = document.getElementById('next-btn');
   const heroCta = document.getElementById('hero-cta');
+  const prevBtn = document.getElementById('prev-btn');
 
   const scrollEls = {
   };
@@ -1137,7 +1346,7 @@
   const lightBg = [1, 2, 3, 4]; // s2(철학), s3(프로세스), s4(프로젝트), s5(상담) — 밝은 배경
 
   function goTo(idx) {
-    if (idx === cur || moving || idx > maxV + 1 || idx >= TOTAL) return;
+    if (idx === cur || moving || idx < 0 || idx >= TOTAL || idx > maxV + 1) return;
     moving = true;
     secs[cur].classList.remove('active');
     cur = idx;
@@ -1147,6 +1356,21 @@
     if (scrollEls[cur]) scrollEls[cur].scrollTop = 0;
 
     updateNext();
+    // 4페이지: 버튼 스타일 강조
+    if (cur === 3) {
+      nextBtn.classList.add('on-project');
+      prevBtn.classList.add('on-project');
+    } else {
+      nextBtn.classList.remove('on-project');
+      prevBtn.classList.remove('on-project');
+    }
+    // 5~6페이지: 상담하기(next) 숨김
+    if (cur >= 4) {
+      nextBtn.classList.remove('visible');
+      nextBtn.style.display = 'none';
+    } else {
+      nextBtn.style.display = '';
+    }
     setTimeout(() => moving = false, 950);
   }
 
@@ -1169,6 +1393,20 @@
     heroCta.classList.remove('visible');
   }
 
+  function updatePrev() {
+    if (cur >= 1) {
+      prevBtn.classList.add('visible');
+      // 밝은 배경 페이지에서는 dark-mode 제거 (이미 어두운 텍스트)
+      if (lightBg.includes(cur)) {
+        prevBtn.classList.remove('dark-mode');
+      } else {
+        prevBtn.classList.add('dark-mode');
+      }
+    } else {
+      prevBtn.classList.remove('visible');
+    }
+  }
+
   function checkBottom(i) {
     const el = scrollEls[i];
     if (!el) return;
@@ -1178,6 +1416,7 @@
 
   function updateNext() {
     hideNext();
+    updatePrev();
     if (cur === TOTAL - 1) return;
 
     if (scrollEls[cur]) {
@@ -1202,8 +1441,8 @@
       // 3페이지: 프로세스 애니메이션 끝난 뒤
       setTimeout(showNext, 4000);
     } else if (cur === 3) {
-      // 4페이지: 프로젝트
-      setTimeout(showNext, 2000);
+      // 4페이지: 프로젝트 — 바로 표시
+      showNext();
     } else if (cur === 4) {
       // 5페이지: 상담 — 내부 단계에서 마지막에 goTo(5)로 이동하니까 버튼 불필요
     } else {
@@ -1221,6 +1460,7 @@
   // 버튼 이벤트
   nextBtn.addEventListener('click', () => goTo(cur + 1));
   heroCta.addEventListener('click', () => goTo(1));
+  prevBtn.addEventListener('click', () => { if (cur > 0) goTo(cur - 1); });
 
   // Chip toggle
   document.querySelectorAll('.chip').forEach(chip => {
@@ -1319,7 +1559,12 @@
     c.onclick = function() { c.closest('.s6-tgl').classList.toggle('on'); };
   });
 
-  // Init
+  // Init — URL 파라미터로 바로 이동 (?p=3)
+  const urlP = new URLSearchParams(location.search).get('p');
+  if (urlP) {
+    const pi = parseInt(urlP) - 1;
+    if (pi >= 0 && pi < TOTAL) { maxV = pi; goTo(pi); moving = false; }
+  }
   setTimeout(showNext, 800);
 </script>
 </body>
