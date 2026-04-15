@@ -2184,10 +2184,10 @@
       <p class="s5-num">06 / 06</p>
       <h2 class="s5-q">연락처를 남겨주세요</h2>
       <div class="s5-fields">
-        <div><p class="s5-fl">성함 <span class="s5-req">*</span></p><input class="s5-input" type="text" placeholder="홍길동"></div>
-        <div><p class="s5-fl">연락처 <span class="s5-req">*</span></p><input class="s5-input" type="tel" placeholder="010-0000-0000"></div>
-        <div><p class="s5-fl">지역</p><input class="s5-input" type="text" placeholder="서울 서초구"></div>
-        <div><p class="s5-fl">하고 싶은 말</p><textarea class="s5-textarea" placeholder="궁금한 점이나 요청사항이 있으시면 자유롭게 적어주세요."></textarea></div>
+        <div><p class="s5-fl">성함 <span class="s5-req">*</span></p><input class="s5-input" id="c-name" type="text" placeholder="홍길동"></div>
+        <div><p class="s5-fl">연락처 <span class="s5-req">*</span></p><input class="s5-input" id="c-phone" type="tel" placeholder="010-0000-0000"></div>
+        <div><p class="s5-fl">지역</p><input class="s5-input" id="c-region" type="text" placeholder="서울 서초구"></div>
+        <div><p class="s5-fl">하고 싶은 말</p><textarea class="s5-textarea" id="c-message" placeholder="궁금한 점이나 요청사항이 있으시면 자유롭게 적어주세요."></textarea></div>
       </div>
       <button class="s5-submit" id="cSubmit">상담 신청하기</button>
     </div>
@@ -2668,6 +2668,24 @@
   document.getElementById('cnx4').onclick = function() { goConsult(5); };
   document.getElementById('cnx5').onclick = function() { goConsult(6); };
   document.getElementById('cSubmit').onclick = function() {
+    var name = document.getElementById('c-name').value.trim();
+    var phone = document.getElementById('c-phone').value.trim();
+    if (!name || !phone) { alert('성함과 연락처는 필수입니다.'); return; }
+    var region = document.getElementById('c-region').value.trim();
+    var message = document.getElementById('c-message').value.trim();
+    var picks = {};
+    document.querySelectorAll('.s5-choices').forEach(function(g, i) {
+      var p = g.querySelector('.s5-choice.picked');
+      picks[i] = p ? p.textContent.trim() : '-';
+    });
+    fetch('https://script.google.com/macros/s/AKfycbyBIAiFIaCS6FcQy2jN7cPC7BuTagD5iFp2_FC1_SWEoSKtGDis3vk8uIGc2aTH9RPK/exec', {
+      method: 'POST', mode: 'no-cors',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        name: name, phone: phone, region: region || '-', message: message || '-',
+        spaceType: picks[0], size: picks[1], scope: picks[2], budget: picks[3], source: picks[4]
+      }).toString()
+    }).catch(function() {});
     document.getElementById('s5pbar').style.width = '100%';
     goTo(5);
   };
