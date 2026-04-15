@@ -1143,23 +1143,31 @@
         width: 100%;
         height: auto;
         background: transparent;
+        margin-top: 16px;
       }
-      .s4-gal-top { display: none; }
+      .s4-gal-top, .s4-gal-close { display: none !important; }
       .s4-gal-body {
         display: flex !important;
         flex-direction: column;
         height: auto;
         padding: 0;
         position: static;
+        gap: 12px;
       }
+      /* 현재 프로젝트만 표시 */
       .s4-gs {
-        display: flex !important;
+        display: none !important;
         flex-direction: column;
         position: static !important;
         width: 100%;
         height: auto;
-        margin-bottom: 24px;
+        margin: 0;
         opacity: 1 !important;
+      }
+      .s4-gal[data-proj="0"] .s4-gs[data-proj="0"],
+      .s4-gal[data-proj="1"] .s4-gs[data-proj="1"],
+      .s4-gal[data-proj="2"] .s4-gs[data-proj="2"] {
+        display: flex !important;
       }
       .s4-gimg-wrap {
         flex: 0 0 auto !important;
@@ -1182,11 +1190,18 @@
       }
       .s4-gst {
         width: 100% !important;
-        padding: 20px 24px !important;
+        padding: 12px 20px 20px !important;
         flex: 0 0 auto !important;
       }
-      .s4-gst p { font-size: 13px; line-height: 1.9; }
-      .s4-gq { font-size: 12px; margin-top: 16px; }
+      .s4-gst p { font-size: 12.5px; line-height: 1.85; color: #666; }
+      .s4-gq { font-size: 12px; margin-top: 12px; color: #8a7560; }
+      .s4-gcat {
+        font-family: 'Pretendard', sans-serif;
+        font-size: 9px !important;
+        letter-spacing: 0.3em !important;
+        color: #a89880 !important;
+        margin-bottom: 6px !important;
+      }
       .s4-gdots { display: none; }
       .s4-garrow { display: none !important; }
 
@@ -2338,8 +2353,19 @@
       var img = document.getElementById('s4Img');
       if(p.img){img.src=p.img;img.style.display='block';}
       else{img.style.display='none';}
+      // 모바일 인라인 갤러리: 현재 프로젝트만 보이도록
+      var gal = document.getElementById('s4Gal');
+      if (gal) gal.setAttribute('data-proj', i);
+      // 모바일이면 4페이지 스크롤을 맨 위로
+      var s4 = document.getElementById('s4');
+      if (window.innerWidth <= 768 && s4) s4.scrollTop = 0;
     };
   });
+  // 초기 프로젝트 설정
+  (function(){
+    var gal = document.getElementById('s4Gal');
+    if (gal) gal.setAttribute('data-proj', '0');
+  })();
 
   // 갤러리 진입
   document.getElementById('s4Pic').onclick = function(){
