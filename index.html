@@ -1015,13 +1015,26 @@
         line-height: 2;
         white-space: normal;
         word-break: keep-all;
-        margin-bottom: 16px;
+        margin-bottom: 24px;
+        padding-bottom: 24px;
         max-width: 100%;
         text-align: center;
-        padding: 0 4px;
+        padding: 0 4px 24px;
         color: #888;
         font-weight: 300;
+        position: relative;
       }
+      .s2-vcol::after, .s2-vcol-main::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 24px;
+        height: 1px;
+        background: rgba(138,117,96,0.25);
+      }
+      .s2-vgroup > :last-child::after { display: none; }
       .s2-vcol-main {
         font-size: 13.5px;
         color: #2b2824;
