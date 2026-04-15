@@ -169,6 +169,32 @@
     /* ── 모바일 프로젝트 바 (PC에서 숨김) ── */
     .s4-mobile-bar { display: none; }
 
+    /* ── 모바일 스크롤 인디케이터 ── */
+    .scroll-hint {
+      display: none;
+      position: fixed;
+      left: 50%;
+      bottom: 90px;
+      transform: translateX(-50%);
+      z-index: 55;
+      pointer-events: none;
+      opacity: 0.7;
+      animation: scrollBounce 1.8s ease-in-out infinite;
+    }
+    .scroll-hint svg {
+      width: 22px;
+      height: 22px;
+      stroke: #8a7560;
+      fill: none;
+      stroke-width: 1.5;
+      filter: drop-shadow(0 0 6px rgba(255,255,255,0.9));
+    }
+    .scroll-hint.hide { opacity: 0; transition: opacity 0.3s; }
+    @keyframes scrollBounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(6px); }
+    }
+
     /* ── 모바일 라이트박스 ── */
     .lightbox {
       display: none;
@@ -1019,6 +1045,9 @@
       /* 모바일 줄바꿈 활성화 */
       br.m-br { display: inline; }
 
+      /* 스크롤 인디케이터 표시 */
+      .scroll-hint.active { display: block; }
+
       /* 메인 버튼 모바일 축소 */
       .btn-label { font-size: 13px; letter-spacing: 0.15em; padding: 6px 12px; }
       .btn-arrow { height: 24px; }
@@ -1300,7 +1329,13 @@
 
       /* 5페이지 — 상담 */
       #s5 { overflow-y: auto; overflow-x: hidden; }
-      .s5-step { padding: 56px 24px 140px; min-height: 100%; justify-content: center; }
+      .s5-step { padding: 56px 24px 180px; min-height: 100%; justify-content: center; }
+      /* 제출 버튼 페이드 위로 올리기 */
+      .s5-submit {
+        position: relative;
+        z-index: 3;
+        margin-top: 32px !important;
+      }
       .s5-q { font-size: 20px; }
       .s5-choices { max-width: 100%; }
       .s5-choice { padding: 12px 20px; font-size: 13px; }
@@ -1357,6 +1392,11 @@
 <div id="cursor-ring"></div>
 <div id="app">
 
+
+  <!-- Mobile scroll hint -->
+  <div class="scroll-hint" id="scrollHint" aria-hidden="true">
+    <svg viewBox="0 0 24 24"><polyline points="7 10 12 15 17 10"/></svg>
+  </div>
 
   <!-- Prev button -->
   <button id="prev-btn" aria-label="이전">
@@ -2256,6 +2296,8 @@
 
   function attachMobileScrollGate() {
     detachMobileScrollGate();
+    const hint = document.getElementById('scrollHint');
+    if (hint) hint.classList.remove('active', 'hide');
     if (window.innerWidth > 768) return false;
     const sel = mobileScrollSelectors[cur];
     if (!sel) return false;
@@ -2281,11 +2323,25 @@
       const needsScroll = el.scrollHeight - el.clientHeight > 20;
       if (!needsScroll) {
         showButtons();
+        if (hint) hint.classList.remove('active');
         return;
       }
       const atBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 48;
-      if (atBottom) showButtons();
-      else hideButtons();
+      if (atBottom) {
+        showButtons();
+        if (hint) hint.classList.add('hide');
+      } else {
+        hideButtons();
+        // 스크롤 인디케이터 표시 (스크롤 시작 전까지)
+        if (hint) {
+          if (el.scrollTop < 16) {
+            hint.classList.add('active');
+            hint.classList.remove('hide');
+          } else {
+            hint.classList.add('hide');
+          }
+        }
+      }
     };
 
     mobileScrollHandler = checkState;
