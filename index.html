@@ -1015,26 +1015,19 @@
         line-height: 2;
         white-space: normal;
         word-break: keep-all;
-        margin-bottom: 24px;
-        padding-bottom: 24px;
+        margin-bottom: 16px;
         max-width: 100%;
         text-align: center;
-        padding: 0 4px 24px;
+        padding: 0 4px;
         color: #888;
         font-weight: 300;
-        position: relative;
       }
-      .s2-vcol::after, .s2-vcol-main::after {
-        content: '';
-        position: absolute;
-        bottom: 4px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 32px;
+      .s2-divider {
+        width: 40px;
         height: 1px;
         background: rgba(138,117,96,0.5);
+        margin: 36px auto 28px;
       }
-      .s2-vgroup > :last-child::after { display: none; }
       .s2-vcol-main {
         font-size: 13.5px;
         color: #2b2824;
@@ -1046,12 +1039,6 @@
         font-weight: 500;
       }
 
-      .s2-divider {
-        width: 40px;
-        height: 1px;
-        align-self: center;
-        margin: 28px auto;
-      }
       .s2-right {
         padding: 20px 32px 160px;
         justify-content: center;
