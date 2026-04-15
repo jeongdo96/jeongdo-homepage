@@ -1211,70 +1211,24 @@
       .s4-desc { font-size: 14px; max-width: 100%; line-height: 1.9; }
       .s4-quote { font-size: 13px; margin-top: 20px; }
 
-      /* 메인 사진은 숨김 (갤러리에 모두 포함) */
-      .s4-pic { display: none; }
+      /* 메인 사진만 표시 — 탭하면 라이트박스 오픈 */
+      .s4-pic {
+        width: 100%;
+        height: auto;
+        cursor: pointer;
+        position: relative;
+      }
+      .s4-pic img {
+        width: 100%;
+        height: auto;
+        max-height: 60vh;
+        object-fit: cover;
+      }
       .s4-flash { display: none; }
       .s4-overlay { display: none; }
 
-      /* 갤러리를 인라인으로 표시 (피드처럼 스크롤) */
-      .s4-gal {
-        display: flex !important;
-        position: static !important;
-        flex-direction: column;
-        width: 100%;
-        height: auto;
-        background: transparent;
-        margin-top: 16px;
-      }
-      .s4-gal-top, .s4-gal-close { display: none !important; }
-      .s4-gal-body {
-        display: flex !important;
-        flex-direction: column;
-        height: auto;
-        padding: 0;
-        position: static;
-        gap: 12px;
-      }
-      /* 현재 프로젝트만 표시 */
-      .s4-gs {
-        display: none !important;
-        flex-direction: column;
-        position: static !important;
-        width: 100%;
-        height: auto;
-        margin: 0;
-        opacity: 1 !important;
-      }
-      .s4-gal[data-proj="0"] .s4-gs[data-proj="0"],
-      .s4-gal[data-proj="1"] .s4-gs[data-proj="1"],
-      .s4-gal[data-proj="2"] .s4-gs[data-proj="2"] {
-        display: flex !important;
-      }
-      .s4-gimg-wrap {
-        flex: 0 0 auto !important;
-        width: 100%;
-        height: auto !important;
-        display: block !important;
-        background: #f0ece6;
-      }
-      .s4-gimg-wrap .s4-gsi {
-        flex: 0 0 auto !important;
-        width: 100%;
-        height: auto !important;
-        display: block !important;
-      }
-      .s4-gsi img {
-        width: 100%;
-        height: auto;
-        display: block;
-        object-fit: cover;
-      }
-      /* 모바일에서는 텍스트 모두 숨김 */
-      .s4-gst { display: none !important; }
-      .s4-gdots { display: none; }
-      .s4-garrow { display: none !important; }
-      /* 사진 탭 가능하다는 시각 신호 */
-      .s4-gimg-wrap { cursor: pointer; }
+      /* 인라인 갤러리 숨김 (라이트박스에서만 사용) */
+      .s4-gal { display: none !important; }
 
       /* 프로젝트 선택 — 하단 고정, 이름/평수만 */
       .s4-bnav {
@@ -2492,14 +2446,22 @@
     function next() { idx = (idx + 1) % photos.length; update(); }
     function prev() { idx = (idx - 1 + photos.length) % photos.length; update(); }
 
-    // 갤러리 사진에 클릭 핸들러 (이벤트 위임)
-    document.addEventListener('click', function(e){
-      var wrap = e.target.closest('.s4-gimg-wrap');
-      if (wrap && window.innerWidth <= 768) {
-        var img = wrap.querySelector('img');
-        if (img) open(img.src);
-      }
-    });
+    // 모바일에서 메인 사진(.s4-pic) 탭 시 라이트박스 오픈
+    var s4Pic = document.getElementById('s4Pic');
+    if (s4Pic) {
+      s4Pic.addEventListener('click', function(e){
+        if (window.innerWidth <= 768) {
+          e.stopPropagation();
+          photos = getCurrentPhotos();
+          idx = 0;
+          if (photos.length) {
+            update();
+            lb.classList.add('open');
+            document.body.style.overflow = 'hidden';
+          }
+        }
+      });
+    }
 
     lbClose.addEventListener('click', close);
     lbPrev.addEventListener('click', prev);
