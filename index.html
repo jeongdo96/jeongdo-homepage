@@ -1130,19 +1130,65 @@
       .s4-desc { font-size: 14px; max-width: 100%; line-height: 1.9; }
       .s4-quote { font-size: 13px; margin-top: 20px; }
 
-      .s4-pic {
-        width: 100%;
-        height: auto;
-        cursor: default;
-        pointer-events: none;
-      }
-      .s4-pic img {
-        height: auto;
-        max-height: 60vh;
-      }
+      /* 메인 사진은 숨김 (갤러리에 모두 포함) */
+      .s4-pic { display: none; }
       .s4-flash { display: none; }
       .s4-overlay { display: none; }
-      .s4-gal { display: none !important; }
+
+      /* 갤러리를 인라인으로 표시 (피드처럼 스크롤) */
+      .s4-gal {
+        display: flex !important;
+        position: static !important;
+        flex-direction: column;
+        width: 100%;
+        height: auto;
+        background: transparent;
+      }
+      .s4-gal-top { display: none; }
+      .s4-gal-body {
+        display: flex !important;
+        flex-direction: column;
+        height: auto;
+        padding: 0;
+        position: static;
+      }
+      .s4-gs {
+        display: flex !important;
+        flex-direction: column;
+        position: static !important;
+        width: 100%;
+        height: auto;
+        margin-bottom: 24px;
+        opacity: 1 !important;
+      }
+      .s4-gimg-wrap {
+        flex: 0 0 auto !important;
+        width: 100%;
+        height: auto !important;
+        display: block !important;
+        background: #f0ece6;
+      }
+      .s4-gimg-wrap .s4-gsi {
+        flex: 0 0 auto !important;
+        width: 100%;
+        height: auto !important;
+        display: block !important;
+      }
+      .s4-gsi img {
+        width: 100%;
+        height: auto;
+        display: block;
+        object-fit: cover;
+      }
+      .s4-gst {
+        width: 100% !important;
+        padding: 20px 24px !important;
+        flex: 0 0 auto !important;
+      }
+      .s4-gst p { font-size: 13px; line-height: 1.9; }
+      .s4-gq { font-size: 12px; margin-top: 16px; }
+      .s4-gdots { display: none; }
+      .s4-garrow { display: none !important; }
 
       /* 프로젝트 선택 — 하단 고정, 이름/평수만 */
       .s4-bnav {
