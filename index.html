@@ -1421,26 +1421,43 @@
     .submit-btn:hover { background: #7a6d5b; }
 
     /* ════════════════════════════
-       소형 모바일 (iPhone SE, Galaxy S8 등 ~375px)
+       소형 모바일 (iPhone SE, Galaxy S8 등 ~390px)
     ════════════════════════════ */
-    @media (max-width: 375px) {
+    @media (max-width: 390px) {
+      /* 공통 */
       .hero-title { font-size: 13px; letter-spacing: 0.06em; }
       #hero-cta { bottom: 14px; }
       #hero-cta .cta-text { font-size: 13px; }
-      #next-btn { bottom: 32px; }
-      #prev-btn { bottom: 32px; }
-      .s2-left { padding: 60px 24px 20px; }
-      .s2-right { padding: 16px 24px 60px; }
-      .s2-accent { font-size: 18px; }
-      .s5-step { padding: 0 20px; }
-      .s5-q { font-size: 18px; margin-bottom: 32px; }
-      .s5-choice { padding: 12px 20px; font-size: 13px; }
-      .s5-submit { padding: 14px 36px; }
-      .s6-page { padding: 60px 24px 80px; }
-      .s6-main { font-size: 20px; }
-      .s6-closing { font-size: 12px; }
+      #next-btn { bottom: 28px; }
+      #prev-btn { bottom: 28px; }
       .section-logo { font-size: 11px; }
-      #progress { top: 20px; }
+      #progress { top: 18px; }
+
+      /* 2페이지 — 철학 */
+      .s2-layout { overflow-y: auto; -webkit-overflow-scrolling: touch; }
+      .s2-left { padding: 56px 20px 16px; }
+      .s2-right { padding: 12px 20px 80px; }
+      .s2-tag-hanja { font-size: 36px; }
+      .s2-vcol, .s2-vcol-main {
+        font-size: 11px;
+        white-space: normal;
+        text-align: center;
+        margin-bottom: 14px;
+        line-height: 1.5;
+      }
+      .s2-accent { font-size: 17px; line-height: 1.7; }
+      .s2-brand { font-size: 8px; margin-top: 14px; }
+
+      /* 5페이지 — 상담 */
+      .s5-step { padding: 0 20px; }
+      .s5-q { font-size: 17px; margin-bottom: 28px; }
+      .s5-choice { padding: 11px 18px; font-size: 13px; }
+      .s5-submit { padding: 14px 36px; }
+
+      /* 6페이지 — 완료 */
+      .s6-page { padding: 56px 20px 80px; }
+      .s6-main { font-size: 19px; }
+      .s6-closing { font-size: 12px; }
     }
 
   </style>
