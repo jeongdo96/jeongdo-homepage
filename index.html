@@ -205,12 +205,23 @@
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.95);
+      background: #000;
       z-index: 9999;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
     }
     .lightbox.open { display: flex; }
+    /* 흐린 배경 레이어 (같은 사진을 blur로 깔아서 여백 채움) */
+    .lightbox-bg {
+      position: absolute;
+      inset: -40px;
+      background-size: cover;
+      background-position: center;
+      filter: blur(40px) brightness(0.5);
+      transform: scale(1.15);
+      z-index: 0;
+    }
     .lightbox-img-wrap {
       width: 100%;
       height: 100%;
@@ -218,6 +229,8 @@
       align-items: center;
       justify-content: center;
       padding: 60px 16px;
+      position: relative;
+      z-index: 1;
     }
     .lightbox-img {
       max-width: 100%;
@@ -225,6 +238,7 @@
       object-fit: contain;
       user-select: none;
       -webkit-user-select: none;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
     }
     .lightbox-close {
       position: absolute;
@@ -1544,6 +1558,7 @@
 
     <!-- 모바일 라이트박스 -->
     <div class="lightbox" id="lightbox">
+      <div class="lightbox-bg" id="lbBg"></div>
       <button class="lightbox-close" id="lbClose">×</button>
       <button class="lightbox-arrow lightbox-prev" id="lbPrev">
         <svg viewBox="0 0 24 24"><polyline points="15 6 9 12 15 18"/></svg>
@@ -2524,8 +2539,10 @@
       return Array.prototype.map.call(imgs, function(i){ return i.src; });
     }
 
+    var lbBg = document.getElementById('lbBg');
     function update() {
       lbImg.src = photos[idx];
+      if (lbBg) lbBg.style.backgroundImage = 'url("' + photos[idx] + '")';
       lbCounter.textContent = (idx + 1) + ' / ' + photos.length;
     }
 
