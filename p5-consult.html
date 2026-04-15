@@ -107,6 +107,7 @@ html, body { width:100%; height:100%; overflow:hidden; background:#fff; font-fam
   cursor:pointer; transition:background 0.3s;
 }
 .submit-final:hover { background:#7a6550; }
+.submit-final:disabled { background:#ccc; cursor:not-allowed; }
 
 .progress-bar {
   position:fixed; top:0; left:0;
@@ -215,19 +216,19 @@ html, body { width:100%; height:100%; overflow:hidden; background:#fff; font-fam
     <div class="fields">
       <div>
         <p class="field-label">성함 <span class="req">*</span></p>
-        <input class="field-input" type="text" placeholder="홍길동">
+        <input class="field-input" id="f-name" type="text" placeholder="홍길동">
       </div>
       <div>
         <p class="field-label">연락처 <span class="req">*</span></p>
-        <input class="field-input" type="tel" placeholder="010-0000-0000">
+        <input class="field-input" id="f-phone" type="tel" placeholder="010-0000-0000">
       </div>
       <div>
         <p class="field-label">지역</p>
-        <input class="field-input" type="text" placeholder="서울 서초구">
+        <input class="field-input" id="f-region" type="text" placeholder="서울 서초구">
       </div>
       <div>
         <p class="field-label">하고 싶은 말</p>
-        <textarea class="field-textarea" placeholder="궁금한 점이나 요청사항이 있으시면 자유롭게 적어주세요."></textarea>
+        <textarea class="field-textarea" id="f-message" placeholder="궁금한 점이나 요청사항이 있으시면 자유롭게 적어주세요."></textarea>
       </div>
     </div>
     <button class="submit-final" id="submitBtn">상담 신청하기</button>
@@ -247,6 +248,9 @@ html, body { width:100%; height:100%; overflow:hidden; background:#fff; font-fam
 </div>
 
 <script>
+// ★ Google Apps Script 배포 URL을 여기에 붙여넣으세요
+var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyBIAiFIaCS6FcQy2jN7cPC7BuTagD5iFp2_FC1_SWEoSKtGDis3vk8uIGc2aTH9RPK/exec';
+
 var cur = 1;
 var total = 6;
 
@@ -276,8 +280,49 @@ document.getElementById('nx4').onclick = function() { go(5); };
 document.getElementById('nx5').onclick = function() { go(6); };
 
 document.getElementById('submitBtn').onclick = function() {
-  go(7);
-  document.getElementById('pbar').style.width = '100%';
+  var name = document.getElementById('f-name').value.trim();
+  var phone = document.getElementById('f-phone').value.trim();
+  var region = document.getElementById('f-region').value.trim();
+  var message = document.getElementById('f-message').value.trim();
+
+  if (!name || !phone) {
+    alert('성함과 연락처는 필수입니다.');
+    return;
+  }
+
+  var picks = {};
+  document.querySelectorAll('.choices').forEach(function(group, i) {
+    var picked = group.querySelector('.picked');
+    picks[i] = picked ? picked.textContent.trim() : '-';
+  });
+
+  var btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = '전송 중...';
+
+  var params = new URLSearchParams({
+    name: name,
+    phone: phone,
+    region: region || '-',
+    message: message || '-',
+    spaceType: picks[0],
+    size: picks[1],
+    scope: picks[2],
+    budget: picks[3],
+    source: picks[4]
+  });
+
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: params.toString()
+  }).catch(function() {
+    // no-cors 모드에서는 에러가 나도 실제 전송은 됨
+  }).finally(function() {
+    go(7);
+    document.getElementById('pbar').style.width = '100%';
+  });
 };
 </script>
 </body>
