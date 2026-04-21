@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>상도 더샵 — JEONGDO</title>
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Noto+Serif+KR:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html,body{width:100%;height:100%;font-family:'Pretendard',sans-serif;background:#faf8f5;overflow:hidden}
+    :root{--brown:#8a7d6b;--text-dark:#2b2824;--text-mid:#6b6158;--text-muted:#a69e95}
+    .gc{display:flex;width:100%;height:100vh}
+    .sa{flex:1;position:relative;display:flex;background:#faf8f5}
+    .sp{flex:1;position:relative;overflow:hidden;background:#f0ece6;display:flex}
+    .sp.landscape{align-items:center;justify-content:center}
+    .sp.landscape img{width:100%;height:100%;object-fit:cover}
+    .sp.pair{gap:4px;align-items:stretch}
+    .sp.pair .pi{flex:1;overflow:hidden}
+    .sp.pair .pi img{width:100%;height:100%;object-fit:cover}
+    .st{width:30%;min-width:220px;max-width:320px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 3.5vw;background:#faf8f5;text-align:center}
+    .sc{font-size:14px;letter-spacing:4px;color:var(--text-dark);margin-bottom:20px;font-weight:400}
+    .sd{font-size:14px;font-weight:300;color:var(--text-mid);line-height:2.0}
+    .bp{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;margin-top:48px;font-family:'Pretendard',sans-serif;font-size:11px;letter-spacing:1px;color:var(--text-mid);border:1px solid rgba(0,0,0,0.12);background:none;cursor:pointer;transition:all 0.3s;white-space:nowrap}
+    .bp:hover{color:var(--text-dark);border-color:rgba(0,0,0,0.3);background:rgba(0,0,0,0.03)}
+    .bp svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5}
+    .ar{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.65);border:none;border-radius:50%;cursor:pointer;z-index:10;backdrop-filter:blur(8px);transition:background 0.3s}
+    .ar:hover{background:rgba(255,255,255,0.95)}
+    body:has(.lb.open) .ar,body:has(.lb.open) .ct,body:has(.lb.open) .pv{opacity:0!important;pointer-events:none}
+    .ar svg{width:18px;height:18px;stroke:var(--text-dark);fill:none;stroke-width:1.5}
+    .ap{left:20px}.an{right:20px}
+    .ct{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);font-size:11px;letter-spacing:3px;color:var(--text-muted);font-family:'Cormorant Garamond',serif;z-index:10}
+    .ts{width:80px;flex-shrink:0;background:transparent;border:none;overflow-y:auto;padding:8px 6px;display:flex;flex-direction:column;gap:4px;scroll-behavior:smooth}
+    .ts::-webkit-scrollbar{width:0}
+    .th{width:68px;height:48px;flex-shrink:0;overflow:hidden;cursor:pointer;opacity:0.35;transition:opacity 0.3s}
+    .th:hover{opacity:1}.th.active{opacity:0.8}
+    .th img{width:100%;height:100%;object-fit:cover;display:block}
+    .th.tp{display:flex;gap:1px}.th.tp img{width:50%}
+    .pv{position:fixed;pointer-events:none;z-index:100;opacity:0;transform:translateX(8px);transition:opacity 0.25s,transform 0.25s;box-shadow:-2px 4px 20px rgba(0,0,0,0.12)}
+    .pv.show{opacity:1;transform:translateX(0)}
+    .pv img{display:block;height:70px;width:auto;object-fit:cover}
+    .lb{display:none;position:fixed;inset:0;background:rgba(250,248,245,0.89);z-index:9999;align-items:center;justify-content:center;cursor:zoom-out;padding:40px 80px}
+    .lb.open{display:flex}
+    .lb img{max-width:100%;max-height:100%;object-fit:contain;box-shadow:0 6px 36px rgba(0,0,0,0.08)}
+    .lc{position:absolute;top:20px;right:24px;color:var(--text-mid);font-size:28px;background:none;border:none;cursor:pointer;transition:color 0.3s}
+    .lc:hover{color:var(--text-dark)}
+    .la{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.85);border:none;border-radius:50%;cursor:pointer;transition:all 0.3s;box-shadow:0 2px 12px rgba(0,0,0,0.08)}
+    .la:hover{background:#fff;box-shadow:0 4px 16px rgba(0,0,0,0.15)}
+    .la svg{width:22px;height:22px;stroke:var(--text-dark);fill:none;stroke-width:1.8}
+    .lp{left:160px}.ln{right:160px}
+    .lk{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);font-size:12px;letter-spacing:3px;color:var(--text-muted)}
+    @media(max-width:768px){.st{display:none}.ts{width:60px;padding:4px;gap:3px}.th{width:52px;height:38px}.pv img{height:50px}}
+  </style>
+</head>
+<body>
+<div class="gc">
+  <div class="sa">
+    <div class="sp landscape" id="pw">
+      <button class="ar ap" id="aPrev"><svg viewBox="0 0 22 22"><polyline points="14,3 6,11 14,19"/></svg></button>
+      <img id="ms" src="mid/proj3-21.jpg" alt="">
+      <div class="pi" id="pL" style="display:none"><img id="piL" src="" alt=""></div>
+      <div class="pi" id="pR" style="display:none"><img id="piR" src="" alt=""></div>
+      <button class="ar an" id="aNext"><svg viewBox="0 0 22 22"><polyline points="8,3 16,11 8,19"/></svg></button>
+      <div class="ct" id="counter">01 / 36</div>
+    </div>
+    <div class="st">
+      <div>
+        <p class="sc" id="sCat">상도 더샵</p>
+        <p class="sd" id="sDesc">동작구 상도동<br>아파트 · 34PY<br>2024</p>
+      </div>
+      <button class="bp" onclick="if(document.referrer&&document.referrer.includes(location.hostname)){history.back();}else{location.href='index.html';}">
+        <svg viewBox="0 0 14 14"><polyline points="9,2 3,7 9,12"/></svg>
+        다른 프로젝트 보기
+      </button>
+    </div>
+  </div>
+  <div class="ts" id="ts"></div>
+</div>
+<div class="pv" id="pv"><img id="pvI" src="" alt=""></div>
+<div class="lb" id="lb">
+  <button class="lc" id="lbC">×</button>
+  <button class="la lp" id="lbP"><svg viewBox="0 0 22 22"><polyline points="14,3 6,11 14,19"/></svg></button>
+  <img id="lbI" src="" alt="">
+  <button class="la ln" id="lbN"><svg viewBox="0 0 22 22"><polyline points="8,3 16,11 8,19"/></svg></button>
+  <div class="lk" id="lbK"></div>
+</div>
+<script>
+var slides=[{"type":"landscape","src":"proj3-21.jpg"},{"type":"landscape","src":"proj3-19.jpg"},{"type":"landscape","src":"proj3-22.jpg"},{"type":"landscape","src":"proj3-20.jpg"},{"type":"landscape","src":"proj3-39.jpg"},{"type":"landscape","src":"proj3-15.jpg"},{"type":"landscape","src":"proj3-16.jpg"},{"type":"landscape","src":"proj3-36.jpg"},{"type":"landscape","src":"proj3-30.jpg"},{"type":"landscape","src":"proj3-27.jpg"},{"type":"landscape","src":"proj3-34.jpg"},{"type":"landscape","src":"proj3-17.jpg"},{"type":"landscape","src":"proj3-18.jpg"},{"type":"landscape","src":"proj3-28.jpg"},{"type":"landscape","src":"proj3-32.jpg"},{"type":"landscape","src":"proj3-23.jpg"},{"type":"landscape","src":"proj3-31.jpg"},{"type":"landscape","src":"proj3-33.jpg"},{"type":"landscape","src":"proj3-29.jpg"},{"type":"landscape","src":"proj3-42.jpg"},{"type":"landscape","src":"proj3-43.jpg"},{"type":"landscape","src":"proj3-46.jpg"},{"type":"landscape","src":"proj3-12.jpg"},{"type":"landscape","src":"proj3-04.jpg"},{"type":"pair","src1":"proj3-44.jpg","src2":"proj3-26.jpg"},{"type":"pair","src1":"proj3-24.jpg","src2":"proj3-25.jpg"},{"type":"pair","src1":"proj3-07.jpg","src2":"proj3-35.jpg"},{"type":"pair","src1":"proj3-09.jpg","src2":"proj3-10.jpg"},{"type":"pair","src1":"proj3-45.jpg","src2":"proj3-47.jpg"},{"type":"pair","src1":"proj3-13.jpg","src2":"proj3-14.jpg"},{"type":"pair","src1":"proj3-08.jpg","src2":"proj3-38.jpg"},{"type":"pair","src1":"proj3-37.jpg","src2":"proj3-40.jpg"},{"type":"pair","src1":"proj3-11.jpg","src2":"proj3-41.jpg"},{"type":"pair","src1":"proj3-01.jpg","src2":"proj3-02.jpg"},{"type":"pair","src1":"proj3-03.jpg","src2":"proj3-05.jpg"},{"type":"pair","src1":"proj3-06.jpg","src2":"proj3-48.jpg"}];
+var cur=0,total=slides.length;
+var pw=document.getElementById('pw'),ms=document.getElementById('ms');
+var pL=document.getElementById('pL'),pR=document.getElementById('pR');
+var piL=document.getElementById('piL'),piR=document.getElementById('piR');
+var sCat=document.getElementById('sCat'),sDesc=document.getElementById('sDesc');
+var ct=document.getElementById('counter'),ts=document.getElementById('ts');
+var pv=document.getElementById('pv'),pvI=document.getElementById('pvI');
+function pad(n){return n<10?'0'+n:''+n}
+slides.forEach(function(s,i){
+  var d=document.createElement('div');
+  if(s.type==='pair'){d.className='th tp'+(i===0?' active':'');d.innerHTML='<img src="thumb/'+s.src1+'" loading="lazy"><img src="thumb/'+s.src2+'" loading="lazy">';}
+  else{d.className='th'+(i===0?' active':'');d.innerHTML='<img src="thumb/'+s.src+'" loading="lazy">';}
+  d.addEventListener('mouseenter',function(){pvI.src='mid/'+(s.type==='pair'?s.src1:s.src);pv.classList.add('show');posP(d);});
+  d.addEventListener('mouseleave',function(){pv.classList.remove('show');});
+  d.addEventListener('click',function(){goTo(i);});
+  ts.appendChild(d);
+});
+function posP(el){var r=el.getBoundingClientRect(),h=70,t=r.top+r.height/2-h/2;if(t<10)t=10;if(t+h>window.innerHeight-10)t=window.innerHeight-h-10;pv.style.top=t+'px';pv.style.right=(window.innerWidth-r.left+6)+'px';}
+function show(s){if(s.type==='landscape'){pw.className='sp landscape';ms.style.display='block';ms.src='mid/'+s.src;pL.style.display='none';pR.style.display='none';}else{pw.className='sp pair';ms.style.display='none';pL.style.display='block';pR.style.display='block';piL.src='mid/'+s.src1;piR.src='mid/'+s.src2;}}
+function goTo(i){cur=i;show(slides[i]);ct.textContent=pad(i+1)+' / '+pad(total);document.querySelectorAll('.th').forEach(function(t,j){t.classList.toggle('active',j===i);});ts.children[i].scrollIntoView({block:'nearest',behavior:'smooth'});}
+document.getElementById('aPrev').onclick=function(e){e.stopPropagation();goTo((cur-1+total)%total);};
+document.getElementById('aNext').onclick=function(e){e.stopPropagation();goTo((cur+1)%total);};
+var lb=document.getElementById('lb'),lbI=document.getElementById('lbI'),lbK=document.getElementById('lbK');
+pw.onclick=function(e){if(e.target.closest('.ar'))return;var s=slides[cur];lbI.src=s.type==='landscape'?s.src:s.src1;lbK.textContent=pad(cur+1)+' / '+pad(total);lb.classList.add('open');};
+document.getElementById('lbC').onclick=function(){lb.classList.remove('open');};
+lb.onclick=function(e){if(e.target===lb)lb.classList.remove('open');};
+document.getElementById('lbP').onclick=function(e){e.stopPropagation();cur=(cur-1+total)%total;var s=slides[cur];lbI.src=s.type==='landscape'?s.src:s.src1;lbK.textContent=pad(cur+1)+' / '+pad(total);goTo(cur);};
+document.getElementById('lbN').onclick=function(e){e.stopPropagation();cur=(cur+1)%total;var s=slides[cur];lbI.src=s.type==='landscape'?s.src:s.src1;lbK.textContent=pad(cur+1)+' / '+pad(total);goTo(cur);};
+document.addEventListener('keydown',function(e){if(lb.classList.contains('open')){if(e.key==='Escape')lb.classList.remove('open');else if(e.key==='ArrowRight')document.getElementById('lbN').click();else if(e.key==='ArrowLeft')document.getElementById('lbP').click();}else{if(e.key==='ArrowRight')goTo((cur+1)%total);else if(e.key==='ArrowLeft')goTo((cur-1+total)%total);}});
+</script>
+</body></html>

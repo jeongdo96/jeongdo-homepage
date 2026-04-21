@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>갤러리 데모 — 상도 더샵</title>
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Noto+Serif+KR:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 100%; height: 100%; font-family: 'Pretendard', sans-serif; background: #faf8f5; overflow: hidden; }
+
+    :root {
+      --brown: #8a7d6b;
+      --text-dark: #2b2824;
+      --text-mid: #6b6158;
+      --text-muted: #a69e95;
+    }
+
+    .gallery-container { display: flex; width: 100%; height: 100vh; }
+
+    /* ── 왼쪽: 메인 슬라이드 (기존) ── */
+    .slide-area { flex: 1; position: relative; display: flex; background: #faf8f5; }
+
+    .slide-photo {
+      flex: 1; position: relative; overflow: hidden;
+      background: #f0ece6; display: flex;
+    }
+    .slide-photo.landscape { align-items: center; justify-content: center; }
+    .slide-photo.landscape img { width: 100%; height: 100%; object-fit: cover; }
+    .slide-photo.pair { gap: 4px; align-items: stretch; }
+    .slide-photo.pair .pair-img { flex: 1; overflow: hidden; }
+    .slide-photo.pair .pair-img img { width: 100%; height: 100%; object-fit: cover; }
+
+    .slide-text {
+      width: 30%; min-width: 220px; max-width: 320px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 0 3.5vw;
+      background: #faf8f5;
+      text-align: center;
+    }
+    .slide-cat { font-size: 14px; letter-spacing: 4px; color: var(--text-dark); margin-bottom: 20px; font-weight: 400; }
+    .slide-desc { font-size: 14px; font-weight: 300; color: var(--text-mid); line-height: 2.0; }
+
+    .slide-arrow {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(255,255,255,0.65); border: none; border-radius: 50%;
+      cursor: pointer; z-index: 10; backdrop-filter: blur(8px);
+      transition: background 0.3s, opacity 0.2s;
+    }
+    body:has(.lightbox.open) .slide-arrow,
+    body:has(.lightbox.open) .slide-counter,
+    body:has(.lightbox.open) .preview { opacity: 0 !important; pointer-events: none; }
+    .slide-arrow:hover { background: rgba(255,255,255,0.95); }
+    .slide-arrow svg { width: 18px; height: 18px; stroke: var(--text-dark); fill: none; stroke-width: 1.5; }
+    .arrow-prev { left: 20px; }
+    .arrow-next { right: 20px; }
+
+    .slide-counter {
+      position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
+      font-size: 11px; letter-spacing: 3px; color: var(--text-muted);
+      font-family: 'Cormorant Garamond', serif; z-index: 10;
+    }
+
+    .btn-project {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 20px;
+      margin-top: 48px;
+      font-family: 'Pretendard', sans-serif;
+      font-size: 11px; letter-spacing: 1px; color: var(--text-mid);
+      border: 1px solid rgba(0,0,0,0.12); background: none;
+      cursor: pointer; transition: all 0.3s;
+      white-space: nowrap;
+    }
+    .btn-project:hover {
+      color: var(--text-dark);
+      border-color: rgba(0,0,0,0.3);
+      background: rgba(0,0,0,0.03);
+    }
+    .btn-project svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.5; }
+
+    /* ── 오른쪽: 썸네일 스트립 ── */
+    .thumb-strip {
+      width: 80px; flex-shrink: 0;
+      background: transparent; border: none;
+      overflow-y: auto; padding: 8px 6px;
+      display: flex; flex-direction: column; gap: 4px;
+      scroll-behavior: smooth;
+    }
+    .thumb-strip::-webkit-scrollbar { width: 0; }
+
+    .thumb {
+      width: 68px; height: 48px; flex-shrink: 0;
+      overflow: hidden; cursor: pointer;
+      opacity: 0.35;
+      transition: opacity 0.3s ease;
+    }
+    .thumb:hover { opacity: 1; }
+    .thumb.active { opacity: 0.8; }
+    .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .thumb.thumb-pair { display: flex; gap: 1px; }
+    .thumb.thumb-pair img { width: 50%; }
+
+    /* ── hover 프리뷰 ── */
+    .preview {
+      position: fixed; pointer-events: none; z-index: 100;
+      opacity: 0; transform: translateX(8px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      box-shadow: -2px 4px 20px rgba(0,0,0,0.12);
+    }
+    .preview.show { opacity: 1; transform: translateX(0); }
+    .preview img { display: block; height: 70px; width: auto; object-fit: cover; }
+
+    /* ── 라이트박스 ── */
+    .lightbox {
+      display: none; position: fixed; inset: 0;
+      background: rgba(250,248,245,0.89); z-index: 9999;
+      align-items: center; justify-content: center; cursor: zoom-out;
+      padding: 40px 80px;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img { max-width: 100%; max-height: 100%; object-fit: contain; box-shadow: 0 6px 36px rgba(0,0,0,0.08); }
+    .lb-close {
+      position: absolute; top: 20px; right: 24px;
+      color: var(--text-mid); font-size: 28px;
+      background: none; border: none; cursor: pointer;
+      transition: color 0.3s;
+    }
+    .lb-close:hover { color: var(--text-dark); }
+    .lb-arrow {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;
+      background: rgba(255,255,255,0.85); border: none; border-radius: 50%;
+      cursor: pointer; transition: all 0.3s;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+    .lb-arrow:hover { background: #fff; box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
+    .lb-arrow svg { width: 22px; height: 22px; stroke: var(--text-dark); fill: none; stroke-width: 1.8; }
+    .lb-prev { left: 160px; }
+    .lb-next { right: 160px; }
+    .lb-counter {
+      position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
+      font-size: 12px; letter-spacing: 3px; color: var(--text-muted);
+    }
+
+    @media (max-width: 768px) {
+      .slide-text { display: none; }
+      .thumb-strip { width: 60px; padding: 4px; gap: 3px; }
+      .thumb { width: 52px; height: 38px; }
+      .preview img { height: 220px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="gallery-container">
+    <div class="slide-area">
+      <div class="slide-photo landscape" id="photoWrap">
+        <button class="slide-arrow arrow-prev" id="aPrev"><svg viewBox="0 0 22 22"><polyline points="14,3 6,11 14,19"/></svg></button>
+        <img id="mainSingle" src="mid/proj3-21.jpg" alt="">
+        <div class="pair-img" id="pairL" style="display:none"><img id="pairImgL" src="" alt=""></div>
+        <div class="pair-img" id="pairR" style="display:none"><img id="pairImgR" src="" alt=""></div>
+        <button class="slide-arrow arrow-next" id="aNext"><svg viewBox="0 0 22 22"><polyline points="8,3 16,11 8,19"/></svg></button>
+        <div class="slide-counter" id="counter">01 / 36</div>
+      </div>
+      <div class="slide-text">
+        <div>
+          <p class="slide-cat" id="sCat">거실 · LIVING ROOM</p>
+          <p class="slide-desc" id="sDesc">원형 파티션과 간접조명이<br>공간에 깊이를 더합니다.<br>절제된 비움의 미학.</p>
+        </div>
+        <button class="btn-project" onclick="if(document.referrer&&document.referrer.includes(location.hostname)){history.back();}else{location.href='index.html';}">
+          <svg viewBox="0 0 14 14"><polyline points="9,2 3,7 9,12"/></svg>
+          다른 프로젝트 보기
+        </button>
+      </div>
+    </div>
+
+    <div class="thumb-strip" id="thumbStrip"></div>
+  </div>
+
+  <!-- hover 프리뷰 -->
+  <div class="preview" id="preview"><img id="previewImg" src="" alt=""></div>
+
+  <!-- 라이트박스 -->
+  <div class="lightbox" id="lb">
+    <button class="lb-close" id="lbClose">×</button>
+    <button class="lb-arrow lb-prev" id="lbPrev"><svg viewBox="0 0 22 22"><polyline points="14,3 6,11 14,19"/></svg></button>
+    <img id="lbImg" src="" alt="">
+    <button class="lb-arrow lb-next" id="lbNext"><svg viewBox="0 0 22 22"><polyline points="8,3 16,11 8,19"/></svg></button>
+    <div class="lb-counter" id="lbCounter"></div>
+  </div>
+
+  <script>
+    var slides = [
+      { type:'landscape', src:'proj3-21.jpg', cat:'거실 · LIVING ROOM', desc:'원형 파티션과 간접조명이<br>공간에 깊이를 더합니다.<br>절제된 비움의 미학.' },
+      { type:'landscape', src:'proj3-19.jpg', cat:'거실 · LIVING ROOM', desc:'원목 수납장과 원형 파티션이<br>거실의 중심을 잡아줍니다.' },
+      { type:'landscape', src:'proj3-22.jpg', cat:'거실 · LIVING ROOM', desc:'측면에서 바라본 거실.<br>파티션 너머 발코니의 빛.' },
+      { type:'pair', src1:'proj3-44.jpg', src2:'proj3-26.jpg', cat:'거실 · LIVING ROOM', desc:'원형 파티션 너머로<br>도시의 풍경이 들어옵니다.' },
+      { type:'landscape', src:'proj3-20.jpg', cat:'거실 · LIVING ROOM', desc:'빛이 머무는 거실.<br>자연광이 원목 위를 지나며<br>공간에 온기를 더합니다.' },
+      { type:'pair', src1:'proj3-24.jpg', src2:'proj3-25.jpg', cat:'거실 · 니치 디테일', desc:'원목 니치와 간접조명.<br>빛이 소재의 결을 따라 흐릅니다.' },
+      { type:'landscape', src:'proj3-39.jpg', cat:'발코니 · BALCONY', desc:'파티션과 니치의 만남.<br>원형 창이 바깥 세상을 담습니다.' },
+      { type:'pair', src1:'proj3-07.jpg', src2:'proj3-35.jpg', cat:'현관 · 디테일', desc:'원형 거울과 원목 니치.<br>집의 첫 인상.' },
+      { type:'landscape', src:'proj3-15.jpg', cat:'거실 · LIVING ROOM', desc:'원목 니치 속 꽃병 하나.<br>비워둔 벽이 가장 아름다운 장식.' },
+      { type:'landscape', src:'proj3-16.jpg', cat:'거실 · LIVING ROOM', desc:'같은 공간, 다른 빛.' },
+      { type:'landscape', src:'proj3-36.jpg', cat:'주방 · KITCHEN', desc:'화이트 하부장과 원목 상부장.<br>간접조명 아래 깔끔한 동선.' },
+      { type:'landscape', src:'proj3-30.jpg', cat:'거실 · LIVING ROOM', desc:'화이트 수납장과 원목 패널.<br>간접조명이 길을 만듭니다.' },
+      { type:'pair', src1:'proj3-09.jpg', src2:'proj3-10.jpg', cat:'현관 · ENTRANCE', desc:'복도 끝 현관문까지.<br>원목 패널이 이어집니다.' },
+      { type:'pair', src1:'proj3-45.jpg', src2:'proj3-47.jpg', cat:'거실 · 디테일', desc:'거울에 비친 니치.<br>반사가 만드는 또 하나의 풍경.' },
+      { type:'landscape', src:'proj3-27.jpg', cat:'발코니 · BALCONY', desc:'발코니에서 바라본 거실.' },
+      { type:'landscape', src:'proj3-34.jpg', cat:'발코니 · BALCONY', desc:'발코니 전경.<br>원목 천장과 수납.' },
+      { type:'landscape', src:'proj3-17.jpg', cat:'거실 · LIVING ROOM', desc:'빛의 온도가 달라지는 오후.' },
+      { type:'landscape', src:'proj3-18.jpg', cat:'거실 · LIVING ROOM', desc:'자연광 아래 소재의 결.' },
+      { type:'landscape', src:'proj3-28.jpg', cat:'거실 · LIVING ROOM', desc:'주방 방향에서 바라본 거실.' },
+      { type:'landscape', src:'proj3-32.jpg', cat:'거실 · LIVING ROOM', desc:'반대편에서 바라본 전경.' },
+      { type:'landscape', src:'proj3-23.jpg', cat:'거실 · LIVING ROOM', desc:'다양한 앵글의 정돈된 풍경.' },
+      { type:'landscape', src:'proj3-31.jpg', cat:'거실 · LIVING ROOM', desc:'원목과 화이트의 균형.' },
+      { type:'landscape', src:'proj3-33.jpg', cat:'거실 · LIVING ROOM', desc:'어디서 보아도 정돈된 풍경.' },
+      { type:'landscape', src:'proj3-29.jpg', cat:'복도 · HALLWAY', desc:'빛이 흐르는 길.' },
+      { type:'landscape', src:'proj3-42.jpg', cat:'거실 · LIVING ROOM', desc:'각 방향에서 바라본 공간.' },
+      { type:'landscape', src:'proj3-43.jpg', cat:'거실 · LIVING ROOM', desc:'마감의 완성도.' },
+      { type:'landscape', src:'proj3-46.jpg', cat:'발코니 · BALCONY', desc:'파티션 너머 발코니의 빛.' },
+      { type:'landscape', src:'proj3-12.jpg', cat:'현관 · ENTRANCE', desc:'현관에서 바라본 풍경.' },
+      { type:'pair', src1:'proj3-13.jpg', src2:'proj3-14.jpg', cat:'디테일 · DETAIL', desc:'원목 마감의 다운라이트.' },
+      { type:'pair', src1:'proj3-08.jpg', src2:'proj3-38.jpg', cat:'디테일 · DETAIL', desc:'석재 디딤돌과 원목의 만남.' },
+      { type:'pair', src1:'proj3-37.jpg', src2:'proj3-40.jpg', cat:'디테일 · DETAIL', desc:'발코니 입구의 디테일.' },
+      { type:'pair', src1:'proj3-11.jpg', src2:'proj3-41.jpg', cat:'복도 · 디테일', desc:'복도의 원목 패널과 마감.' },
+      { type:'landscape', src:'proj3-04.jpg', cat:'욕실 · BATHROOM', desc:'간접조명 아래 욕실.' },
+      { type:'pair', src1:'proj3-01.jpg', src2:'proj3-02.jpg', cat:'욕실 · BATHROOM', desc:'다크 그레이 타일과 유리 파티션.' },
+      { type:'pair', src1:'proj3-03.jpg', src2:'proj3-05.jpg', cat:'욕실 · BATHROOM', desc:'세면대와 샤워 공간.' },
+      { type:'pair', src1:'proj3-06.jpg', src2:'proj3-48.jpg', cat:'디테일 · DETAIL', desc:'스위치 하나까지 톤을 맞추었습니다.' }
+    ];
+
+    var cur = 0;
+    var wrap = document.getElementById('photoWrap');
+    var mainSingle = document.getElementById('mainSingle');
+    var pairL = document.getElementById('pairL');
+    var pairR = document.getElementById('pairR');
+    var pairImgL = document.getElementById('pairImgL');
+    var pairImgR = document.getElementById('pairImgR');
+    var sCat = document.getElementById('sCat');
+    var sDesc = document.getElementById('sDesc');
+    var counterEl = document.getElementById('counter');
+    var strip = document.getElementById('thumbStrip');
+    var preview = document.getElementById('preview');
+    var previewImg = document.getElementById('previewImg');
+    var total = slides.length;
+
+    function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+    // 썸네일 생성
+    slides.forEach(function(s, i) {
+      var div = document.createElement('div');
+      if (s.type === 'pair') {
+        div.className = 'thumb thumb-pair' + (i === 0 ? ' active' : '');
+        div.innerHTML = '<img src="thumb/' + s.src1 + '" loading="lazy"><img src="thumb/' + s.src2 + '" loading="lazy">';
+      } else {
+        div.className = 'thumb' + (i === 0 ? ' active' : '');
+        div.innerHTML = '<img src="thumb/' + s.src + '" loading="lazy">';
+      }
+
+      // hover 프리뷰
+      div.addEventListener('mouseenter', function() {
+        var src = s.type === 'pair' ? s.src1 : s.src;
+        previewImg.src = 'mid/' + src;
+        preview.classList.add('show');
+        posPreview(div);
+      });
+      div.addEventListener('mouseleave', function() {
+        preview.classList.remove('show');
+      });
+
+      // 클릭 → 해당 슬라이드로 이동
+      div.addEventListener('click', function() { goTo(i); });
+
+      strip.appendChild(div);
+    });
+
+    function posPreview(el) {
+      var rect = el.getBoundingClientRect();
+      var h = 70;
+      var top = rect.top + rect.height / 2 - h / 2;
+      if (top < 10) top = 10;
+      if (top + h > window.innerHeight - 10) top = window.innerHeight - h - 10;
+      preview.style.top = top + 'px';
+      preview.style.right = (window.innerWidth - rect.left + 6) + 'px';
+    }
+
+    function showSlide(s) {
+      if (s.type === 'landscape') {
+        wrap.className = 'slide-photo landscape';
+        mainSingle.style.display = 'block';
+        mainSingle.src = 'mid/' + s.src;
+        pairL.style.display = 'none';
+        pairR.style.display = 'none';
+      } else {
+        wrap.className = 'slide-photo pair';
+        mainSingle.style.display = 'none';
+        pairL.style.display = 'block';
+        pairR.style.display = 'block';
+        pairImgL.src = 'mid/' + s.src1;
+        pairImgR.src = 'mid/' + s.src2;
+      }
+    }
+
+    function goTo(i) {
+      cur = i;
+      showSlide(slides[i]);
+      sCat.textContent = slides[i].cat;
+      sDesc.innerHTML = slides[i].desc;
+      counterEl.textContent = pad(i + 1) + ' / ' + pad(total);
+      document.querySelectorAll('.thumb').forEach(function(t, j) {
+        t.classList.toggle('active', j === i);
+      });
+      strip.children[i].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+
+    document.getElementById('aPrev').onclick = function(e) { e.stopPropagation(); goTo((cur - 1 + total) % total); };
+    document.getElementById('aNext').onclick = function(e) { e.stopPropagation(); goTo((cur + 1) % total); };
+
+    // 메인 사진 클릭 → 라이트박스
+    var lb = document.getElementById('lb');
+    var lbImg = document.getElementById('lbImg');
+    var lbCounter = document.getElementById('lbCounter');
+
+    wrap.onclick = function(e) {
+      if (e.target.closest('.slide-arrow')) return;
+      var s = slides[cur];
+      lbImg.src = s.type === 'landscape' ? s.src : s.src1;
+      lbCounter.textContent = pad(cur + 1) + ' / ' + pad(total);
+      lb.classList.add('open');
+    };
+
+    document.getElementById('lbClose').onclick = function() { lb.classList.remove('open'); };
+    lb.onclick = function(e) { if (e.target === lb) lb.classList.remove('open'); };
+    document.getElementById('lbPrev').onclick = function(e) {
+      e.stopPropagation();
+      cur = (cur - 1 + total) % total;
+      var s = slides[cur];
+      lbImg.src = s.type === 'landscape' ? s.src : s.src1;
+      lbCounter.textContent = pad(cur + 1) + ' / ' + pad(total);
+      goTo(cur);
+    };
+    document.getElementById('lbNext').onclick = function(e) {
+      e.stopPropagation();
+      cur = (cur + 1) % total;
+      var s = slides[cur];
+      lbImg.src = s.type === 'landscape' ? s.src : s.src1;
+      lbCounter.textContent = pad(cur + 1) + ' / ' + pad(total);
+      goTo(cur);
+    };
+
+    document.addEventListener('keydown', function(e) {
+      if (lb.classList.contains('open')) {
+        if (e.key === 'Escape') lb.classList.remove('open');
+        else if (e.key === 'ArrowRight') document.getElementById('lbNext').click();
+        else if (e.key === 'ArrowLeft') document.getElementById('lbPrev').click();
+      } else {
+        if (e.key === 'ArrowRight') goTo((cur + 1) % total);
+        else if (e.key === 'ArrowLeft') goTo((cur - 1 + total) % total);
+      }
+    });
+  </script>
+</body>
+</html>
