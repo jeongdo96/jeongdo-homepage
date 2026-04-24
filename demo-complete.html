@@ -1,0 +1,3020 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="naver-site-verification" content="8149e8aa3e99a2b99c83cb17bcdebd653001af6b" />
+  <title>디자인스튜디오 정도 | 인테리어 디자인 전문</title>
+  <meta name="description" content="디자인스튜디오 정도 — 공간의 방향을 설계합니다. 주거·상업 인테리어 디자인 전문, 정도 인테리어, designjeongdo" />
+  <meta name="keywords" content="디자인스튜디오정도, 정도인테리어, 정도 인테리어, 인테리어 디자인, 주거 인테리어, 상업 인테리어" />
+  <meta property="og:title" content="디자인스튜디오 정도" />
+  <meta property="og:description" content="공간의 방향을 설계합니다. 정도 인테리어 디자인 전문" />
+  <meta property="og:url" content="https://designjeongdo.co.kr" />
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+KR:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    button, a, [role="button"] { outline: none; -webkit-tap-highlight-color: transparent; }
+    * { -webkit-tap-highlight-color: transparent; }
+
+    html, body {
+      width: 100%; height: 100%;
+      overflow: hidden;
+      font-family: 'Pretendard', -apple-system, sans-serif;
+      background: #1a1815;
+      cursor: none;
+    }
+
+    #cursor-dot {
+      position: fixed;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      border: 2px solid rgba(92,74,58,0.7);
+      background: rgba(92,74,58,0.08);
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s, height 0.2s, border-color 0.2s;
+    }
+    #cursor-ring { display: none; }
+
+    :root {
+      --dark: #1a1815;
+      --dark-2: #2b2824;
+      --beige: #dcd7cf;
+      --beige-light: #f0ebe4;
+      --brown: #8a7d6b;
+      --white: #f5f0eb;
+      --text-dark: #2b2824;
+      --text-mid: #6b6158;
+    }
+
+    #app {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    /* ── SECTIONS ── */
+    .section {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+      background: #fff;
+    }
+    .section.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* ── PROGRESS DOTS ── */
+    #progress {
+      position: fixed;
+      top: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 100;
+      transition: opacity 0.5s;
+    }
+    #progress.hidden { opacity: 0; pointer-events: none; }
+
+    .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: rgba(245,240,235,0.2);
+      transition: all 0.4s ease;
+      cursor: default;
+    }
+    .dot.visited { background: rgba(245,240,235,0.45); cursor: pointer; }
+    .dot.active { background: #f5f0eb; width: 22px; border-radius: 3px; }
+    .dot.dark-mode.visited { background: rgba(43,40,36,0.35); }
+    .dot.dark-mode.active { background: var(--text-dark); }
+
+    /* ── NEXT BUTTON ── */
+    #next-btn {
+      position: fixed;
+      bottom: 52px;
+      left: 50%;
+      transform: translateX(-50%) translateY(10px);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 100;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      transition: opacity 0.4s, transform 0.4s;
+    }
+    #next-btn.visible {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateX(-50%) translateY(0);
+    }
+    .btn-label {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 17px;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      transition: color 0.4s;
+    }
+    #next-btn.light .btn-label { color: #8a7560; }
+    #next-btn.dark .btn-label { color: #8a7560; }
+    .btn-label {
+      padding: 8px 16px;
+      border: 1px solid transparent;
+      transition: all 0.4s ease;
+    }
+    /* 어두운 배경: 흰색으로 */
+    #next-btn.light:hover .btn-label {
+      color: #fff;
+    }
+    /* 밝은 배경: 진한 차콜로 */
+    #next-btn.dark:hover .btn-label {
+      color: #2b2824;
+    }
+    .btn-hint {
+      font-family: 'Pretendard', sans-serif;
+      font-size: 8px;
+      letter-spacing: 0.3em;
+      color: rgba(138,117,96,0.3);
+      margin-top: 4px;
+      transition: color 0.4s;
+    }
+    #next-btn:hover .btn-hint { color: rgba(92,74,58,0.5); }
+
+    .btn-arrow {
+      width: 1px;
+      height: 36px;
+      position: relative;
+      overflow: hidden;
+    }
+    #next-btn.light .btn-arrow { background: rgba(138,117,96,0.2); }
+    #next-btn.dark .btn-arrow { background: rgba(138,117,96,0.2); }
+
+    .btn-arrow::after {
+      content: '';
+      position: absolute;
+      top: -100%;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(138,117,96,0.5);
+      animation: lineFlow 2s ease-in-out infinite;
+    }
+
+    @keyframes lineFlow {
+      0%   { top: -100%; }
+      100% { top: 100%; }
+    }
+
+    /* ── 모바일 프로젝트 바 (PC에서 숨김) ── */
+    .s4-mobile-bar { display: none; }
+
+    /* ── 모바일 스크롤 인디케이터 — 미니멀 세로 라인 ── */
+    .scroll-hint {
+      display: none;
+      position: fixed;
+      left: 14px;
+      top: 80px;
+      bottom: 80px;
+      z-index: 55;
+      pointer-events: none;
+      mix-blend-mode: multiply;
+      opacity: 0.65;
+      transition: opacity 0.6s;
+    }
+    .scroll-hint-track {
+      position: absolute;
+      top: 0; bottom: 0; left: 0;
+      width: 1px;
+      background: rgba(138,117,96,0.3);
+    }
+    .scroll-hint-progress {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1px;
+      height: 0%;
+      background: #8a7560;
+      transition: height 0.9s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .scroll-hint-thumb { display: none; }
+    .scroll-hint.hide { opacity: 0; }
+
+    /* ── 모바일 라이트박스 ── */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #f0ebe4;
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox-bg { display: none; }
+    .lightbox-img-wrap {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 16px;
+      position: relative;
+      z-index: 1;
+    }
+    .lightbox-img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      user-select: none;
+      -webkit-user-select: none;
+      box-shadow: 0 8px 32px rgba(43,40,36,0.12);
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.8);
+      border: none;
+      border-radius: 50%;
+      color: #5c4a3a;
+      font-size: 22px;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      z-index: 2;
+    }
+    .lightbox-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.75);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      z-index: 2;
+    }
+    .lightbox-arrow svg {
+      width: 20px;
+      height: 20px;
+      stroke: #5c4a3a;
+      stroke-width: 1.8;
+      fill: none;
+    }
+    .lightbox-prev { left: 12px; }
+    .lightbox-next { right: 12px; }
+    .lightbox-counter {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Pretendard', sans-serif;
+      font-size: 11px;
+      color: #8a7560;
+      letter-spacing: 0.25em;
+      font-weight: 400;
+    }
+
+    /* ── 모바일 전용 줄바꿈 ── */
+    br.m-br { display: none; }
+
+    /* ── 섹션 로고 ── */
+    .section-logo {
+      position: absolute;
+      top: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 400;
+      letter-spacing: 0.45em;
+      color: #8a7560;
+    }
+
+    /* ── 4페이지 버튼 강조 ── */
+    #next-btn.on-project {
+      left: calc(42% - 6vw - 20px);
+      transform: none;
+      bottom: 48px;
+    }
+    #prev-btn.on-project {
+      left: 6vw;
+      bottom: 48px;
+    }
+    #next-btn.on-project .btn-label {
+      color: #8a7560;
+      background: none;
+      border-color: transparent;
+      padding: 0;
+      font-size: 14px;
+      letter-spacing: 0.15em;
+    }
+    #prev-btn.on-project .prev-label {
+      color: #8a7560;
+      background: none;
+      border-color: transparent;
+      padding: 0;
+      font-size: 13px;
+    }
+    #next-btn.on-project .btn-arrow,
+    #prev-btn.on-project .prev-arrow {
+      height: 20px;
+    }
+    #next-btn.on-project:hover .btn-label,
+    #prev-btn.on-project:hover .prev-label {
+      color: #2b2824;
+      background: none;
+      border-color: transparent;
+    }
+
+    /* ── PREV BUTTON ── */
+    #prev-btn {
+      position: fixed;
+      bottom: 52px;
+      left: 6vw;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 100;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      transition: opacity 0.6s, transform 0.6s;
+      transform: translateY(10px);
+    }
+    #prev-btn.visible {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateY(0);
+    }
+    .prev-label {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 13px;
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      color: #8a7560;
+      transition: all 0.4s ease;
+      padding: 8px 16px;
+      border: 1px solid transparent;
+    }
+    #prev-btn:hover .prev-label {
+      color: #fff;
+      background: #8a7560;
+      border-color: #8a7560;
+    }
+    #prev-btn.dark-mode .prev-label { color: #8a7560; }
+    #prev-btn.dark-mode:hover .prev-label {
+      color: #fff;
+      background: #8a7560;
+      border-color: #8a7560;
+    }
+    .prev-arrow {
+      width: 1px;
+      height: 24px;
+      position: relative;
+      overflow: hidden;
+      background: rgba(138,117,96,0.2);
+      transition: background 0.4s;
+    }
+    #prev-btn:hover .prev-arrow {
+      background: rgba(138,117,96,0.5);
+    }
+    .prev-arrow::after {
+      content: '';
+      position: absolute;
+      bottom: -100%;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(138,117,96,0.5);
+      animation: prevFlow 2s ease-in-out infinite;
+    }
+    #prev-btn:hover .prev-arrow::after {
+      background: #8a7560;
+    }
+    @keyframes prevFlow {
+      0%   { bottom: -100%; }
+      100% { bottom: 100%; }
+    }
+
+    @media (max-width: 768px) {
+      #prev-btn { left: 24px; bottom: 36px; }
+      .prev-label { font-size: 11px; }
+      .prev-arrow { height: 18px; }
+    }
+
+    /* ════════════════════════════
+       SECTION 1 — HERO
+    ════════════════════════════ */
+    #s1 {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 10vh;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(rgba(255,255,250,0.15), rgba(255,255,250,0.1)),
+        url('hero-wide.jpg')
+        center / cover no-repeat;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 0 32px;
+    }
+
+    .hero-eyebrow {
+      font-size: 10px;
+      letter-spacing: 0.45em;
+      color: rgba(220,215,207,0.55);
+      font-weight: 300;
+      font-family: 'Pretendard', sans-serif;
+      margin-bottom: 44px;
+      opacity: 0;
+      animation: fadeUp 1s ease 0.5s forwards;
+    }
+
+    .hero-logo {
+      position: absolute;
+      top: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 400;
+      letter-spacing: 0.45em;
+      color: #5c4a3a;
+    }
+
+    .hero-title {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(14.4px, 1.92vw, 28.8px);
+      font-weight: 400;
+      color: #5c4a3a;
+      line-height: 1;
+      letter-spacing: 0.16em;
+      white-space: nowrap;
+      opacity: 0;
+      animation: fadeOnly 3s ease 1.2s forwards;
+    }
+
+    @keyframes fadeOnly {
+      0%   { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    .hero-rule {
+      width: 1px;
+      height: 36px;
+      background: rgba(138,125,107,0.6);
+      margin: 36px auto;
+      opacity: 0;
+      animation: fadeUp 1s ease 1.25s forwards;
+    }
+
+    .hero-caption {
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      color: rgba(245,240,235,0.25);
+      font-weight: 300;
+      font-family: 'Pretendard', sans-serif;
+      opacity: 0;
+      animation: fadeUp 1s ease 1.45s forwards;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Hero 전용 CTA 버튼 ── */
+    #hero-cta {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(10px);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 100;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      transition: opacity 1s, transform 1s;
+    }
+    #hero-cta .cta-text {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 17px;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      color: #8a7560;
+      transition: color 0.4s;
+    }
+    #hero-cta .cta-line {
+      width: 1px;
+      height: 36px;
+      background: rgba(138,117,96,0.2);
+      position: relative;
+      overflow: hidden;
+    }
+    #hero-cta .cta-line::after {
+      content: '';
+      position: absolute;
+      top: -100%;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(138,117,96,0.5);
+      animation: ctaFlow 2s ease-in-out infinite;
+    }
+    @keyframes ctaFlow {
+      0%   { top: -100%; }
+      100% { top: 100%; }
+    }
+    .cta-hint {
+      font-family: 'Pretendard', sans-serif;
+      font-size: 8px;
+      letter-spacing: 0.3em;
+      color: rgba(138,117,96,0.35);
+      margin-top: 4px;
+      transition: color 0.4s;
+    }
+    #hero-cta:hover .cta-hint { color: rgba(255,255,255,0.5); }
+    .cta-text {
+      padding: 8px 16px;
+      border: 1px solid transparent;
+      transition: all 0.4s ease;
+    }
+    #hero-cta:hover .cta-text {
+      color: #fff;
+    }
+    #hero-cta:hover .cta-line {
+      background: rgba(255,255,255,0.3);
+    }
+    #hero-cta:hover .cta-line::after {
+      background: rgba(255,255,255,0.8);
+    }
+    #hero-cta.visible {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ════════════════════════════
+       SECTION 2 — PHILOSOPHY
+    ════════════════════════════ */
+    #s2 { background: #ffffff; }
+
+    .scroll-wrap {
+      height: 100%;
+      overflow-y: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .scroll-wrap::-webkit-scrollbar { display: none; }
+
+    .s2-layout {
+      height: 100%;
+      display: flex;
+      font-family: 'Noto Serif KR', serif;
+    }
+
+    .s2-left {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 4rem 0 4rem 8vw;
+    }
+
+    .s2-vgroup {
+      display: flex;
+      flex-direction: row;
+      gap: 5.5rem;
+      align-items: flex-start;
+    }
+
+    .s2-tag-box { display: flex; flex-direction: column; align-items: center; gap: 12px; flex-shrink: 0; }
+    .s2-tag-hanja { font-size: 48px; color: #111; font-weight: 200; writing-mode: vertical-lr; letter-spacing: 0.2em; }
+    .s2-tag-kr { writing-mode: vertical-lr; font-size: 11px; color: #666; letter-spacing: 0.4em; margin-top: 14px; font-weight: 400; }
+
+    .s2-vcol { writing-mode: vertical-lr; font-size: 13px; color: #333; line-height: 1; font-weight: 300; letter-spacing: 0.26em; flex-shrink: 0; white-space: nowrap; }
+    .s2-vcol-main { writing-mode: vertical-lr; font-size: 14px; color: #111; line-height: 1; font-weight: 300; letter-spacing: 0.26em; flex-shrink: 0; white-space: nowrap; }
+    .s2-pt { font-weight: 500; letter-spacing: 0.3em; font-size: 1.25em; }
+
+    .s2-divider {
+      width: 1px;
+      align-self: center;
+      height: 40vh;
+      background: #e8e4de;
+    }
+
+    .s2-right {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 6vw;
+    }
+
+    .s2-right-inner { text-align: right; }
+
+    .s2-accent {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(22px, 2.8vw, 36px);
+      font-weight: 300;
+      color: #111;
+      line-height: 1.8;
+      letter-spacing: 0.08em;
+    }
+
+    .s2-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 12px;
+      letter-spacing: 0.3em;
+      color: #888;
+      margin-top: 40px;
+      font-weight: 400;
+    }
+
+    /* 2페이지 애니메이션 */
+    #s2 .s2-tag-box {
+      opacity: 0;
+      transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    #s2 .s2-vcol, #s2 .s2-vcol-main {
+      opacity: 0;
+      transition: opacity 1.0s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    #s2 .s2-divider {
+      opacity: 0;
+      transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    #s2 .s2-accent {
+      opacity: 0;
+      transition: opacity 1.0s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    #s2 .s2-brand {
+      opacity: 0;
+      transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    #s2.active .s2-tag-box { opacity: 1; transition-delay: 1.5s; }
+    #s2.active .s2-vcol-main { opacity: 1; transition-delay: 2.0s; }
+    #s2.active .s2-vgroup > .s2-vcol:nth-child(3) { opacity: 1; transition-delay: 2.5s; }
+    #s2.active .s2-vgroup > .s2-vcol:nth-child(4) { opacity: 1; transition-delay: 2.9s; }
+    #s2.active .s2-vgroup > .s2-vcol:nth-child(5) { opacity: 1; transition-delay: 3.3s; }
+    #s2.active .s2-vgroup > .s2-vcol:nth-child(6) { opacity: 1; transition-delay: 3.7s; }
+    #s2.active .s2-divider { opacity: 1; transition-delay: 4.3s; }
+    #s2.active .s2-accent { opacity: 1; transition-delay: 6.0s; }
+    #s2.active .s2-brand { opacity: 1; transition-delay: 6.5s; }
+
+    /* ════════════════════════════
+       SECTION 3 — PROCESS
+    ════════════════════════════ */
+    #s3 {
+      background: #ffffff;
+    }
+
+    .s3-process {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding: 80px 8vw 60px;
+      padding-top: 17vh;
+    }
+
+    .process-header {
+      margin-bottom: calc(100px + 5vh);
+    }
+    .process-label {
+      font-family: 'Pretendard', sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.5em;
+      color: #8a7560;
+      margin-bottom: 20px;
+      font-weight: 400;
+    }
+    .process-intro {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 15px;
+      font-weight: 300;
+      color: #555;
+      line-height: 2;
+      letter-spacing: 0.06em;
+    }
+    .process-intro strong {
+      font-weight: 400;
+      color: #2b2824;
+    }
+
+    .proc-row {
+      display: flex;
+      align-items: stretch;
+    }
+
+    .proc-step {
+      flex: 1;
+      padding: 24px 18px;
+    }
+    .proc-step:first-child { padding-left: 0; }
+    .proc-step-num {
+      font-family: 'Pretendard', sans-serif;
+      font-size: 30px;
+      font-weight: 200;
+      line-height: 1;
+      margin-bottom: 16px;
+      letter-spacing: 0.05em;
+    }
+    .proc-step:nth-child(1) .proc-step-num  { color: rgba(138,117,96,0.4); }
+    .proc-step:nth-child(3) .proc-step-num  { color: rgba(138,117,96,0.48); }
+    .proc-step:nth-child(5) .proc-step-num  { color: rgba(138,117,96,0.56); }
+    .proc-step:nth-child(7) .proc-step-num  { color: rgba(138,117,96,0.64); }
+    .proc-step:nth-child(9) .proc-step-num  { color: rgba(138,117,96,0.72); }
+    .proc-step:nth-child(11) .proc-step-num { color: rgba(138,117,96,0.8); }
+
+    .proc-step-title {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 15px;
+      font-weight: 400;
+      color: #333;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+    .proc-step-desc {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: #2b2824;
+      line-height: 2;
+      word-break: keep-all;
+      letter-spacing: 0.02em;
+    }
+
+    .proc-arrow {
+      flex-shrink: 0;
+      width: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .proc-arrow svg {
+      width: 20px;
+      height: 20px;
+      stroke: rgba(138,117,96,0.6);
+      fill: none;
+      stroke-width: 1.5;
+    }
+
+    /* 3페이지 애니메이션 */
+    #s3 .process-header {
+      opacity: 0;
+      transition: opacity 1.5s ease;
+    }
+    #s3 .proc-step {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    #s3 .proc-arrow {
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+    #s3.active .process-header { opacity: 1; transition-delay: 0.3s; }
+    #s3.active .proc-step:nth-child(1)  { opacity: 1; transform: translateY(0); transition-delay: 1.2s; }
+    #s3.active .proc-arrow:nth-child(2) { opacity: 1; transition-delay: 1.5s; }
+    #s3.active .proc-step:nth-child(3)  { opacity: 1; transform: translateY(0); transition-delay: 1.6s; }
+    #s3.active .proc-arrow:nth-child(4) { opacity: 1; transition-delay: 1.9s; }
+    #s3.active .proc-step:nth-child(5)  { opacity: 1; transform: translateY(0); transition-delay: 2.0s; }
+    #s3.active .proc-arrow:nth-child(6) { opacity: 1; transition-delay: 2.3s; }
+    #s3.active .proc-step:nth-child(7)  { opacity: 1; transform: translateY(0); transition-delay: 2.4s; }
+    #s3.active .proc-arrow:nth-child(8) { opacity: 1; transition-delay: 2.7s; }
+    #s3.active .proc-step:nth-child(9)  { opacity: 1; transform: translateY(0); transition-delay: 2.8s; }
+    #s3.active .proc-arrow:nth-child(10) { opacity: 1; transition-delay: 3.1s; }
+    #s3.active .proc-step:nth-child(11) { opacity: 1; transform: translateY(0); transition-delay: 3.2s; }
+
+    /* 3페이지 전용 CTA */
+    .s3-cta {
+      position: absolute;
+      bottom: 52px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 1s;
+    }
+    #s3.active .s3-cta {
+      opacity: 1;
+      transition-delay: 4s;
+    }
+    .s3-cta-text {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 17px;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      color: #8a7560;
+      transition: color 0.4s;
+    }
+    .s3-cta:hover .s3-cta-text { color: #5c4a3a; }
+    .s3-cta-line {
+      width: 1px;
+      height: 36px;
+      background: rgba(138,117,96,0.2);
+      position: relative;
+      overflow: hidden;
+    }
+    .s3-cta-line::after {
+      content: '';
+      position: absolute;
+      top: -100%; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(138,117,96,0.5);
+      animation: lineFlow 2s ease-in-out infinite;
+    }
+
+    /* ════════════════════════════
+       SECTION 4 — PROJECT
+    ════════════════════════════ */
+    #s4 { background:#fff; }
+
+    .s4-wrap{width:100%;height:100%;display:flex}
+    .s4-txt{width:42%;height:100%;display:flex;flex-direction:column;justify-content:center;padding:0 6vw}
+    .s4-label{font-family:'Pretendard',sans-serif;font-size:10px;letter-spacing:0.4em;color:#bbb;margin-bottom:48px}
+    .s4-name{font-size:38px;font-weight:300;color:#2b2824;letter-spacing:0.06em;margin-bottom:10px}
+    .s4-type{font-family:'Pretendard',sans-serif;font-size:13px;letter-spacing:0.2em;color:#aaa;margin-bottom:36px}
+    .s4-line{width:32px;height:1px;background:rgba(138,117,96,0.25);margin-bottom:36px}
+    .s4-desc{font-size:16px;font-weight:300;color:#555;line-height:2;max-width:400px}
+    .s4-quote{margin-top:44px;font-size:15px;font-style:italic;font-weight:300;color:#8a7560}
+
+    .s4-pic{width:58%;height:100%;position:relative;cursor:pointer;overflow:hidden}
+    .s4-pic img{width:100%;height:100%;object-fit:cover;display:block}
+    /* 진입 애니메이션 오버레이 */
+    .s4-flash{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none}
+    .s4-flash span{font-family:'Noto Serif KR',serif;font-size:17px;font-weight:300;letter-spacing:0.25em;color:#fff;opacity:0;transform:translateY(8px)}
+    #s4.active .s4-flash{animation:s4Flash 8s ease 0.8s forwards}
+    #s4.active .s4-flash span{animation:s4FlashText 8s ease 0.8s forwards}
+    @keyframes s4Flash {
+      0%{opacity:0} 6%{opacity:1} 75%{opacity:1} 100%{opacity:0}
+    }
+    @keyframes s4FlashText {
+      0%{opacity:0;transform:translateY(10px)} 6%{opacity:1;transform:translateY(0)} 75%{opacity:1} 100%{opacity:0}
+    }
+    /* 호버 오버레이 */
+    .s4-overlay{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.4s}
+    .s4-pic:hover .s4-overlay{opacity:1}
+    .s4-overlay span{font-family:'Noto Serif KR',serif;font-size:17px;font-weight:300;letter-spacing:0.25em;color:#fff}
+
+    .s4-bnav{position:absolute;top:100px;left:6vw;display:flex;gap:40px;z-index:5}
+    .s4-bi{cursor:pointer;opacity:0;transform:translateY(-16px);transition:border-bottom-color 0.3s;display:flex;flex-direction:column;gap:8px;padding-bottom:10px;border-bottom:2px solid transparent}
+    .s4-bi.active{border-bottom-color:#8a7560}
+    .s4-bi:hover{opacity:0.8 !important;border-bottom-color:rgba(138,117,96,0.3)}
+    #s4.active .s4-bi:nth-child(1){animation:s4Drop 1.2s ease 0.5s forwards}
+    #s4.active .s4-bi:nth-child(2){animation:s4DropDim 1.2s ease 1s forwards}
+    #s4.active .s4-bi:nth-child(3){animation:s4DropDim 1.2s ease 1.5s forwards}
+    @keyframes s4Drop {
+      from{opacity:0;transform:translateY(-16px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+    @keyframes s4DropDim {
+      from{opacity:0;transform:translateY(-16px)}
+      to{opacity:0.4;transform:translateY(0)}
+    }
+    .s4-bin{font-size:17px;font-weight:300;color:#8a7560;letter-spacing:0.06em}
+    .s4-bit{font-family:'Pretendard',sans-serif;font-size:12px;color:#a89880;letter-spacing:0.08em}
+    .s4-bil{display:none}
+
+    .s4-gal{display:none;position:absolute;top:0;left:0;width:100%;height:100%;background:#fff;z-index:50;flex-direction:column}
+    .s4-gal.open{display:flex}
+    .s4-gal-close{position:absolute;top:auto;bottom:48px;left:calc(70% + 4vw);z-index:60;display:flex;align-items:center;gap:8px;cursor:pointer;border:none;background:none;padding:0;font-family:'Pretendard',sans-serif;font-size:14px;font-weight:400;letter-spacing:0.12em;color:#8a7560;transition:opacity 0.2s;opacity:1}
+    .s4-gal-close:hover{opacity:0.6}
+    .s4-gal-close svg{width:18px;height:18px;stroke:currentColor;stroke-width:2;fill:none}
+    .s4-gal-body{flex:1;position:relative}
+    .s4-gs{position:absolute;top:0;left:0;width:100%;height:100%;display:none;background:#faf8f5}
+    .s4-gs.on{display:flex}
+    /* 가로 사진: 왼쪽 이미지 꽉 채움 + 오른쪽 텍스트 */
+    .s4-gs.landscape .s4-gsi{flex:1;overflow:hidden;position:relative}
+    .s4-gs.landscape .s4-gsi img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+    /* 세로 사진 2장: 왼쪽 두 장 나란히 + 오른쪽 텍스트 */
+    .s4-gimg-wrap{flex:1;display:flex;height:100%;background:#f0ece6}
+    .s4-gimg-wrap .s4-gsi{flex:1;height:100%;display:flex;align-items:center;justify-content:center;background:#f0ece6;overflow:hidden}
+    .s4-gimg-wrap .s4-gsi img{width:100%;height:auto;display:block}
+    /* 사당 대림아파트 - 부드러운 화질 처리 */
+    .s4-gs[data-proj="1"] .s4-gsi img{filter:contrast(0.88) brightness(1.04) saturate(0.9)}
+    /* 공통 텍스트 패널 */
+    .s4-gst{width:30%;display:flex;flex-direction:column;justify-content:center;padding:0 4vw;flex-shrink:0;box-sizing:border-box}
+    .s4-gst p{font-family:'Pretendard',sans-serif;font-size:15px;font-weight:300;color:#3a3530;line-height:2.0}
+    .s4-gcat{font-family:'Pretendard',sans-serif;font-size:10px;letter-spacing:0.35em;color:#a89880;margin-bottom:18px;font-weight:400}
+    .s4-gq{margin-top:24px;font-size:13px;font-style:italic;color:#8a7560;font-weight:300;font-family:'Noto Serif KR',serif;line-height:1.8}
+    /* 화살표 */
+    .s4-garrow{position:absolute;top:50%;transform:translateY(-50%);z-index:20;width:52px;height:52px;display:flex;align-items:center;justify-content:center;cursor:pointer;background:none;border:none;padding:0;opacity:0.75;transition:opacity 0.2s,transform 0.2s}
+    .s4-garrow:hover{opacity:1;transform:translateY(-50%) scale(1.1)}
+    .s4-garrow-prev{left:16px}
+    .s4-garrow-next{right:calc(30% + 16px)}
+    .s4-garrow svg{width:38px;height:38px;stroke:#fff;stroke-width:2;fill:none;filter:drop-shadow(0 0 3px rgba(0,0,0,0.7)) drop-shadow(0 0 1px rgba(0,0,0,0.9))}
+    /* 닷 */
+    .s4-gdots{position:absolute;bottom:22px;left:35%;transform:translateX(-50%);display:flex;gap:5px;z-index:10;align-items:center}
+    .s4-gd{height:2px;background:rgba(43,40,36,0.2);cursor:pointer;transition:all 0.3s;width:14px;border-radius:1px}
+    .s4-gd.on{background:#8a7560;width:24px}
+
+    /* ════════════════════════════
+       SECTION 5 — CONSULTATION
+    ════════════════════════════ */
+    /* ════════════════════════════
+       SECTION 5 — CONSULTATION (단계별)
+    ════════════════════════════ */
+    #s5{background:#fff;position:relative}
+    .s5-progress{position:absolute;top:0;left:0;height:2px;background:#8a7560;transition:width 0.6s;z-index:10}
+    .s5-step{display:none;width:100%;height:100%;flex-direction:column;align-items:center;justify-content:center;padding:0 32px;background:#ffffff}
+    .s5-step.on{display:flex}
+    .s5-label{font-family:'Pretendard',sans-serif;font-size:10px;letter-spacing:0.4em;color:#bbb;margin-bottom:16px}
+    .s5-num{font-family:'Pretendard',sans-serif;font-size:11px;letter-spacing:0.15em;color:#8a7560;margin-bottom:48px}
+    .s5-q{font-family:'Noto Serif KR',serif;font-size:clamp(20px,2.5vw,30px);font-weight:300;color:#2b2824;letter-spacing:0.04em;text-align:center;margin-bottom:48px;line-height:1.6}
+    .s5-choices{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;max-width:800px}
+    .s5-choice{padding:16px 32px;border:1px solid #e0dbd5;background:#fff;font-family:'Noto Serif KR',serif;font-size:14px;font-weight:300;color:#555;letter-spacing:0.06em;cursor:pointer;transition:all 0.3s}
+    .s5-choice:hover{border-color:#8a7560;color:#2b2824}
+    .s5-choice.picked{border-color:#8a7560;color:#2b2824;background:rgba(138,117,96,0.06)}
+    .s5-next{margin-top:48px;font-family:'Noto Serif KR',serif;font-size:14px;font-weight:300;letter-spacing:0.2em;color:#8a7560;cursor:pointer;border:none;background:none;opacity:0;pointer-events:none;transition:opacity 0.4s,color 0.3s}
+    .s5-next.show{opacity:1;pointer-events:all}
+    .s5-next:hover{color:#5c4a3a}
+    .s5-fields{display:flex;flex-direction:column;gap:20px;width:100%;max-width:400px}
+    .s5-fl{font-family:'Pretendard',sans-serif;font-size:10px;letter-spacing:0.2em;color:#aaa;margin-bottom:6px}
+    .s5-req{color:#8a7560}
+    .s5-input{width:100%;padding:14px 0;border:none;border-bottom:1px solid #e0dbd5;font-family:'Noto Serif KR',serif;font-size:15px;font-weight:300;color:#2b2824;outline:none;background:none;transition:border-color 0.3s}
+    .s5-input:focus{border-color:#8a7560}
+    .s5-input::placeholder{color:#ccc}
+    .s5-textarea{width:100%;padding:14px 0;border:none;border-bottom:1px solid #e0dbd5;font-family:'Noto Serif KR',serif;font-size:14px;font-weight:300;color:#2b2824;outline:none;background:none;resize:none;height:80px}
+    .s5-textarea:focus{border-color:#8a7560}
+    .s5-textarea::placeholder{color:#ccc}
+    .s5-submit{margin-top:48px;padding:16px 48px;background:#8a7560;color:#fff;border:none;font-family:'Noto Serif KR',serif;font-size:14px;font-weight:300;letter-spacing:0.2em;cursor:pointer;transition:background 0.3s}
+    .s5-submit:hover{background:#7a6550}
+
+    /* ════════════════════════════
+       SECTION 6 — COMPLETE
+    ════════════════════════════ */
+    #s6{background:#fff}
+    .s6-page{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 32px;background:#ffffff}
+    .s6-msg{text-align:center;margin-bottom:40px}
+    .s6-top{font-family:'Pretendard',sans-serif;font-size:11px;letter-spacing:0.3em;color:#8a7560;margin-bottom:32px}
+    .s6-main{font-family:'Noto Serif KR',serif;font-size:clamp(22px,3vw,36px);font-weight:200;color:#2b2824;letter-spacing:0.08em;line-height:1.6;margin-bottom:20px;white-space:nowrap}
+    .s6-line{width:1px;height:40px;background:rgba(138,117,96,0.4);margin:0 auto 20px}
+    .s6-closing{font-family:'Noto Serif KR',serif;font-size:13px;font-weight:300;color:#666;line-height:1.8}
+    .s6-tgl-area{width:100%;max-width:420px}
+    .s6-letter{max-width:560px;margin:0 auto 56px;text-align:center;padding:0 20px}
+    .s6-letter-body{font-family:'Noto Serif KR',serif;font-size:14.5px;font-weight:300;color:#3a3530;line-height:2.1;margin-bottom:24px;letter-spacing:0.02em}
+    .s6-letter-body strong{font-weight:500;color:#2b2824}
+    .s6-letter-body em{font-style:italic;color:#8a7560}
+    .s6-letter-close{font-family:'Noto Serif KR',serif;font-size:15.5px;font-weight:400;color:#2b2824;line-height:1.9;margin:36px 0 20px;letter-spacing:0.04em}
+    .s6-letter-sign{font-family:'Noto Serif KR',serif;font-size:12px;font-weight:300;color:#8a7560;letter-spacing:0.15em}
+    .s6-explore{font-family:'Noto Serif KR',serif;font-size:13px;letter-spacing:0.25em;color:#888;text-align:center;margin-bottom:20px;font-weight:300}
+    .s6-tgl{position:relative;overflow:hidden;border:1px solid #ece8e3;border-radius:8px;cursor:pointer;margin-bottom:10px;transition:border-color 0.5s}
+    .s6-tgl.on{border-color:#8a7560}
+    .s6-tgl-fill{position:absolute;top:0;left:0;width:0%;height:100%;background:#8a7560;transition:width 0.6s cubic-bezier(0.16,1,0.3,1);z-index:0}
+    .s6-tgl.on .s6-tgl-fill{width:100%}
+    .s6-tgl-content{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;padding:18px 24px}
+    .s6-tgl-name{font-family:'Pretendard',sans-serif;font-size:15px;font-weight:300;color:#2b2824;letter-spacing:0.15em;transition:color 0.4s}
+    .s6-tgl.on .s6-tgl-name{color:#fff}
+    .s6-tgl-sw{width:44px;height:24px;border-radius:12px;background:#e8e4de;position:relative;flex-shrink:0;transition:background 0.4s}
+    .s6-tgl.on .s6-tgl-sw{background:rgba(255,255,255,0.25)}
+    .s6-tgl-knob{width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,0.1);position:absolute;top:3px;left:3px;transition:left 0.35s cubic-bezier(0.16,1,0.3,1)}
+    .s6-tgl.on .s6-tgl-knob{left:23px}
+    .s6-tgl-link{position:relative;z-index:1;max-height:0;overflow:hidden;transition:max-height 0.5s,padding 0.4s;text-align:center;background:#7a6550}
+    .s6-tgl.on .s6-tgl-link{max-height:50px;padding:12px 0}
+    .s6-tgl-link a{font-family:'Pretendard',sans-serif;font-size:11px;letter-spacing:0.2em;color:rgba(255,255,255,0.8);text-decoration:none}
+    .s6-tgl-link a:hover{color:#fff}
+    .s6-footer{position:absolute;bottom:24px;left:0;right:0;text-align:center}
+    .s6-footer p{font-family:'Cormorant Garamond',serif;font-size:12px;color:#666;letter-spacing:0.3em;font-weight:400}
+
+    .form-group { margin-bottom: 28px; }
+
+    .form-label {
+      display: block;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      color: rgba(245,240,235,0.38);
+      font-weight: 300;
+      margin-bottom: 10px;
+    }
+    .form-label .req { color: var(--brown); }
+
+    .form-input {
+      width: 100%;
+      background: rgba(245,240,235,0.05);
+      border: 1px solid rgba(245,240,235,0.1);
+      color: var(--white);
+      padding: 13px 15px;
+      font-family: 'Pretendard', sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      outline: none;
+      transition: border-color 0.3s;
+      border-radius: 0;
+      -webkit-appearance: none;
+    }
+    .form-input:focus { border-color: var(--brown); }
+    .form-input::placeholder { color: rgba(245,240,235,0.2); }
+
+    textarea.form-input { resize: none; height: 90px; }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    /* ════════════════════════════
+       MOBILE — 모바일 반응형
+    ════════════════════════════ */
+    @media (max-width: 768px) {
+
+      /* 커서 모바일에서 숨김 */
+      #cursor-dot, #cursor-ring { display: none !important; }
+      html, body { cursor: auto; }
+
+      /* 모바일 줄바꿈 활성화 */
+      br.m-br { display: inline; }
+
+      /* 스크롤 인디케이터 표시 */
+      .scroll-hint.active { display: flex; }
+
+      /* 메인 버튼 모바일 축소 */
+      .btn-label { font-size: 13px; letter-spacing: 0.15em; padding: 6px 12px; }
+      .btn-arrow { height: 24px; }
+      #next-btn { bottom: 36px; }
+
+      /* 버튼 영역 페이드 — 돌아가기/다음 버튼과 글씨 안 겹치게 */
+      #s2::after, #s3::after, #s5::after, #s6::after {
+        content: '';
+        position: absolute;
+        left: 0; right: 0; bottom: 0;
+        height: 120px;
+        background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.95) 60%);
+        pointer-events: none;
+        z-index: 2;
+      }
+
+      /* 1페이지 — Hero */
+      #s1 { padding-bottom: 6vh; }
+      .hero-logo {
+        font-size: 13px;
+        top: 24px;
+      }
+      .hero-title {
+        font-size: 14px;
+        letter-spacing: 0.1em;
+        white-space: normal;
+        text-align: center;
+        line-height: 1.8;
+      }
+      #hero-cta .cta-text { font-size: 14px; }
+      #hero-cta { bottom: 20px; }
+
+      /* 2페이지 — 철학 (모바일: 완전 다른 레이아웃) */
+      .s2-layout {
+        flex-direction: column;
+        height: 100%;
+        overflow-y: auto;
+      }
+      .s2-left {
+        padding: 56px 20px 16px;
+        justify-content: center;
+        align-items: center;
+      }
+      /* 세로 텍스트 → 가로 중앙 정렬로 변환 */
+      .s2-vgroup {
+        flex-direction: column;
+        gap: 0;
+        align-items: center;
+        text-align: center;
+      }
+      .s2-tag-box {
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 36px;
+      }
+      .s2-tag-hanja {
+        font-size: 52px;
+        writing-mode: horizontal-tb;
+        letter-spacing: 0.15em;
+        color: #111;
+        font-weight: 200;
+      }
+      .s2-tag-kr {
+        writing-mode: horizontal-tb;
+        font-size: 11px;
+        margin-top: 14px;
+        color: #8a7560;
+        font-weight: 400;
+        letter-spacing: 0.3em;
+      }
+      .s2-vcol, .s2-vcol-main {
+        writing-mode: horizontal-tb;
+        font-size: 12.5px;
+        letter-spacing: 0.02em;
+        line-height: 2;
+        white-space: normal;
+        word-break: keep-all;
+        margin-bottom: 16px;
+        max-width: 100%;
+        text-align: center;
+        padding: 0 4px;
+        color: #888;
+        font-weight: 300;
+      }
+      .s2-divider {
+        width: 80px !important;
+        height: 1px !important;
+        background: rgba(138,117,96,0.5) !important;
+        margin: 36px auto 28px !important;
+        align-self: center !important;
+        flex-shrink: 0;
+      }
+      .s2-vcol-main {
+        font-size: 13.5px;
+        color: #2b2824;
+        font-weight: 400;
+      }
+      .s2-pt {
+        font-size: 1em;
+        color: #2b2824;
+        font-weight: 500;
+      }
+
+      .s2-right {
+        padding: 20px 32px 160px;
+        justify-content: center;
+      }
+      .s2-right-inner { text-align: center; }
+      .s2-accent {
+        font-size: 22px;
+        text-align: center;
+        letter-spacing: 0.06em;
+        color: #111;
+        font-weight: 300;
+        line-height: 1.7;
+      }
+      .s2-brand {
+        margin-top: 24px;
+        font-size: 11px;
+        color: #8a7560;
+        letter-spacing: 0.35em;
+      }
+
+      /* 3페이지 — 프로세스 (모바일) */
+      .s3-process {
+        padding: 80px 32px 160px;
+        overflow-y: auto;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+      .process-header {
+        margin-bottom: 36px;
+        text-align: center;
+      }
+      .process-intro { font-size: 13px; text-align: center; }
+
+      .proc-row {
+        flex-direction: column;
+        gap: 0;
+      }
+      .proc-arrow { display: none; }
+
+      .proc-step {
+        padding: 16px 0;
+        text-align: center;
+      }
+      .proc-step:first-child { padding-left: 0; }
+      .proc-step-num {
+        font-size: 24px;
+        margin-bottom: 6px;
+      }
+      .proc-step-title {
+        font-size: 14px;
+        margin-bottom: 0;
+      }
+      .proc-step-desc {
+        display: none;
+      }
+
+      .s3-cta { bottom: 24px; }
+      .s3-cta-text { font-size: 14px; }
+      .s3-cta-line { height: 20px; }
+
+      /* 섹션 로고 */
+      .section-logo {
+        font-size: 13px;
+        top: 24px;
+      }
+
+      /* 4페이지 — 프로젝트 (모바일) */
+      #s4 { overflow-y: auto; overflow-x: hidden; }
+      .s4-wrap {
+        flex-direction: column;
+        height: auto;
+        min-height: 100%;
+        padding-bottom: 140px;
+      }
+      .s4-txt {
+        width: 100%;
+        height: auto;
+        padding: 56px 24px 24px;
+        justify-content: flex-start;
+      }
+      .s4-label { margin-bottom: 24px; }
+      .s4-name { font-size: 24px; }
+      .s4-type { font-size: 11px; margin-bottom: 16px; }
+      .s4-line { margin-bottom: 16px; }
+      .s4-desc { font-size: 14px; max-width: 100%; line-height: 1.9; }
+      .s4-quote { font-size: 13px; margin-top: 20px; }
+
+      /* 메인 사진만 표시 — 탭하면 라이트박스 오픈 */
+      .s4-pic {
+        width: 100%;
+        height: auto;
+        cursor: pointer;
+        position: relative;
+      }
+      .s4-pic img {
+        width: 100%;
+        height: auto;
+        max-height: 60vh;
+        object-fit: cover;
+      }
+      .s4-flash { display: none; }
+      .s4-overlay { display: none; }
+
+      /* 인라인 갤러리 숨김 (라이트박스에서만 사용) */
+      .s4-gal { display: none !important; }
+
+      /* 프로젝트 선택 — 하단 고정, 이름/평수만 */
+      .s4-bnav {
+        position: fixed;
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        transform: none;
+        gap: 0;
+        background: #fff;
+        border-top: 1px solid #ece8e3;
+        justify-content: center;
+        padding: 12px 16px;
+        z-index: 60;
+      }
+      .s4-bi {
+        padding: 6px 14px;
+        border-bottom: 2px solid transparent;
+        text-align: center;
+      }
+      .s4-bi.active { border-bottom-color: #8a7560; }
+      .s4-bin { font-size: 13px; }
+      .s4-bit { font-size: 9px; }
+
+      /* 돌아가기 / 상담하기 — 기존 버튼 숨김 */
+      #prev-btn.on-project,
+      #next-btn.on-project {
+        display: none !important;
+      }
+
+      /* 모바일 전용 상단 고정 바 */
+      .s4-mobile-bar {
+        display: flex !important;
+        position: sticky;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 80;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 20px;
+        background: rgba(255,255,255,0.95);
+        backdrop-filter: blur(8px);
+        border-bottom: none;
+      }
+      .s4-mb-prev, .s4-mb-next {
+        font-family: 'Noto Serif KR', serif;
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        color: #2b2824;
+        cursor: pointer;
+        padding: 8px 16px;
+        transition: color 0.3s;
+      }
+      .s4-mb-next { color: #5c4a3a; }
+      .s4-mb-prev:active, .s4-mb-next:active { color: #8a7560; }
+
+      /* 갤러리 */
+      .s4-gs.landscape, .s4-gs.pair { flex-direction: column; }
+      .s4-gs.landscape .s4-gsi { flex: 1; width: 100%; }
+      .s4-gimg-wrap { flex: 1; }
+      .s4-gst { width: 100% !important; padding: 14px 20px !important; flex: 0 0 auto; }
+      .s4-gst p { font-size: 12px; line-height: 1.8; }
+      .s4-gcat { margin-bottom: 8px; }
+      .s4-garrow-next { right: 16px !important; }
+      .s4-garrow svg { width: 24px; height: 24px; }
+
+      /* 5페이지 — 상담 */
+      #s5 { overflow-y: auto; overflow-x: hidden; }
+      .s5-step { padding: 72px 24px 180px; min-height: 100%; justify-content: center; }
+      /* 마지막 스텝(연락처)은 상단 정렬 + 여유 패딩 */
+      #cst6 { padding: 72px 24px 120px; justify-content: flex-start; }
+      #cst6 .s5-fields { gap: 16px; }
+      #cst6 .s5-q { margin-bottom: 28px; font-size: 18px; }
+      #cst6 .s5-num { margin-bottom: 24px; }
+      .s5-fields { max-width: 100%; }
+      .s5-input { font-size: 14px; padding: 10px 0; }
+      .s5-textarea { font-size: 13px; height: 56px; padding: 10px 0; }
+      /* 제출 버튼 — 컴팩트하고 돌아가기와 겹치지 않게 */
+      .s5-submit {
+        position: relative;
+        z-index: 3;
+        margin-top: 24px !important;
+        margin-bottom: 40px !important;
+        padding: 12px 28px !important;
+        font-size: 12px !important;
+        letter-spacing: 0.18em !important;
+        align-self: center;
+      }
+      .s5-q { font-size: 20px; }
+      .s5-choices { max-width: 100%; }
+      .s5-choice { padding: 12px 20px; font-size: 13px; }
+
+      /* 6페이지 — 완료 */
+      #s6 { overflow-y: auto; overflow-x: hidden; }
+      .s6-page { padding: 72px 24px 120px; min-height: 100%; justify-content: center; height: auto; }
+      .s6-msg { margin-bottom: 40px; }
+      .s6-top { font-size: 10px; letter-spacing: 0.35em; margin-bottom: 20px; }
+      .s6-main { font-size: 22px; white-space: normal; text-align: center; line-height: 1.5; margin-bottom: 16px; }
+      .s6-line { height: 28px; margin: 0 auto 16px; }
+      .s6-closing { font-size: 12px; line-height: 1.9; }
+      .s6-tgl-area { max-width: 100%; padding: 0 8px; }
+      .s6-explore { font-size: 11px; letter-spacing: 0.22em; margin-bottom: 16px; }
+      .s6-tgl-content { padding: 14px 20px; }
+      .s6-tgl-name { font-size: 13px; letter-spacing: 0.18em; }
+      .s6-tgl-sw { width: 38px; height: 22px; }
+      .s6-tgl-knob { width: 16px; height: 16px; top: 3px; left: 3px; }
+      .s6-tgl.on .s6-tgl-knob { left: 19px; }
+      .s6-footer { position: static; margin-top: 20px; text-align: center; }
+      .s6-footer p { font-size: 10px; }
+
+      /* 상담 폼 */
+      .form-row { grid-template-columns: 1fr; }
+    }
+
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      padding: 8px 15px;
+      border: 1px solid rgba(245,240,235,0.12);
+      color: rgba(245,240,235,0.4);
+      font-size: 12px;
+      font-weight: 300;
+      font-family: 'Pretendard', sans-serif;
+      background: none;
+      cursor: pointer;
+      transition: all 0.22s;
+      border-radius: 0;
+      letter-spacing: 0.02em;
+    }
+    .chip:hover { border-color: rgba(245,240,235,0.3); color: rgba(245,240,235,0.7); }
+    .chip.on  { border-color: var(--brown); color: var(--white); background: rgba(138,125,107,0.14); }
+
+    .submit-btn {
+      width: 100%;
+      padding: 17px;
+      background: var(--brown);
+      color: var(--white);
+      border: none;
+      font-family: 'Pretendard', sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.22em;
+      font-weight: 400;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-top: 12px;
+    }
+    .submit-btn:hover { background: #7a6d5b; }
+
+    /* ════════════════════════════
+       소형 모바일 (iPhone SE, Galaxy S8 등 ~390px)
+    ════════════════════════════ */
+    @media (max-width: 390px) {
+      /* 공통 */
+      .hero-title { font-size: 13px; letter-spacing: 0.06em; }
+      #hero-cta { bottom: 14px; }
+      #hero-cta .cta-text { font-size: 13px; }
+      #next-btn { bottom: 28px; }
+      #prev-btn { bottom: 28px; }
+      .section-logo { font-size: 11px; }
+      #progress { top: 18px; }
+
+      /* 2페이지 — 철학 */
+      .s2-layout { overflow-y: auto; -webkit-overflow-scrolling: touch; }
+      .s2-left { padding: 56px 20px 16px; }
+      .s2-right { padding: 12px 20px 80px; }
+      .s2-tag-hanja { font-size: 36px; }
+      .s2-vcol, .s2-vcol-main {
+        font-size: 11px;
+        white-space: normal;
+        text-align: center;
+        margin-bottom: 14px;
+        line-height: 1.5;
+      }
+      .s2-accent { font-size: 17px; line-height: 1.7; }
+      .s2-brand { font-size: 8px; margin-top: 14px; }
+
+      /* 5페이지 — 상담 */
+      .s5-step { padding: 0 20px; }
+      .s5-q { font-size: 17px; margin-bottom: 28px; }
+      .s5-choice { padding: 11px 18px; font-size: 13px; }
+      .s5-submit { padding: 14px 36px; }
+
+      /* 6페이지 — 완료 */
+      .s6-page { padding: 56px 20px 80px; }
+      .s6-main { font-size: 19px; }
+      .s6-closing { font-size: 12px; }
+    }
+
+  </style>
+</head>
+<body>
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+<div id="app">
+
+
+  <!-- Mobile scroll hint -->
+  <div class="scroll-hint" id="scrollHint" aria-hidden="true">
+    <div class="scroll-hint-track"></div>
+    <div class="scroll-hint-progress" id="scrollHintProgress"></div>
+    <div class="scroll-hint-thumb" id="scrollHintThumb"></div>
+  </div>
+
+  <!-- Prev button -->
+  <button id="prev-btn" aria-label="이전">
+    <span class="prev-arrow"></span>
+    <span class="prev-label">돌아가기</span>
+  </button>
+
+  <!-- Next button -->
+  <button id="next-btn" class="light" aria-label="다음">
+    <span class="btn-label">동행하기</span>
+    <span class="btn-arrow"></span>
+  </button>
+
+  <!-- ① HERO -->
+  <section class="section active" id="s1">
+    <div class="hero-bg"></div>
+    <p class="hero-logo">J E O N G D O</p>
+    <div class="hero-content">
+      <h1 class="hero-title">공간의 처음과 끝을 정도와 동행합니다.</h1>
+    </div>
+  </section>
+
+  <!-- Hero 전용 CTA -->
+  <button id="hero-cta">
+    <span class="cta-text">알아보기</span>
+    <span class="cta-line"></span>
+  </button>
+
+  <!-- ② PHILOSOPHY -->
+  <section class="section" id="s2">
+    <div class="s2-layout">
+
+      <div class="s2-left">
+        <div class="s2-vgroup">
+          <div class="s2-tag-box">
+            <div class="s2-tag-hanja">正道</div>
+            <div class="s2-tag-kr">바를 정 · 길 도</div>
+          </div>
+          <div class="s2-vcol-main">수많은 길 중 <span class="s2-pt">정도</span>는 인테리어라는<br class="m-br"> 하나의 길을 택했습니다</div>
+          <div class="s2-vcol">출발점은 언제나 <span class="s2-pt">정직함</span>이며 그 정직함을 보여주는<br class="m-br"> 태도라고 믿습니다</div>
+          <div class="s2-vcol">공간디자인에서 중요한 것은 화려함이 아니라<br class="m-br"> <span class="s2-pt">본질과 방향성</span>입니다</div>
+          <div class="s2-vcol">철학이 있는 공간은 반드시<br class="m-br"> <span class="s2-pt">깊이</span> 있는 공간을 만듭니다</div>
+          <div class="s2-vcol"><span class="s2-pt">삶의 궤적</span>이 담긴 기억에 남을<br class="m-br"> 공간을 만들어드립니다</div>
+        </div>
+      </div>
+
+      <div class="s2-divider"></div>
+
+      <div class="s2-right">
+        <div class="s2-right-inner">
+          <p class="s2-accent">속도보다 방향을<br>빠름보다 바름을</p>
+          <p class="s2-brand">DESIGN STUDIO JEONGDO</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ③ PROCESS -->
+  <section class="section" id="s3">
+    <div class="s3-process">
+      <div class="process-header">
+        <p class="process-label">PROCESS</p>
+        <p class="process-intro">
+          <strong>대면 상담은 필수입니다.</strong><br>
+          상담을 통해 공간의 바른 길이 시작됩니다.
+        </p>
+      </div>
+
+      <div class="proc-row">
+        <div class="proc-step">
+          <p class="proc-step-num">01</p>
+          <p class="proc-step-title">상담</p>
+          <p class="proc-step-desc">고객님이 좋아하는 분위기, 생활습관,<br>예산과 일정을 듣습니다.<br>공간을 통해 이루고 싶은<br>삶의 방향을 함께 이야기합니다.</p>
+        </div>
+        <div class="proc-arrow"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"></polyline></svg></div>
+        <div class="proc-step">
+          <p class="proc-step-num">02</p>
+          <p class="proc-step-title">현장 조사</p>
+          <p class="proc-step-desc">현장 담당자가 직접 방문하여<br>세부 치수와 현장의 상황을<br>정확히 파악합니다.</p>
+        </div>
+        <div class="proc-arrow"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"></polyline></svg></div>
+        <div class="proc-step">
+          <p class="proc-step-num">03</p>
+          <p class="proc-step-title">계약</p>
+          <p class="proc-step-desc">설계 범위, 일정, 비용, 사후관리까지<br>모든 조건을 명확히 정해<br>안심할 수 있도록 약속합니다.</p>
+        </div>
+        <div class="proc-arrow"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"></polyline></svg></div>
+        <div class="proc-step">
+          <p class="proc-step-num">04</p>
+          <p class="proc-step-title">기획 · 디자인</p>
+          <p class="proc-step-desc">평면도, 3D 이미지보드로<br>쉽게 확인할 수 있으며,<br>함께 조율해 오래도록<br>사랑받는 공간을 만듭니다.</p>
+        </div>
+        <div class="proc-arrow"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"></polyline></svg></div>
+        <div class="proc-step">
+          <p class="proc-step-num">05</p>
+          <p class="proc-step-title">시공</p>
+          <p class="proc-step-desc">정도의 철저한 감리로<br>설계 그대로 구현합니다.<br>작은 디테일까지 놓치지 않고<br>완성합니다.</p>
+        </div>
+        <div class="proc-arrow"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"></polyline></svg></div>
+        <div class="proc-step">
+          <p class="proc-step-num">06</p>
+          <p class="proc-step-title">완공 · 사후관리</p>
+          <p class="proc-step-desc">완성된 공간을 철저히 검수하고<br>입주 후에도 이어지는 사후관리로<br>오래도록 바르게 유지되도록<br>도움 드리겠습니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ④ PROJECT -->
+  <section class="section" id="s4">
+    <div class="s4-mobile-bar" id="s4MobileBar">
+      <span class="s4-mb-prev" onclick="goTo(cur-1)">돌아가기</span>
+      <span class="s4-mb-next" onclick="goTo(cur+1)">상담하기</span>
+    </div>
+
+    <!-- 모바일 라이트박스 -->
+    <div class="lightbox" id="lightbox">
+      <div class="lightbox-bg" id="lbBg"></div>
+      <button class="lightbox-close" id="lbClose">×</button>
+      <button class="lightbox-arrow lightbox-prev" id="lbPrev">
+        <svg viewBox="0 0 24 24"><polyline points="15 6 9 12 15 18"/></svg>
+      </button>
+      <div class="lightbox-img-wrap">
+        <img class="lightbox-img" id="lbImg" src="" alt="">
+      </div>
+      <button class="lightbox-arrow lightbox-next" id="lbNext">
+        <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
+      </button>
+      <div class="lightbox-counter" id="lbCounter">1 / 1</div>
+    </div>
+    <div class="s4-wrap" id="s4Wrap">
+      <div class="s4-txt">
+        <p class="s4-label">PROJECT</p>
+        <h2 class="s4-name" id="s4N">서초 더샵 포레</h2>
+        <p class="s4-type" id="s4T">RESIDENTIAL · 34평</p>
+        <div class="s4-line"></div>
+        <p class="s4-desc" id="s4D">욕조에서 자연을 바라볼 수 있도록 설계한 공간.<br>자갈과 원목, 빛이 만드는 고요한 쉼터.<br>일상 속 작은 여행을 담았습니다.</p>
+        <p class="s4-quote" id="s4Q">"자연을 담은 욕실, 하루의 끝을 위한 공간."</p>
+      </div>
+      <div class="s4-pic" id="s4Pic">
+        <img src="proj1-a.jpg" id="s4Img" alt="">
+        <div class="s4-flash"><span>자세히 보기</span></div>
+        <div class="s4-overlay"><span>자세히 보기</span></div>
+      </div>
+    </div>
+    <div class="s4-bnav" id="s4Bnav">
+      <div class="s4-bi active" data-pi="0"><span class="s4-bin">서초 더샵 포레</span><span class="s4-bit">RESIDENTIAL · 34평</span><div class="s4-bil"></div></div>
+      <div class="s4-bi" data-pi="1"><span class="s4-bin">사당 대림아파트</span><span class="s4-bit">RESIDENTIAL · 34평</span><div class="s4-bil"></div></div>
+      <div class="s4-bi" data-pi="2"><span class="s4-bin">상도 더샵</span><span class="s4-bit">RESIDENTIAL · 34평</span><div class="s4-bil"></div></div>
+    </div>
+    <div class="s4-gal" id="s4Gal">
+      <button class="s4-gal-close" id="s4GalX"><svg viewBox="0 0 14 14"><polyline points="9,2 3,7 9,12"/></svg>다른 프로젝트 보기</button>
+      <div class="s4-gal-body">
+        <button class="s4-garrow s4-garrow-prev" id="s4GalPrev"><svg viewBox="0 0 38 38"><line x1="28" y1="19" x2="10" y2="19"/><polyline points="17,10 9,19 17,28"/></svg></button>
+        <button class="s4-garrow s4-garrow-next" id="s4GalNext"><svg viewBox="0 0 38 38"><line x1="10" y1="19" x2="28" y2="19"/><polyline points="21,10 29,19 21,28"/></svg></button>
+
+        <!-- 1: 거실 landscape -->
+        <div class="s4-gs landscape on" data-proj="0">
+          <div class="s4-gsi"><img src="proj1-13.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">거실 · LIVING ROOM</p><p>빛이 머무는 곳.<br>절제된 소재와 여백이<br>공간의 편안함을 만듭니다.</p></div>
+        </div>
+        <!-- 2: 거실+선반 pair (둘 다 세로) -->
+        <div class="s4-gs pair" data-proj="0">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="proj1-08.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="proj1-11.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">거실 · 디테일</p><p>열린 구조 안에서<br>벽 안으로 숨어든 선반까지.<br>공간은 디테일로 완성됩니다.</p></div>
+        </div>
+        <!-- 3: 다이닝 메인 landscape -->
+        <div class="s4-gs landscape" data-proj="0">
+          <div class="s4-gsi"><img src="proj1-07.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">다이닝 · DINING</p><p>원목 슬랩 식탁 위로<br>버블 펜던트 조명이 내려옵니다.<br>식사가 특별한 시간이 되는 공간.</p></div>
+        </div>
+        <!-- 4: 다이닝 landscape -->
+        <div class="s4-gs landscape" data-proj="0">
+          <div class="s4-gsi"><img src="proj1-14.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">다이닝 · DINING</p><p>원목 슬랩 위의 여백.<br>조명과 소품이<br>완성하는 식탁.</p></div>
+        </div>
+        <!-- 5: 다이닝 landscape -->
+        <div class="s4-gs landscape" data-proj="0">
+          <div class="s4-gsi"><img src="proj1-15.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">다이닝 · DINING</p><p>다이닝의 디테일은<br>떨어뜨려 보아야<br>보입니다.</p></div>
+        </div>
+        <!-- 6: 다이닝 landscape -->
+        <div class="s4-gs landscape" data-proj="0">
+          <div class="s4-gsi"><img src="proj1-16.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">다이닝 · DINING</p><p>빛 아래 식탁.<br>함께하는 시간의 무게.</p></div>
+        </div>
+        <!-- 7: 다이닝 landscape -->
+        <div class="s4-gs landscape" data-proj="0">
+          <div class="s4-gsi"><img src="proj1-17.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">다이닝 · DINING</p><p>목재와 조명,<br>그것만으로 충분한 공간.</p></div>
+        </div>
+        <!-- 8: 침실 landscape -->
+        <div class="s4-gs landscape" data-proj="0">
+          <div class="s4-gsi"><img src="proj1-10.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">침실 · BEDROOM</p><p>플랫폼 위에 앉아 바라보는 풍경.<br>침실이 작은 전망대가 됩니다.</p><p class="s4-gq">"머무는 것만으로도 충분한 공간."</p></div>
+        </div>
+        <!-- 9: 침실 landscape -->
+        <div class="s4-gs landscape" data-proj="0">
+          <div class="s4-gsi"><img src="proj1-22.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">침실 · BEDROOM</p><p>빛과 소재, 그리고 침묵.<br>이 침실은 그것만으로 충분합니다.</p></div>
+        </div>
+        <!-- 10: 주방 pair (둘 다 세로) -->
+        <div class="s4-gs pair" data-proj="0">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="proj1-09.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="proj1-21.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">주방 · KITCHEN</p><p>우드 톤의 장식장과<br>선택된 재료 하나하나에<br>의도가 담겨 있습니다.</p></div>
+        </div>
+        <!-- 11: 욕조+뷰 landscape -->
+        <div class="s4-gs landscape" data-proj="0">
+          <div class="s4-gsi"><img src="proj1-04.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">욕조 · BATHTUB</p><p>창밖의 산, 그리고 욕조.<br>이 집의 가장 사적인<br>풍경입니다.</p></div>
+        </div>
+        <!-- 12: 현관 pair (둘 다 세로) -->
+        <div class="s4-gs pair" data-proj="0">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="proj1-06.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="proj1-27.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">현관 · ENTRANCE</p><p>집의 첫 인상.<br>자갈과 디딤돌이 현관을<br>작은 정원으로 만듭니다.</p></div>
+        </div>
+        <!-- 13: 현관 디테일 pair (둘 다 세로) -->
+        <div class="s4-gs pair" data-proj="0">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="proj1-23.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="proj1-24.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">현관 디테일 · ENTRANCE DETAIL</p><p>소재의 결이 보이는 거리.<br>정성이 닿는 자리마다<br>집이 됩니다.</p></div>
+        </div>
+        <!-- 14: 현관 pair (둘 다 세로) -->
+        <div class="s4-gs pair" data-proj="0">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="proj1-25.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="proj1-26.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">현관 · ENTRANCE</p><p>현관의 공기부터<br>다릅니다.</p></div>
+        </div>
+        <!-- 15: 욕조 pair (둘 다 세로) -->
+        <div class="s4-gs pair" data-proj="0">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="proj1-01.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="proj1-02.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">욕조 · BATHTUB</p><p>자연을 바라보며 몸을 담그다.<br>자갈 위에 놓인 욕조가<br>집에서의 쉼을 완성합니다.</p></div>
+        </div>
+        <!-- 16: 욕실 pair (둘 다 세로) -->
+        <div class="s4-gs pair" data-proj="0">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="proj1-18.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="proj1-19.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">욕실 · BATHROOM</p><p>저녁의 욕실.<br>펜던트 조명 하나로<br>공간의 온도가 달라집니다.</p></div>
+        </div>
+        <!-- 17: 연결+욕조 pair (둘 다 세로) -->
+        <div class="s4-gs pair" data-proj="0">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="proj1-03.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="proj1-20.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">욕조 · BATHTUB</p><p>침실에서 욕조로.<br>슬라이딩 도어가 두 공간을 잇고<br>일상에 여행의 감각을 더합니다.</p></div>
+        </div>
+        <!-- 18: 수전 디테일 pair (둘 다 세로) -->
+        <div class="s4-gs pair" data-proj="0">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="proj1-05.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="proj1-12.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">욕실 디테일 · BATHROOM DETAIL</p><p>빛이 스며드는 창가의 수전.<br>소품과 재료의 질감이<br>공간에 깊이를 더합니다.</p></div>
+        </div>
+
+        <!-- ===== 사당 대림아파트 갤러리 (data-proj="1") ===== -->
+        <!-- 현관 01: pair -->
+        <div class="s4-gs pair" data-proj="1">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="sd01.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="sd02.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">현관 · ENTRANCE</p><p>집의 첫 인상을 만드는 공간.<br>슬랫과 간접조명이<br>따뜻한 시작을 만듭니다.</p></div>
+        </div>
+        <!-- 현관 02: pair -->
+        <div class="s4-gs pair" data-proj="1">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="sd03.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="sd04.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">현관 · ENTRANCE</p><p>수납과 마감이 하나로.<br>정돈된 현관이<br>하루의 흐름을 잡아줍니다.</p></div>
+        </div>
+        <!-- 현관 03: pair -->
+        <div class="s4-gs pair" data-proj="1">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="sd05.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="sd06.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">현관 · ENTRANCE</p><p>소재의 질감이 공간을 완성합니다.<br>원목과 타일의 만남이<br>현관에 품격을 더합니다.</p></div>
+        </div>
+        <!-- 다이닝+주방 01: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd07.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">다이닝 · DINING</p><p>빛이 가득한 창가 식탁.<br>자연스러운 일상이<br>이 공간에 담깁니다.</p></div>
+        </div>
+        <!-- 다이닝+주방 02: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd08.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">다이닝+주방 · DINING+KITCHEN</p><p>오픈 구조로 이어진 공간.<br>주방에서 식탁까지<br>시선이 막힘없이 흐릅니다.</p></div>
+        </div>
+        <!-- 다이닝+주방 03: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd09.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">주방 · KITCHEN</p><p>우드 톤의 상부장과 화이트 하부장.<br>절제된 색의 조화로<br>주방이 단정해집니다.</p></div>
+        </div>
+        <!-- 다이닝+주방 04: pair -->
+        <div class="s4-gs pair" data-proj="1">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="sd10.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="sd11.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">주방 · KITCHEN</p><p>수납장 안쪽까지 고려한 설계.<br>기능과 미감이<br>함께 살아있습니다.</p></div>
+        </div>
+        <!-- 다이닝+주방 05: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd12.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">다이닝 · DINING</p><p>버블 펜던트 조명 아래<br>원목 식탁이 놓입니다.<br>함께하는 시간이 빛나는 공간.</p></div>
+        </div>
+        <!-- 다이닝+주방 06: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd13.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">주방 · KITCHEN</p><p>아일랜드 상판의 질감.<br>손길이 닿는 모든 곳에<br>디테일이 살아있습니다.</p></div>
+        </div>
+        <!-- 다이닝+주방 07: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd14.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">다이닝+주방 · DINING+KITCHEN</p><p>발코니까지 이어지는 시선.<br>열린 공간이 일상을<br>조금 더 넓게 만듭니다.</p></div>
+        </div>
+        <!-- 다이닝+주방 08: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd15.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">다이닝 · DINING</p><p>빛이 들어오는 방향으로<br>식탁을 놓았습니다.<br>자연스러운 하루의 리듬.</p></div>
+        </div>
+        <!-- 다이닝+주방 09: pair -->
+        <div class="s4-gs pair" data-proj="1">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="sd16.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="sd17.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">주방 · KITCHEN</p><p>주방 디테일 하나하나가<br>공간의 완성도를 높입니다.</p></div>
+        </div>
+        <!-- 다이닝+주방 10: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd18.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">다이닝+주방 · DINING+KITCHEN</p><p>전체 공간이 한눈에 담깁니다.<br>통일된 마감재가<br>집을 하나로 잇습니다.</p></div>
+        </div>
+        <!-- 다이닝+주방 11: pair -->
+        <div class="s4-gs pair" data-proj="1">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="sd19.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="sd20.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">주방 디테일 · DETAIL</p><p>수전과 손잡이까지<br>일관된 소재 언어로<br>공간을 정리했습니다.</p></div>
+        </div>
+        <!-- 다이닝+주방 12: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd21.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">다이닝+주방 · DINING+KITCHEN</p><p>넓은 창과 함께하는<br>식사 공간.<br>빛과 함께 하루가 시작됩니다.</p></div>
+        </div>
+        <!-- 다이닝+주방 13: pair -->
+        <div class="s4-gs pair" data-proj="1">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="sd22.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="sd23.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">주방 · KITCHEN</p><p>붙박이장과 오픈 선반의 조합.<br>필요한 것은 담고<br>보여줄 것은 드러냅니다.</p></div>
+        </div>
+        <!-- 다이닝+주방 14: pair -->
+        <div class="s4-gs pair" data-proj="1">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="sd24.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="sd25.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">주방 디테일 · DETAIL</p><p>타일 줄눈 하나까지 맞춘 마감.<br>완성도는 눈에 보이지 않는<br>곳에서도 지켜집니다.</p></div>
+        </div>
+        <!-- 다이닝+주방 15: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd26.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">주방 · KITCHEN</p><p>심플한 라인이 돋보이는<br>주방 마감.<br>간결함이 공간을 넓힙니다.</p></div>
+        </div>
+        <!-- 다이닝+주방 16: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd27.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">다이닝 · DINING</p><p>조명과 가구가 어우러진 공간.<br>식탁 위의 빛이<br>저녁을 특별하게 만듭니다.</p></div>
+        </div>
+        <!-- 다이닝+주방 17: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd28.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">다이닝+주방 · DINING+KITCHEN</p><p>공간 전체가 조화롭습니다.<br>디자인과 기능이 만나는<br>삶의 중심 공간.</p></div>
+        </div>
+        <!-- 다이닝+주방 18: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd29.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">주방 디테일 · DETAIL</p><p>마감의 정직함이<br>공간의 신뢰를 만듭니다.</p></div>
+        </div>
+        <!-- 다이닝+주방 19: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd30.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">다이닝+주방 · DINING+KITCHEN</p><p>전경이 담긴 공간.<br>넓고 밝은 생활 중심부가<br>완성되었습니다.</p></div>
+        </div>
+        <!-- 거실 01: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd31.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">거실 · LIVING ROOM</p><p>천장을 따라 흐르는 간접조명.<br>발코니 너머 빛과 함께<br>거실이 조용히 완성됩니다.</p></div>
+        </div>
+        <!-- 거실 02: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd32.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">거실 · LIVING ROOM</p><p>거실에서 다이닝까지<br>끊김 없이 이어지는 공간.<br>열린 구조가 집을 넓힙니다.</p></div>
+        </div>
+        <!-- 거실 03: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd33.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">거실 · LIVING ROOM</p><p>소파와 러그, 조명이<br>하나의 구도로 배치됩니다.<br>쉼을 위한 공간.</p></div>
+        </div>
+        <!-- 거실 04: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd34.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">거실 · LIVING ROOM</p><p>발코니와 연결된 거실.<br>안과 밖의 경계가<br>부드럽게 이어집니다.</p></div>
+        </div>
+        <!-- 거실 05: pair -->
+        <div class="s4-gs pair" data-proj="1">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="sd35.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="sd36.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">거실 디테일 · DETAIL</p><p>원목 슬랫이 만드는 결.<br>TV 월이 하나의<br>작품이 됩니다.</p></div>
+        </div>
+        <!-- 거실 06: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd37.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">거실 디테일 · DETAIL</p><p>소재의 레이어가<br>공간 깊이를 만듭니다.</p></div>
+        </div>
+        <!-- 거실 07: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd38.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">거실 · LIVING ROOM</p><p>빛과 그림자가 교차하는<br>거실의 오후.<br>공간이 시간을 품습니다.</p></div>
+        </div>
+        <!-- 거실 08: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd39.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">거실 디테일 · DETAIL</p><p>마감 하나에도<br>흔들리지 않는 완성도.</p></div>
+        </div>
+        <!-- 거실 09: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd40.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">거실 · LIVING ROOM</p><p>전체 구도가 한눈에 담깁니다.<br>넓고 개방적인 거실이<br>일상을 품어줍니다.</p></div>
+        </div>
+        <!-- 거실 10: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd41.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">거실 · LIVING ROOM</p><p>간접조명과 자연광의 조화.<br>공간이 언제나<br>부드럽게 빛납니다.</p></div>
+        </div>
+        <!-- 거실 11: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd42.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">거실 · LIVING ROOM</p><p>단정한 라인의 거실.<br>절제된 인테리어가<br>여유를 만듭니다.</p></div>
+        </div>
+        <!-- 거실 12: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd43.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">거실 디테일 · DETAIL</p><p>장식 없이도 완성되는 공간.<br>소재가 말을 합니다.</p></div>
+        </div>
+        <!-- 거실 13: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd44.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">거실+발코니 · LIVING+BALCONY</p><p>발코니 확장으로<br>거실이 한층 넓어졌습니다.<br>빛이 가득한 생활공간.</p></div>
+        </div>
+        <!-- 거실 14: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd45.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">거실 · LIVING ROOM</p><p>편안한 소파가 공간을 채웁니다.<br>디자인과 쉼이<br>함께 머무는 자리.</p></div>
+        </div>
+        <!-- 거실 15: pair -->
+        <div class="s4-gs pair" data-proj="1">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="sd46.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="sd47.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">거실 디테일 · DETAIL</p><p>조명과 소재의 조합.<br>디테일이 공간을<br>완성합니다.</p></div>
+        </div>
+        <!-- 거실 16: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd48.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">거실 디테일 · DETAIL</p><p>단 하나의 요소도<br>우연이 없습니다.</p></div>
+        </div>
+        <!-- 거실 17: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd49.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">거실 · LIVING ROOM</p><p>시간의 흐름을 담는 공간.<br>아침과 저녁이 모두<br>아름다운 거실입니다.</p></div>
+        </div>
+        <!-- 거실 18: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd50.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">거실 · LIVING ROOM</p><p>공간이 집을 말해줍니다.<br>정성이 담긴 마감으로<br>완성된 거실.</p></div>
+        </div>
+        <!-- 거실 19: pair -->
+        <div class="s4-gs pair" data-proj="1">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="sd51.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="sd52.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">거실 디테일 · DETAIL</p><p>작은 디테일이 모여<br>큰 완성도가 됩니다.</p></div>
+        </div>
+        <!-- 거실 20: pair -->
+        <div class="s4-gs pair" data-proj="1">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="sd53.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="sd54.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">거실 디테일 · DETAIL</p><p>소재와 소재가 만나는 접점.<br>경계가 아름다운<br>공간의 이야기.</p></div>
+        </div>
+        <!-- 거실 21: pair -->
+        <div class="s4-gs pair" data-proj="1">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="sd55.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="sd56.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">거실 디테일 · DETAIL</p><p>완성에는 끝이 없습니다.<br>마지막 선 하나까지<br>마음을 담았습니다.</p></div>
+        </div>
+        <!-- 거실 22: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd57.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">거실 · LIVING ROOM</p><p>빛으로 마무리되는 공간.<br>하루의 마지막이<br>아름답게 내려앉습니다.</p></div>
+        </div>
+        <!-- 거실 23: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd58.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">거실 · LIVING ROOM</p><p>전체가 담기는 거실의 풍경.<br>디자인이 삶에 녹아든<br>완성의 순간.</p></div>
+        </div>
+        <!-- 침실 01: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd59.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">침실 · BEDROOM</p><p>헤드보드 선반이 벽 안으로.<br>필요한 것만 남긴<br>침실의 정직한 구조.</p></div>
+        </div>
+        <!-- 침실 02: pair -->
+        <div class="s4-gs pair" data-proj="1">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="sd60.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="sd61.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">침실 디테일 · DETAIL</p><p>잠자리 주변의 소소한 디테일.<br>편안한 밤을 위한<br>세심한 설계.</p></div>
+        </div>
+        <!-- 침실 03: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd62.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">침실 · BEDROOM</p><p>빛이 들어오는 침실.<br>아침이 부드럽게<br>시작되는 공간.</p></div>
+        </div>
+        <!-- 침실 04: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd63.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">침실 · BEDROOM</p><p>단순하고 깊은 침실.<br>비워둘수록<br>더 풍성해지는 공간.</p></div>
+        </div>
+        <!-- 침실 05: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd64.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">침실 디테일 · DETAIL</p><p>침실 한 켠의 정직한 마감.<br>보이지 않는 곳도<br>소홀히 하지 않습니다.</p></div>
+        </div>
+        <!-- 침실 06: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd65.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">침실 · BEDROOM</p><p>침실 전경이 담깁니다.<br>쉼을 위한 공간이<br>조용히 완성되었습니다.</p></div>
+        </div>
+        <!-- 침실 07: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd66.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">침실 · BEDROOM</p><p>정돈된 침실의 풍경.<br>단정함이 하루를<br>마무리합니다.</p></div>
+        </div>
+        <!-- 드레스룸 01: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd67.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">드레스룸 · DRESSING ROOM</p><p>천장까지 닿는 빌트인 수납.<br>정리된 공간이<br>하루를 단정하게 시작합니다.</p></div>
+        </div>
+        <!-- 드레스룸 02: pair -->
+        <div class="s4-gs pair" data-proj="1">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="sd68.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="sd69.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">드레스룸 · DRESSING ROOM</p><p>수납의 질서가<br>공간을 완성합니다.</p></div>
+        </div>
+        <!-- 드레스룸 03: pair -->
+        <div class="s4-gs pair" data-proj="1">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="sd70.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="sd71.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">드레스룸 디테일 · DETAIL</p><p>공간 안에서 질서가 생깁니다.<br>모든 것이 제자리에<br>있는 아름다움.</p></div>
+        </div>
+        <!-- 드레스룸 04: pair -->
+        <div class="s4-gs pair" data-proj="1">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="sd72.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="sd73.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">드레스룸 디테일 · DETAIL</p><p>마감재의 선택이<br>드레스룸의 품격을 결정합니다.</p></div>
+        </div>
+        <!-- 욕실 01: pair -->
+        <div class="s4-gs pair" data-proj="1">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="sd74.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="sd75.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">욕실 · BATHROOM</p><p>다크 스톤 타일이 가득한 공간.<br>진중한 소재 하나로<br>욕실이 깊어집니다.</p></div>
+        </div>
+        <!-- 욕실 02: pair -->
+        <div class="s4-gs pair" data-proj="1">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="sd76.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="sd77.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">욕실 · BATHROOM</p><p>스톤 세면대와 스틸 수전.<br>재료의 대비가<br>공간에 긴장감을 더합니다.</p></div>
+        </div>
+        <!-- 욕실 03: pair -->
+        <div class="s4-gs pair" data-proj="1">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="sd78.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="sd79.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">욕실 · BATHROOM</p><p>샤워 공간의 단정한 구성.<br>기능과 미감을<br>함께 설계했습니다.</p></div>
+        </div>
+        <!-- 욕실 04: pair -->
+        <div class="s4-gs pair" data-proj="1">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="sd80.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="sd81.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">욕실 디테일 · DETAIL</p><p>타일과 줄눈의 비율.<br>욕실도 설계의<br>언어로 말합니다.</p></div>
+        </div>
+        <!-- 욕실 05: pair -->
+        <div class="s4-gs pair" data-proj="1">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="sd82.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="sd83.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">욕실 디테일 · DETAIL</p><p>완성된 욕실의 마지막 모습.<br>소재 하나하나에<br>정성을 담았습니다.</p></div>
+        </div>
+        <!-- 아이방 01: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd84.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">아이방 · KIDS ROOM</p><p>아이를 위한 밝고 쾌적한 공간.<br>성장과 함께하는<br>방이 완성되었습니다.</p></div>
+        </div>
+        <!-- 아이방 02: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd85.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">아이방 · KIDS ROOM</p><p>수납과 학습 공간이<br>균형 있게 배치됩니다.<br>기능적인 아이방.</p></div>
+        </div>
+        <!-- 아이방 03: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd86.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">아이방 · KIDS ROOM</p><p>빛이 가득한 아이의 공간.<br>창문 너머 세상이<br>더 크게 보입니다.</p></div>
+        </div>
+        <!-- 아이방 04: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd87.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">아이방 디테일 · DETAIL</p><p>아이의 눈높이에서<br>설계된 공간의 이야기.</p></div>
+        </div>
+        <!-- 아이방 05: landscape -->
+        <div class="s4-gs landscape" data-proj="1">
+          <div class="s4-gsi"><img src="sd88.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">아이방 · KIDS ROOM</p><p>아이방의 전체 풍경.<br>가족의 꿈이 담긴<br>공간이 완성되었습니다.</p></div>
+        </div>
+
+        <!-- ===== 상도 더샵 갤러리 (data-proj="2") ===== -->
+        <!-- ★ 거실 01: 대표 와이드 - 간접조명 -->
+        <div class="s4-gs landscape" data-proj="2">
+          <div class="s4-gsi"><img src="proj3-21.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">거실 · LIVING ROOM</p><p>원형 파티션과 간접조명이<br>공간에 깊이를 더합니다.<br>절제된 비움의 미학.</p></div>
+        </div>
+        <!-- ★ 거실 02: 원형 파티션 정면 -->
+        <div class="s4-gs landscape" data-proj="2">
+          <div class="s4-gsi"><img src="proj3-19.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">거실 · LIVING ROOM</p><p>원목 수납장과 원형 파티션이<br>거실의 중심을 잡아줍니다.<br>대칭이 만드는 안정감.</p></div>
+        </div>
+        <!-- ★ 거실 03: 사이드 앵글 -->
+        <div class="s4-gs landscape" data-proj="2">
+          <div class="s4-gsi"><img src="proj3-22.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">거실 · LIVING ROOM</p><p>측면에서 바라본 거실.<br>파티션 너머 발코니의 빛이<br>공간을 관통합니다.</p></div>
+        </div>
+        <!-- ★ 거실 04: 파티션+니치 세로 pair -->
+        <div class="s4-gs pair" data-proj="2">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="proj3-44.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="proj3-26.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">거실 · LIVING ROOM</p><p>원형 파티션 너머로<br>도시의 풍경이 들어옵니다.<br>석재 디딤돌이 안과 밖을 잇습니다.</p></div>
+        </div>
+        <!-- ★ 거실 05 -->
+        <div class="s4-gs landscape" data-proj="2">
+          <div class="s4-gsi"><img src="proj3-20.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">거실 · LIVING ROOM</p><p>빛이 머무는 거실.<br>자연광이 원목 위를 지나며<br>공간에 온기를 더합니다.</p></div>
+        </div>
+        <!-- ★ 거실 06: 니치 클로즈업 pair -->
+        <div class="s4-gs pair" data-proj="2">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="proj3-24.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="proj3-25.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">거실 · 니치 디테일</p><p>원목 니치와 간접조명.<br>빛이 소재의 결을 따라<br>흐르도록 설계했습니다.</p></div>
+        </div>
+        <!-- ★ 발코니 01: 파티션+니치 가로 -->
+        <div class="s4-gs landscape" data-proj="2">
+          <div class="s4-gsi"><img src="proj3-39.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">발코니 · BALCONY</p><p>파티션과 니치의 만남.<br>원형 창이 프레임이 되어<br>바깥 세상을 담습니다.</p></div>
+        </div>
+        <!-- ★ 현관 01: 원형 거울+니치 pair -->
+        <div class="s4-gs pair" data-proj="2">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="proj3-07.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="proj3-35.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">현관 · 디테일</p><p>원형 거울과 원목 니치.<br>자연 소재가 맞이하는<br>집의 첫 인상.</p></div>
+        </div>
+        <!-- 거실 07 -->
+        <div class="s4-gs landscape" data-proj="2">
+          <div class="s4-gsi"><img src="proj3-15.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">거실 · LIVING ROOM</p><p>원목 니치 속 꽃병 하나.<br>비워둔 벽이<br>가장 아름다운 장식이 됩니다.</p></div>
+        </div>
+        <!-- 거실 08 -->
+        <div class="s4-gs landscape" data-proj="2">
+          <div class="s4-gsi"><img src="proj3-16.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">거실 · LIVING ROOM</p><p>같은 공간, 다른 빛.<br>시간에 따라 달라지는<br>거실의 표정.</p></div>
+        </div>
+        <!-- 주방: landscape -->
+        <div class="s4-gs landscape" data-proj="2">
+          <div class="s4-gsi"><img src="proj3-36.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">주방 · KITCHEN</p><p>화이트 하부장과 원목 상부장.<br>간접조명 아래 깔끔한 동선이<br>요리하는 시간을 편안하게 합니다.</p></div>
+        </div>
+        <!-- 거실 09: 수납+복도 -->
+        <div class="s4-gs landscape" data-proj="2">
+          <div class="s4-gsi"><img src="proj3-30.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">거실 · LIVING ROOM</p><p>화이트 수납장과 원목 패널.<br>복도로 이어지는 동선에<br>간접조명이 길을 만듭니다.</p></div>
+        </div>
+        <!-- 현관 02: 복도 pair -->
+        <div class="s4-gs pair" data-proj="2">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="proj3-09.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="proj3-10.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">현관 · ENTRANCE</p><p>복도 끝 현관문까지.<br>원목 패널이 이어지며<br>공간에 방향을 부여합니다.</p></div>
+        </div>
+        <!-- 거울 반사 pair -->
+        <div class="s4-gs pair" data-proj="2">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="proj3-45.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="proj3-47.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">거실 · 디테일</p><p>거울에 비친 니치.<br>반사가 만드는<br>또 하나의 풍경.</p></div>
+        </div>
+        <!-- 발코니 02 -->
+        <div class="s4-gs landscape" data-proj="2">
+          <div class="s4-gsi"><img src="proj3-27.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">발코니 · BALCONY</p><p>발코니에서 바라본 거실.<br>원목 선반과 원형 창이<br>하나의 구도를 만듭니다.</p></div>
+        </div>
+        <!-- 발코니 03 -->
+        <div class="s4-gs landscape" data-proj="2">
+          <div class="s4-gsi"><img src="proj3-34.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">발코니 · BALCONY</p><p>발코니 공간의 전경.<br>원목 천장과 수납이<br>실용과 미감을 잇습니다.</p></div>
+        </div>
+        <!-- 거실 10 -->
+        <div class="s4-gs landscape" data-proj="2">
+          <div class="s4-gsi"><img src="proj3-17.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">거실 · LIVING ROOM</p><p>빛의 온도가 달라지는<br>오후의 거실.</p></div>
+        </div>
+        <!-- 거실 11 -->
+        <div class="s4-gs landscape" data-proj="2">
+          <div class="s4-gsi"><img src="proj3-18.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">거실 · LIVING ROOM</p><p>자연광 아래<br>소재의 결이 드러납니다.</p></div>
+        </div>
+        <!-- 거실 12: 반대방향 -->
+        <div class="s4-gs landscape" data-proj="2">
+          <div class="s4-gsi"><img src="proj3-28.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">거실 · LIVING ROOM</p><p>주방 방향에서 바라본 거실.<br>열린 구조가 만드는<br>넓고 깊은 시선.</p></div>
+        </div>
+        <!-- 거실 13 -->
+        <div class="s4-gs landscape" data-proj="2">
+          <div class="s4-gsi"><img src="proj3-32.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">거실 · LIVING ROOM</p><p>반대편에서 바라본 전경.<br>원형 파티션이 공간의<br>중심축이 됩니다.</p></div>
+        </div>
+        <!-- 거실 14 -->
+        <div class="s4-gs landscape" data-proj="2">
+          <div class="s4-gsi"><img src="proj3-23.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">거실 · LIVING ROOM</p><p>다양한 앵글에서 바라본<br>정돈된 풍경.</p></div>
+        </div>
+        <!-- 거실 15 -->
+        <div class="s4-gs landscape" data-proj="2">
+          <div class="s4-gsi"><img src="proj3-31.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">거실 · LIVING ROOM</p><p>원목과 화이트의 균형.<br>재료의 대비가<br>공간에 리듬을 만듭니다.</p></div>
+        </div>
+        <!-- 거실 16 -->
+        <div class="s4-gs landscape" data-proj="2">
+          <div class="s4-gsi"><img src="proj3-33.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">거실 · LIVING ROOM</p><p>어디서 보아도<br>정돈된 풍경이 펼쳐집니다.</p></div>
+        </div>
+        <!-- 거실 17 -->
+        <div class="s4-gs landscape" data-proj="2">
+          <div class="s4-gsi"><img src="proj3-29.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">복도 · HALLWAY</p><p>복도에서 이어지는 시선.<br>공간과 공간 사이<br>빛이 흐르는 길.</p></div>
+        </div>
+        <!-- 거실 18 -->
+        <div class="s4-gs landscape" data-proj="2">
+          <div class="s4-gsi"><img src="proj3-42.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">거실 · LIVING ROOM</p><p>각 방향에서 바라본 공간.</p></div>
+        </div>
+        <!-- 거실 19 -->
+        <div class="s4-gs landscape" data-proj="2">
+          <div class="s4-gsi"><img src="proj3-43.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">거실 · LIVING ROOM</p><p>마감의 완성도.<br>보이지 않는 곳까지<br>바르게 설계했습니다.</p></div>
+        </div>
+        <!-- 발코니 04 -->
+        <div class="s4-gs landscape" data-proj="2">
+          <div class="s4-gsi"><img src="proj3-46.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">발코니 · BALCONY</p><p>파티션 너머 발코니의 빛.</p></div>
+        </div>
+        <!-- 현관 가로 -->
+        <div class="s4-gs landscape" data-proj="2">
+          <div class="s4-gsi"><img src="proj3-12.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">현관 · ENTRANCE</p><p>현관에서 바라본 풍경.<br>원목 도어와 간접조명이<br>따뜻하게 맞이합니다.</p></div>
+        </div>
+        <!-- 디테일 pair: 원목+거울 -->
+        <div class="s4-gs pair" data-proj="2">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="proj3-13.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="proj3-14.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">거실 · 디테일</p><p>원목 마감의 다운라이트.<br>소재 본연의 질감이<br>공간을 채웁니다.</p></div>
+        </div>
+        <!-- 디테일 pair: 석재 디딤돌 -->
+        <div class="s4-gs pair" data-proj="2">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="proj3-08.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="proj3-38.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">디테일 · DETAIL</p><p>석재 디딤돌과 원목의 만남.<br>자연 소재의 질감이<br>공간에 무게를 더합니다.</p></div>
+        </div>
+        <!-- 디테일 pair: 발코니 입구 -->
+        <div class="s4-gs pair" data-proj="2">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="proj3-37.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="proj3-40.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">디테일 · DETAIL</p><p>발코니 입구의 디테일.<br>석재와 원목의 경계가<br>자연스럽게 이어집니다.</p></div>
+        </div>
+        <!-- 디테일 pair: 복도 -->
+        <div class="s4-gs pair" data-proj="2">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="proj3-11.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="proj3-41.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">복도 · 디테일</p><p>복도의 원목 패널과 마감.<br>동선 자체가<br>하나의 경험이 됩니다.</p></div>
+        </div>
+        <!-- 욕실 가로 -->
+        <div class="s4-gs landscape" data-proj="2">
+          <div class="s4-gsi"><img src="proj3-04.jpg" alt=""></div>
+          <div class="s4-gst"><p class="s4-gcat">욕실 · BATHROOM</p><p>간접조명 아래 욕실 상부.<br>거울과 수납이<br>깔끔하게 정리됩니다.</p></div>
+        </div>
+        <!-- 욕실 01: pair -->
+        <div class="s4-gs pair" data-proj="2">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="proj3-01.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="proj3-02.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">욕실 · BATHROOM</p><p>다크 그레이 타일과 유리 파티션.<br>진중한 소재가 만드는<br>고요한 욕실.</p></div>
+        </div>
+        <!-- 욕실 02: pair -->
+        <div class="s4-gs pair" data-proj="2">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="proj3-03.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="proj3-05.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">욕실 · BATHROOM</p><p>세면대와 샤워 공간.<br>기능과 미감을<br>함께 설계했습니다.</p></div>
+        </div>
+        <!-- 욕실 03: pair -->
+        <div class="s4-gs pair" data-proj="2">
+          <div class="s4-gimg-wrap">
+            <div class="s4-gsi"><img src="proj3-06.jpg" alt=""></div>
+            <div class="s4-gsi"><img src="proj3-48.jpg" alt=""></div>
+          </div>
+          <div class="s4-gst"><p class="s4-gcat">디테일 · DETAIL</p><p>마감의 디테일.<br>스위치 하나까지<br>톤을 맞추었습니다.</p></div>
+        </div>
+
+        <div class="s4-gdots">
+          <div class="s4-gd on" data-gi="0"></div><div class="s4-gd" data-gi="1"></div><div class="s4-gd" data-gi="2"></div>
+          <div class="s4-gd" data-gi="3"></div><div class="s4-gd" data-gi="4"></div><div class="s4-gd" data-gi="5"></div>
+          <div class="s4-gd" data-gi="6"></div><div class="s4-gd" data-gi="7"></div><div class="s4-gd" data-gi="8"></div>
+          <div class="s4-gd" data-gi="9"></div><div class="s4-gd" data-gi="10"></div><div class="s4-gd" data-gi="11"></div>
+          <div class="s4-gd" data-gi="12"></div><div class="s4-gd" data-gi="13"></div><div class="s4-gd" data-gi="14"></div>
+          <div class="s4-gd" data-gi="15"></div><div class="s4-gd" data-gi="16"></div><div class="s4-gd" data-gi="17"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ⑤ CONSULTATION (단계별) -->
+  <section class="section" id="s5" style="background:#ffffff !important; position:absolute; inset:0;">
+    <p class="section-logo">J E O N G D O</p>
+    <div class="s5-progress" id="s5pbar" style="width:0%"></div>
+    <div class="s5-step on" id="cst1">
+      <p class="s5-label">CONSULTATION</p>
+      <p class="s5-num">01 / 06</p>
+      <h2 class="s5-q">어떤 공간을 계획하고 계신가요?</h2>
+      <div class="s5-choices" id="cch1">
+        <div class="s5-choice">아파트</div>
+        <div class="s5-choice">빌라 / 투룸</div>
+        <div class="s5-choice">단독주택</div>
+        <div class="s5-choice">상업공간</div>
+      </div>
+      <button class="s5-next" id="cnx1">다음으로</button>
+    </div>
+    <div class="s5-step" id="cst2">
+      <p class="s5-label">CONSULTATION</p>
+      <p class="s5-num">02 / 06</p>
+      <h2 class="s5-q">공간의 크기는 어느 정도인가요?</h2>
+      <div class="s5-choices" id="cch2">
+        <div class="s5-choice">10평</div>
+        <div class="s5-choice">20평</div>
+        <div class="s5-choice">30평</div>
+        <div class="s5-choice">40평</div>
+        <div class="s5-choice">50평 이상</div>
+      </div>
+      <button class="s5-next" id="cnx2">다음으로</button>
+    </div>
+    <div class="s5-step" id="cst3">
+      <p class="s5-label">CONSULTATION</p>
+      <p class="s5-num">03 / 06</p>
+      <h2 class="s5-q">어떤 범위의 공사를 원하시나요?</h2>
+      <div class="s5-choices" id="cch3">
+        <div class="s5-choice">전체 인테리어</div>
+        <div class="s5-choice">부분 인테리어</div>
+      </div>
+      <button class="s5-next" id="cnx3">다음으로</button>
+    </div>
+    <div class="s5-step" id="cst4">
+      <p class="s5-label">CONSULTATION</p>
+      <p class="s5-num">04 / 06</p>
+      <h2 class="s5-q">예산은 어느 정도 생각하고 계신가요?</h2>
+      <div class="s5-choices" id="cch4">
+        <div class="s5-choice">3천 ~ 5천만원</div>
+        <div class="s5-choice">5천 ~ 1억원</div>
+        <div class="s5-choice">1억원 이상</div>
+        <div class="s5-choice">기타</div>
+      </div>
+      <button class="s5-next" id="cnx4">다음으로</button>
+    </div>
+    <div class="s5-step" id="cst5">
+      <p class="s5-label">CONSULTATION</p>
+      <p class="s5-num">05 / 06</p>
+      <h2 class="s5-q">정도를 어떻게 알게 되셨나요?</h2>
+      <div class="s5-choices" id="cch5">
+        <div class="s5-choice">인스타그램</div>
+        <div class="s5-choice">유튜브</div>
+        <div class="s5-choice">블로그</div>
+        <div class="s5-choice">지인소개</div>
+        <div class="s5-choice">기타</div>
+      </div>
+      <button class="s5-next" id="cnx5">다음으로</button>
+    </div>
+    <div class="s5-step" id="cst6">
+      <p class="s5-label">CONSULTATION</p>
+      <p class="s5-num">06 / 06</p>
+      <h2 class="s5-q">연락처를 남겨주세요</h2>
+      <div class="s5-fields">
+        <div><p class="s5-fl">성함 <span class="s5-req">*</span></p><input class="s5-input" id="c-name" type="text" placeholder="홍길동"></div>
+        <div><p class="s5-fl">연락처 <span class="s5-req">*</span></p><input class="s5-input" id="c-phone" type="tel" placeholder="010-0000-0000"></div>
+        <div><p class="s5-fl">지역</p><input class="s5-input" id="c-region" type="text" placeholder="서울 서초구"></div>
+        <div><p class="s5-fl">하고 싶은 말</p><textarea class="s5-textarea" id="c-message" placeholder="궁금한 점이나 요청사항이 있으시면 자유롭게 적어주세요."></textarea></div>
+      </div>
+      <button class="s5-submit" id="cSubmit">상담 신청하기</button>
+    </div>
+  </section>
+
+  <!-- ⑥ COMPLETE -->
+  <section class="section" id="s6" style="background:#ffffff !important;">
+    <p class="section-logo">J E O N G D O</p>
+    <div class="s6-page">
+      <div class="s6-msg">
+        <p class="s6-top">CONSULTATION COMPLETE</p>
+        <h1 class="s6-main">정도와의 동행이 시작됩니다.</h1>
+        <div class="s6-line"></div>
+        <p class="s6-closing">소중한 연락을 확인 후 빠르게 연락드리겠습니다.</p>
+      </div>
+      <div class="s6-letter">
+        <p class="s6-letter-body">
+          이 홈페이지를 한 페이지씩 천천히 넘기게 만든 이유는,<br>
+          공간의 첫 만남이 가격이 아니라<br>
+          <strong>이야기에서 시작되기를</strong> 바랐기 때문입니다.
+        </p>
+        <p class="s6-letter-body">
+          곧 만나뵐 첫 상담에서는<br>
+          <em>"평당 얼마예요?"</em>가 아니라<br>
+          <em>"이 공간에서 어떤 시간을 보내고 싶으세요?"</em><br>
+          라는 질문으로 대화를 시작하겠습니다.
+        </p>
+        <p class="s6-letter-close">
+          당신의 공간이<br>당신을 닮아갈 수 있도록.
+        </p>
+        <p class="s6-letter-sign">— 디자인 정도</p>
+      </div>
+      <div class="s6-tgl-area">
+        <p class="s6-explore">정도를 더 알아보기</p>
+        <div class="s6-tgl">
+          <div class="s6-tgl-fill"></div>
+          <div class="s6-tgl-content"><span class="s6-tgl-name">Instagram</span><div class="s6-tgl-sw"><div class="s6-tgl-knob"></div></div></div>
+          <div class="s6-tgl-link"><a href="https://www.instagram.com" target="_blank">바로가기 →</a></div>
+        </div>
+        <div class="s6-tgl">
+          <div class="s6-tgl-fill"></div>
+          <div class="s6-tgl-content"><span class="s6-tgl-name">YouTube</span><div class="s6-tgl-sw"><div class="s6-tgl-knob"></div></div></div>
+          <div class="s6-tgl-link"><a href="https://www.youtube.com" target="_blank">바로가기 →</a></div>
+        </div>
+        <div class="s6-tgl">
+          <div class="s6-tgl-fill"></div>
+          <div class="s6-tgl-content"><span class="s6-tgl-name">Blog</span><div class="s6-tgl-sw"><div class="s6-tgl-knob"></div></div></div>
+          <div class="s6-tgl-link"><a href="https://blog.naver.com" target="_blank">바로가기 →</a></div>
+        </div>
+      </div>
+      <div class="s6-footer"><p>DESIGN STUDIO JEONGDO</p></div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  const TOTAL = 6;
+  let cur = 0, maxV = 0, moving = false;
+
+  const secs    = [...document.querySelectorAll('.section')];
+  const nextBtn = document.getElementById('next-btn');
+  const heroCta = document.getElementById('hero-cta');
+  const prevBtn = document.getElementById('prev-btn');
+
+  const scrollEls = {
+  };
+
+  const lightBg = [1, 2, 3, 4]; // s2(철학), s3(프로세스), s4(프로젝트), s5(상담) — 밝은 배경
+
+  function goTo(idx) {
+    if (idx === cur || moving || idx < 0 || idx >= TOTAL || idx > maxV + 1) return;
+    moving = true;
+    secs[cur].classList.remove('active');
+    cur = idx;
+    if (cur > maxV) maxV = cur;
+    secs[cur].classList.add('active');
+
+    if (scrollEls[cur]) scrollEls[cur].scrollTop = 0;
+
+    updateNext();
+    // 4페이지: 버튼 스타일 강조
+    if (cur === 3) {
+      nextBtn.classList.add('on-project');
+      prevBtn.classList.add('on-project');
+    } else {
+      nextBtn.classList.remove('on-project');
+      prevBtn.classList.remove('on-project');
+    }
+    // 5~6페이지: 상담하기(next) 숨김
+    if (cur >= 4) {
+      nextBtn.classList.remove('visible');
+      nextBtn.style.display = 'none';
+    } else {
+      nextBtn.style.display = '';
+    }
+    setTimeout(() => moving = false, 950);
+  }
+
+  function showNext() {
+    if (cur === TOTAL - 1) return;
+    if (cur === 0) {
+      heroCta.classList.add('visible');
+    } else {
+      // 페이지별 버튼 텍스트
+      const labels = { 1: '동행하기', 2: '공간 보기', 3: '상담하기', 4: '상담하기' };
+      nextBtn.querySelector('.btn-label').textContent = labels[cur] || '다음으로';
+      nextBtn.className = nextBtn.className.replace(/\b(light|dark)\b/g, '').trim();
+      nextBtn.classList.add(lightBg.includes(cur) ? 'dark' : 'light');
+      nextBtn.classList.add('visible');
+    }
+  }
+
+  function hideNext() {
+    nextBtn.classList.remove('visible');
+    heroCta.classList.remove('visible');
+  }
+
+  function updatePrev() {
+    if (cur >= 1) {
+      prevBtn.classList.add('visible');
+      // 밝은 배경 페이지에서는 dark-mode 제거 (이미 어두운 텍스트)
+      if (lightBg.includes(cur)) {
+        prevBtn.classList.remove('dark-mode');
+      } else {
+        prevBtn.classList.add('dark-mode');
+      }
+    } else {
+      prevBtn.classList.remove('visible');
+    }
+  }
+
+  function checkBottom(i) {
+    const el = scrollEls[i];
+    if (!el) return;
+    const reached = el.scrollHeight - el.scrollTop - el.clientHeight < 48;
+    reached ? showNext() : hideNext();
+  }
+
+  // 모바일: 스크롤 가능한 컨테이너를 찾아 끝 도달 시 버튼 표시
+  const mobileScrollSelectors = {
+    1: '#s2 .s2-layout',
+    2: '#s3 .s3-process',
+    3: '#s4',
+    4: '#s5',
+    5: '#s6',
+  };
+  // 페이지별 애니메이션 완료 시간 (PC 기준과 동일)
+  const mobileAnimDelay = {
+    1: 6500, // 2페이지 철학
+    2: 4000, // 3페이지 프로세스
+    3: 2000, // 4페이지 프로젝트
+    4: 800,  // 5페이지 상담
+    5: 800,  // 6페이지 완료
+  };
+  let mobileScrollHandler = null;
+  let mobileScrollTarget = null;
+  let mobileGateTimer = null;
+
+  function attachMobileScrollGate() {
+    detachMobileScrollGate();
+    const hint = document.getElementById('scrollHint');
+    if (hint) hint.classList.remove('active', 'hide');
+    if (window.innerWidth > 768) return false;
+    const sel = mobileScrollSelectors[cur];
+    if (!sel) return false;
+    const el = document.querySelector(sel);
+    if (!el) return false;
+
+    el.scrollTop = 0;
+    mobileScrollTarget = el;
+    // 초기: prev/next 모두 숨김
+    hideNext();
+    prevBtn.classList.remove('visible');
+
+    const showButtons = () => {
+      showNext();
+      if (cur >= 1) prevBtn.classList.add('visible');
+    };
+    const hideButtons = () => {
+      hideNext();
+      prevBtn.classList.remove('visible');
+    };
+
+    const progress = document.getElementById('scrollHintProgress');
+    const thumb = document.getElementById('scrollHintThumb');
+
+    const updateProgress = () => {
+      const max = el.scrollHeight - el.clientHeight;
+      const pct = max > 0 ? Math.min(100, (el.scrollTop / max) * 100) : 0;
+      if (progress) progress.style.height = pct + '%';
+      if (thumb) thumb.style.top = pct + '%';
+    };
+
+    const checkState = () => {
+      const needsScroll = el.scrollHeight - el.clientHeight > 20;
+      if (!needsScroll) {
+        showButtons();
+        if (hint) hint.classList.remove('active');
+        return;
+      }
+      updateProgress();
+      const atBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 48;
+      if (atBottom) {
+        showButtons();
+        if (hint) hint.classList.add('hide');
+      } else {
+        hideButtons();
+        if (hint) {
+          hint.classList.add('active');
+          hint.classList.remove('hide');
+        }
+      }
+    };
+
+    mobileScrollHandler = checkState;
+    el.addEventListener('scroll', mobileScrollHandler, { passive: true });
+    // DOM 렌더링 후 초기 상태 체크
+    setTimeout(checkState, 300);
+    setTimeout(checkState, 800);
+
+    return true;
+  }
+
+  function detachMobileScrollGate() {
+    if (mobileScrollTarget && mobileScrollHandler) {
+      mobileScrollTarget.removeEventListener('scroll', mobileScrollHandler);
+    }
+    if (mobileGateTimer) {
+      clearTimeout(mobileGateTimer);
+      mobileGateTimer = null;
+    }
+    mobileScrollTarget = null;
+    mobileScrollHandler = null;
+  }
+
+  function updateNext() {
+    hideNext();
+    updatePrev();
+
+    // 모바일: 스크롤 끝 도달 시 표시하도록 설정 (prev 버튼도 숨김 처리)
+    const gated = attachMobileScrollGate();
+    if (gated) return;
+
+    if (cur === TOTAL - 1) return;
+
+    if (scrollEls[cur]) {
+      checkBottom(cur);
+    } else if (cur === 1) {
+      // 2페이지 데스크탑: 애니메이션 후
+      setTimeout(showNext, 7500);
+    } else if (cur === 2) {
+      // 3페이지: 프로세스 애니메이션 끝난 뒤
+      setTimeout(showNext, 4000);
+    } else if (cur === 3) {
+      // 4페이지: 프로젝트 — 바로 표시
+      showNext();
+    } else if (cur === 4) {
+      // 5페이지: 상담 — 내부 단계에서 마지막에 goTo(5)로 이동하니까 버튼 불필요
+    } else {
+      setTimeout(showNext, 1800);
+    }
+  }
+
+  // Scroll listeners
+  Object.keys(scrollEls).forEach(i => {
+    scrollEls[i].addEventListener('scroll', () => {
+      if (cur === +i) checkBottom(+i);
+    }, { passive: true });
+  });
+
+  // 버튼 이벤트
+  nextBtn.addEventListener('click', () => goTo(cur + 1));
+  heroCta.addEventListener('click', () => goTo(1));
+  prevBtn.addEventListener('click', () => {
+    // 5페이지 상담 중에는 이전 단계로
+    if (cur === 4 && typeof cStep !== 'undefined' && cStep > 1) {
+      goConsult(cStep - 1);
+      return;
+    }
+    if (cur > 0) goTo(cur - 1);
+  });
+
+  // 마우스 사이드 버튼 (뒤로/앞으로) → 섹션 이동
+  window.addEventListener('mouseup', (e) => {
+    if (e.button === 3) { // 뒤로 버튼
+      e.preventDefault();
+      if (cur === 4 && typeof cStep !== 'undefined' && cStep > 1) {
+        goConsult(cStep - 1);
+        return;
+      }
+      if (cur > 0) goTo(cur - 1);
+    } else if (e.button === 4) { // 앞으로 버튼
+      e.preventDefault();
+      if (cur < 5) goTo(cur + 1);
+    }
+  });
+  // 브라우저 기본 동작(뒤로가기) 차단
+  window.addEventListener('mousedown', (e) => {
+    if (e.button === 3 || e.button === 4) e.preventDefault();
+  });
+
+  // Chip toggle
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const g = chip.dataset.g;
+      if (chip.dataset.single === 'true') {
+        document.querySelectorAll(`.chip[data-g="${g}"]`).forEach(c => c.classList.remove('on'));
+        chip.classList.add('on');
+      } else {
+        chip.classList.toggle('on');
+      }
+    });
+  });
+
+
+  // 커스텀 커서
+  const curDot = document.getElementById('cursor-dot');
+  const curRing = document.getElementById('cursor-ring');
+  document.addEventListener('mousemove', e => {
+    curDot.style.left = e.clientX + 'px';
+    curDot.style.top = e.clientY + 'px';
+    curRing.style.left = e.clientX + 'px';
+    curRing.style.top = e.clientY + 'px';
+  });
+
+  // ── 4페이지: 프로젝트 ──
+  var s4pj = [
+    {n:'서초 더샵 포레',t:'RESIDENTIAL · 34평',img:'proj1-a.jpg',d:'욕조에서 자연을 바라볼 수 있도록 설계한 공간.<br>자갈과 원목, 빛이 만드는 고요한 쉼터.<br>일상 속 작은 여행을 담았습니다.',q:'"자연을 담은 욕실, 하루의 끝을 위한 공간."'},
+    {n:'사당 대림아파트',t:'RESIDENTIAL · 34평',img:'proj2-a.jpg',d:'오래된 구축 아파트를 새로운 삶의 공간으로.<br>원목 파티션이 공간을 나누면서도 이어주는<br>열린 구조를 설계했습니다.',q:'"낡은 벽을 허물고, 빛이 흐르는 길을 만들었습니다."'},
+    {n:'상도 더샵',t:'RESIDENTIAL · 34평',img:'proj3-a.jpg',d:'원형 파티션이 공간을 나누면서도 연결하는<br>절제된 디자인. 원목과 석재의 자연스러운 조화가<br>일상에 고요한 쉼을 선사합니다.',q:'"비움으로 채운 공간, 원으로 이은 삶."'}
+  ];
+  document.querySelectorAll('.s4-bi').forEach(function(item){
+    item.onclick = function(){
+      var i = parseInt(item.dataset.pi);
+      var p = s4pj[i];
+      document.querySelectorAll('.s4-bi').forEach(function(x){x.classList.remove('active')});
+      item.classList.add('active');
+      curProj = i;
+      document.getElementById('s4N').textContent = p.n;
+      document.getElementById('s4T').textContent = p.t;
+      document.getElementById('s4D').innerHTML = p.d;
+      document.getElementById('s4Q').textContent = p.q;
+      var img = document.getElementById('s4Img');
+      if(p.img){img.src=p.img;img.style.display='block';}
+      else{img.style.display='none';}
+      // 모바일 인라인 갤러리: 현재 프로젝트만 보이도록
+      var gal = document.getElementById('s4Gal');
+      if (gal) gal.setAttribute('data-proj', i);
+      // 모바일이면 4페이지 스크롤을 맨 위로
+      var s4 = document.getElementById('s4');
+      if (window.innerWidth <= 768 && s4) s4.scrollTop = 0;
+    };
+  });
+  // 초기 프로젝트 설정
+  (function(){
+    var gal = document.getElementById('s4Gal');
+    if (gal) gal.setAttribute('data-proj', '0');
+  })();
+
+  // ── 모바일 라이트박스 ──
+  (function(){
+    var lb = document.getElementById('lightbox');
+    var lbImg = document.getElementById('lbImg');
+    var lbCounter = document.getElementById('lbCounter');
+    var lbClose = document.getElementById('lbClose');
+    var lbPrev = document.getElementById('lbPrev');
+    var lbNext = document.getElementById('lbNext');
+    var photos = [];
+    var idx = 0;
+
+    function getCurrentPhotos() {
+      var gal = document.getElementById('s4Gal');
+      var proj = gal ? gal.getAttribute('data-proj') : '0';
+      var imgs = gal ? gal.querySelectorAll('.s4-gs[data-proj="' + proj + '"] img') : [];
+      return Array.prototype.map.call(imgs, function(i){ return i.src; });
+    }
+
+    var lbBg = document.getElementById('lbBg');
+    function update() {
+      lbImg.src = photos[idx];
+      if (lbBg) lbBg.style.backgroundImage = 'url("' + photos[idx] + '")';
+      lbCounter.textContent = (idx + 1) + ' / ' + photos.length;
+    }
+
+    function open(startSrc) {
+      photos = getCurrentPhotos();
+      idx = Math.max(0, photos.indexOf(startSrc));
+      update();
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function close() {
+      lb.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function next() { idx = (idx + 1) % photos.length; update(); }
+    function prev() { idx = (idx - 1 + photos.length) % photos.length; update(); }
+
+    // 모바일 라이트박스 (새 갤러리 페이지 사용으로 비활성화)
+    var s4Pic = document.getElementById('s4Pic');
+    if (false && s4Pic) {
+      s4Pic.addEventListener('click', function(e){
+        if (window.innerWidth <= 768) {
+          e.stopPropagation();
+          photos = getCurrentPhotos();
+          idx = 0;
+          if (photos.length) {
+            update();
+            lb.classList.add('open');
+            document.body.style.overflow = 'hidden';
+          }
+        }
+      });
+    }
+
+    lbClose.addEventListener('click', close);
+    lbPrev.addEventListener('click', prev);
+    lbNext.addEventListener('click', next);
+    lb.addEventListener('click', function(e){
+      if (e.target === lb || e.target.classList.contains('lightbox-img-wrap')) close();
+    });
+
+    // 키보드 네비
+    document.addEventListener('keydown', function(e){
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape') close();
+      else if (e.key === 'ArrowRight') next();
+      else if (e.key === 'ArrowLeft') prev();
+    });
+
+    // 스와이프
+    var startX = 0;
+    lb.addEventListener('touchstart', function(e){ startX = e.touches[0].clientX; }, { passive: true });
+    lb.addEventListener('touchend', function(e){
+      var dx = e.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 50) (dx < 0 ? next() : prev());
+    });
+
+    // 데스크탑: 갤러리 슬라이드 이미지 클릭 시 라이트박스 오픈
+    document.querySelectorAll('.s4-gsi img').forEach(function(img){
+      img.style.cursor = 'zoom-in';
+      img.addEventListener('click', function(e){
+        e.stopPropagation();
+        open(img.src);
+      });
+    });
+  })();
+
+  // 갤러리 진입 — 새 갤러리 페이지로 이동
+  document.getElementById('s4Pic').onclick = function(){
+    curProj = parseInt(document.querySelector('.s4-bi.active').dataset.pi);
+    location.href = 'gallery-proj' + (curProj + 1) + '.html';
+  };
+  document.getElementById('s4GalX').onclick = function(){
+    document.getElementById('s4Gal').classList.remove('open');
+    updateNext();
+    updatePrev();
+  };
+
+  // 갤러리 슬라이드
+  var curProj = 0;
+  var galCur = 0;
+
+  function getGalSlides() {
+    return Array.from(document.querySelectorAll('.s4-gs[data-proj="' + curProj + '"]'));
+  }
+
+  function updateDots() {
+    var slides = getGalSlides();
+    var dots = document.querySelector('.s4-gdots');
+    dots.innerHTML = '';
+    for (var i = 0; i < slides.length; i++) {
+      var d = document.createElement('div');
+      d.className = 's4-gd' + (i === galCur ? ' on' : '');
+      d.dataset.gi = String(i);
+      (function(idx){ d.onclick = function(){ galGoTo(idx); }; })(i);
+      dots.appendChild(d);
+    }
+  }
+
+  function galGoTo(n) {
+    var slides = getGalSlides();
+    var total = slides.length;
+    if (n < 0) n = total - 1;
+    if (n >= total) n = 0;
+    galCur = n;
+    document.querySelectorAll('.s4-gs').forEach(function(s){ s.classList.remove('on'); });
+    slides[galCur].classList.add('on');
+    updateDots();
+  }
+
+  document.getElementById('s4GalPrev').onclick = function(){ galGoTo(galCur - 1); };
+  document.getElementById('s4GalNext').onclick = function(){ galGoTo(galCur + 1); };
+
+  // ── 5페이지: 상담 단계별 ──
+  var cStep = 1;
+  function goConsult(n) {
+    document.getElementById('cst' + cStep).classList.remove('on');
+    cStep = n;
+    document.getElementById('cst' + cStep).classList.add('on');
+    document.getElementById('s5pbar').style.width = ((cStep - 1) / 6 * 100) + '%';
+  }
+  document.querySelectorAll('.s5-choices').forEach(function(group) {
+    group.querySelectorAll('.s5-choice').forEach(function(c) {
+      c.onclick = function() {
+        group.querySelectorAll('.s5-choice').forEach(function(x) { x.classList.remove('picked'); });
+        c.classList.add('picked');
+        var btn = c.closest('.s5-step').querySelector('.s5-next');
+        if (btn) btn.classList.add('show');
+      };
+    });
+  });
+  document.getElementById('cnx1').onclick = function() { goConsult(2); };
+  document.getElementById('cnx2').onclick = function() { goConsult(3); };
+  document.getElementById('cnx3').onclick = function() { goConsult(4); };
+  document.getElementById('cnx4').onclick = function() { goConsult(5); };
+  document.getElementById('cnx5').onclick = function() { goConsult(6); };
+  document.getElementById('cSubmit').onclick = function() {
+    var name = document.getElementById('c-name').value.trim();
+    var phone = document.getElementById('c-phone').value.trim();
+    if (!name || !phone) { alert('성함과 연락처는 필수입니다.'); return; }
+    var region = document.getElementById('c-region').value.trim();
+    var message = document.getElementById('c-message').value.trim();
+    var picks = {};
+    document.querySelectorAll('.s5-choices').forEach(function(g, i) {
+      var p = g.querySelector('.s5-choice.picked');
+      picks[i] = p ? p.textContent.trim() : '-';
+    });
+    fetch('https://script.google.com/macros/s/AKfycbyBIAiFIaCS6FcQy2jN7cPC7BuTagD5iFp2_FC1_SWEoSKtGDis3vk8uIGc2aTH9RPK/exec', {
+      method: 'POST', mode: 'no-cors',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        name: name, phone: phone, region: region || '-', message: message || '-',
+        spaceType: picks[0], size: picks[1], scope: picks[2], budget: picks[3], source: picks[4]
+      }).toString()
+    }).catch(function() {});
+    document.getElementById('s5pbar').style.width = '100%';
+    goTo(5);
+  };
+
+  // ── 6페이지: 토글 ──
+  document.querySelectorAll('.s6-tgl-content').forEach(function(c) {
+    c.onclick = function() { c.closest('.s6-tgl').classList.toggle('on'); };
+  });
+
+  // Init — URL 파라미터로 바로 이동 (?p=3)
+  const urlP = new URLSearchParams(location.search).get('p');
+  if (urlP) {
+    const pi = parseInt(urlP) - 1;
+    if (pi >= 0 && pi < TOTAL) { maxV = pi; goTo(pi); moving = false; }
+  }
+  setTimeout(showNext, 2500);
+</script>
+</body>
+</html>
