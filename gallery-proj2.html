@@ -49,10 +49,46 @@
     .la svg{width:22px;height:22px;stroke:var(--text-dark);fill:none;stroke-width:1.8}
     .lp{left:160px}.ln{right:160px}
     .lk{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);font-size:12px;letter-spacing:3px;color:var(--text-muted)}
-    @media(max-width:768px){.st{display:none}.ts{width:60px;padding:4px;gap:3px}.th{width:52px;height:38px}.pv img{height:50px}}
+  
+    .mob-top{display:none}
+    @media(max-width:768px){
+      .gc{flex-direction:column;height:100vh;height:100dvh}
+      .sa{flex:1;flex-direction:column;min-height:0}
+      .st{display:none}
+      .sp{flex:1;min-height:0;width:100%;background:#f0ece6}
+      .sp.landscape img{width:100%;height:100%;object-fit:contain}
+      .sp.pair{flex-direction:column;gap:2px}
+      .sp.pair .pi{flex:1;min-height:0}
+      .sp.pair .pi img{width:100%;height:100%;object-fit:cover}
+      .ts{width:100%;height:64px;flex-direction:row;padding:6px 8px;gap:4px;overflow-x:auto;overflow-y:hidden;flex-shrink:0;border-top:1px solid #ece8e3;display:flex}
+      .th{width:70px;height:50px;flex-shrink:0}
+      .pv{display:none!important}
+      .ct{bottom:78px;font-size:10px}
+      .ar{width:38px;height:38px;background:rgba(255,255,255,0.85)}
+      .ap{left:10px}.an{right:10px}
+      .ar svg{width:14px;height:14px}
+      .mob-top{display:flex!important;position:absolute;top:0;left:0;right:0;z-index:30;padding:14px 16px;justify-content:space-between;align-items:center;background:rgba(250,248,245,0.92);backdrop-filter:blur(8px);pointer-events:auto}
+      .mob-back{display:inline-flex;align-items:center;gap:6px;font-family:'Pretendard',sans-serif;font-size:12px;letter-spacing:0.05em;color:#5c4a3a;background:none;border:none;cursor:pointer;padding:0}
+      .mob-back svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+      .mob-title{font-family:'Pretendard',sans-serif;font-size:12px;letter-spacing:0.1em;color:#2b2824}
+      .lb{padding:48px 12px}
+      .lp{left:6px}.ln{right:6px}
+      .la{width:36px;height:36px}
+      .la svg{width:16px;height:16px}
+      .lk{bottom:14px;font-size:11px}
+      body:has(.lb.open) .mob-top{opacity:0;pointer-events:none}
+    }
   </style>
 </head>
 <body>
+
+<div class="mob-top">
+  <button class="mob-back" onclick="if(document.referrer&&document.referrer.includes(location.hostname)){history.back();}else{location.href='index.html';}">
+    <svg viewBox="0 0 14 14"><polyline points="9,2 3,7 9,12"/></svg>
+    다른 프로젝트
+  </button>
+  <span class="mob-title">사당 대림아파트</span>
+</div>
 <div class="gc">
   <div class="sa">
     <div class="sp landscape" id="pw">
@@ -86,6 +122,7 @@
 </div>
 <script>
 var slides=[{"type":"landscape","src":"sd45.jpg"},{"type":"landscape","src":"sd44.jpg"},{"type":"landscape","src":"sd41.jpg"},{"type":"landscape","src":"sd42.jpg"},{"type":"landscape","src":"sd31.jpg"},{"type":"landscape","src":"sd32.jpg"},{"type":"landscape","src":"sd49.jpg"},{"type":"landscape","src":"sd50.jpg"},{"type":"landscape","src":"sd28.jpg"},{"type":"landscape","src":"sd30.jpg"},{"type":"pair","src1":"sd29.jpg","src2":"sd47.jpg"},{"type":"pair","src1":"sd48.jpg","src2":"sd46.jpg"},{"type":"landscape","src":"sd57.jpg"},{"type":"landscape","src":"sd58.jpg"},{"type":"landscape","src":"sd33.jpg"},{"type":"landscape","src":"sd34.jpg"},{"type":"landscape","src":"sd27.jpg"},{"type":"pair","src1":"sd54.jpg","src2":"sd26.jpg"},{"type":"landscape","src":"sd14.jpg"},{"type":"landscape","src":"sd15.jpg"},{"type":"landscape","src":"sd08.jpg"},{"type":"landscape","src":"sd09.jpg"},{"type":"pair","src1":"sd25.jpg","src2":"sd07.jpg"},{"type":"landscape","src":"sd21.jpg"},{"type":"pair","src1":"sd22.jpg","src2":"sd20.jpg"},{"type":"landscape","src":"sd12.jpg"},{"type":"landscape","src":"sd40.jpg"},{"type":"landscape","src":"sd38.jpg"},{"type":"pair","src1":"sd11.jpg","src2":"sd36.jpg"},{"type":"pair","src1":"sd70.jpg","src2":"sd69.jpg"},{"type":"landscape","src":"sd66.jpg"},{"type":"landscape","src":"sd65.jpg"},{"type":"landscape","src":"sd63.jpg"},{"type":"landscape","src":"sd62.jpg"},{"type":"landscape","src":"sd59.jpg"},{"type":"pair","src1":"sd71.jpg","src2":"sd72.jpg"},{"type":"pair","src1":"sd73.jpg","src2":"sd43.jpg"},{"type":"pair","src1":"sd37.jpg","src2":"sd51.jpg"},{"type":"pair","src1":"sd52.jpg","src2":"sd53.jpg"},{"type":"pair","src1":"sd55.jpg","src2":"sd56.jpg"},{"type":"pair","src1":"sd60.jpg","src2":"sd61.jpg"},{"type":"landscape","src":"sd67.jpg"},{"type":"pair","src1":"sd64.jpg","src2":"sd68.jpg"},{"type":"pair","src1":"sd10.jpg","src2":"sd16.jpg"},{"type":"landscape","src":"sd18.jpg"},{"type":"pair","src1":"sd17.jpg","src2":"sd19.jpg"},{"type":"pair","src1":"sd23.jpg","src2":"sd24.jpg"},{"type":"pair","src1":"sd06.jpg","src2":"sd05.jpg"},{"type":"pair","src1":"sd04.jpg","src2":"sd03.jpg"},{"type":"pair","src1":"sd02.jpg","src2":"sd01.jpg"},{"type":"pair","src1":"sd13.jpg","src2":"sd39.jpg"},{"type":"pair","src1":"sd35.jpg","src2":"sd74.jpg"},{"type":"pair","src1":"sd75.jpg","src2":"sd76.jpg"},{"type":"pair","src1":"sd77.jpg","src2":"sd78.jpg"},{"type":"pair","src1":"sd79.jpg","src2":"sd80.jpg"},{"type":"pair","src1":"sd81.jpg","src2":"sd82.jpg"},{"type":"landscape","src":"sd84.jpg"},{"type":"landscape","src":"sd85.jpg"},{"type":"landscape","src":"sd86.jpg"},{"type":"pair","src1":"sd83.jpg","src2":"sd87.jpg"},{"type":"landscape","src":"sd88.jpg"}];
+var _isMobile=window.matchMedia('(max-width:768px)').matches;console.log('[gallery] mobile?',_isMobile,'innerWidth=',window.innerWidth);if(_isMobile){var _exp=[];slides.forEach(function(s){if(s.type==='pair'){_exp.push({type:'landscape',src:s.src1});_exp.push({type:'landscape',src:s.src2});}else{_exp.push(s);}});slides=_exp;console.log('[gallery] split pairs, total=',slides.length);}
 var cur=0,total=slides.length;
 var pw=document.getElementById('pw'),ms=document.getElementById('ms');
 var pL=document.getElementById('pL'),pR=document.getElementById('pR');
@@ -110,6 +147,48 @@ document.getElementById('aPrev').onclick=function(e){e.stopPropagation();goTo((c
 document.getElementById('aNext').onclick=function(e){e.stopPropagation();goTo((cur+1)%total);};
 var lb=document.getElementById('lb'),lbI=document.getElementById('lbI'),lbK=document.getElementById('lbK');
 pw.onclick=function(e){if(e.target.closest('.ar'))return;var s=slides[cur];lbI.src=s.type==='landscape'?s.src:s.src1;lbK.textContent=pad(cur+1)+' / '+pad(total);lb.classList.add('open');};
+
+// 모바일 스와이프 (메인 슬라이드 + 라이트박스)
+(function(){
+  function attachSwipe(el, onLeft, onRight){
+    var sx=0, sy=0, moved=false, t0=0;
+    el.addEventListener('touchstart', function(e){
+      sx = e.touches[0].clientX;
+      sy = e.touches[0].clientY;
+      moved = false;
+      t0 = Date.now();
+    }, {passive:true});
+    el.addEventListener('touchmove', function(e){
+      if (Math.abs(e.touches[0].clientX - sx) > 8 || Math.abs(e.touches[0].clientY - sy) > 8) moved = true;
+    }, {passive:true});
+    el.addEventListener('touchend', function(e){
+      if (!moved) return;
+      var dx = e.changedTouches[0].clientX - sx;
+      var dy = e.changedTouches[0].clientY - sy;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) && (Date.now()-t0) < 600) {
+        if (dx < 0) onLeft(); else onRight();
+        // 클릭 이벤트 막기
+        el._swiped = true;
+        setTimeout(function(){ el._swiped = false; }, 300);
+      }
+    });
+  }
+  var pw = document.getElementById('pw');
+  if (pw) {
+    attachSwipe(pw, function(){ goTo((cur+1)%total); }, function(){ goTo((cur-1+total)%total); });
+    // 스와이프 직후 클릭은 무시 (라이트박스 안 열림)
+    var origClick = pw.onclick;
+    pw.onclick = function(e){
+      if (pw._swiped) return;
+      if (origClick) origClick.call(pw, e);
+    };
+  }
+  var lb = document.getElementById('lb'), lbP = document.getElementById('lbP'), lbN = document.getElementById('lbN');
+  if (lb && lbP && lbN) {
+    attachSwipe(lb, function(){ lbN.click(); }, function(){ lbP.click(); });
+  }
+})();
+
 document.getElementById('lbC').onclick=function(){lb.classList.remove('open');};
 lb.onclick=function(e){if(e.target===lb)lb.classList.remove('open');};
 document.getElementById('lbP').onclick=function(e){e.stopPropagation();cur=(cur-1+total)%total;var s=slides[cur];lbI.src=s.type==='landscape'?s.src:s.src1;lbK.textContent=pad(cur+1)+' / '+pad(total);goTo(cur);};

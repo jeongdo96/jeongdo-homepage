@@ -1261,21 +1261,43 @@
       .s4-desc { font-size: 14px; max-width: 100%; line-height: 1.9; }
       .s4-quote { font-size: 13px; margin-top: 20px; }
 
-      /* 메인 사진만 표시 — 탭하면 라이트박스 오픈 */
+      /* 메인 사진만 표시 — 탭하면 갤러리 오픈 */
       .s4-pic {
         width: 100%;
         height: auto;
         cursor: pointer;
         position: relative;
+        margin-top: 4px;
       }
       .s4-pic img {
         width: 100%;
         height: auto;
-        max-height: 60vh;
+        max-height: 56vh;
         object-fit: cover;
       }
       .s4-flash { display: none; }
-      .s4-overlay { display: none; }
+      /* 모바일에서도 "자세히 보기" 안내 표시 (작게, 우하단) */
+      .s4-pic .s4-overlay {
+        display: flex !important;
+        position: absolute;
+        bottom: 12px;
+        right: 12px;
+        top: auto;
+        left: auto;
+        width: auto;
+        height: auto;
+        background: rgba(43,40,36,0.78);
+        padding: 8px 14px;
+        border-radius: 2px;
+        opacity: 1;
+        pointer-events: none;
+      }
+      .s4-pic .s4-overlay span {
+        font-family: 'Pretendard', sans-serif;
+        font-size: 10px;
+        letter-spacing: 0.18em;
+        color: #fff;
+      }
 
       /* 인라인 갤러리 숨김 (라이트박스에서만 사용) */
       .s4-gal { display: none !important; }
@@ -1310,33 +1332,8 @@
         display: none !important;
       }
 
-      /* 모바일 전용 상단 고정 바 */
-      .s4-mobile-bar {
-        display: flex !important;
-        position: sticky;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 80;
-        justify-content: space-between;
-        align-items: center;
-        padding: 14px 20px;
-        background: rgba(255,255,255,0.95);
-        backdrop-filter: blur(8px);
-        border-bottom: none;
-      }
-      .s4-mb-prev, .s4-mb-next {
-        font-family: 'Noto Serif KR', serif;
-        font-size: 14px;
-        font-weight: 500;
-        letter-spacing: 0.1em;
-        color: #2b2824;
-        cursor: pointer;
-        padding: 8px 16px;
-        transition: color 0.3s;
-      }
-      .s4-mb-next { color: #5c4a3a; }
-      .s4-mb-prev:active, .s4-mb-next:active { color: #8a7560; }
+      /* 모바일 전용 상단 고정 바 — 햄버거 메뉴로 대체 */
+      .s4-mobile-bar { display: none !important; }
 
       /* 갤러리 */
       .s4-gs.landscape, .s4-gs.pair { flex-direction: column; }
@@ -1491,6 +1488,17 @@
     .pg-overlay.open .pg-overlay-item:nth-child(6){transition-delay:0.5s}
     .pg-overlay-num{font-size:13px;letter-spacing:0.3em;font-weight:400;opacity:0.5;font-family:'Cormorant Garamond',serif}
     .pg-overlay-name{font-family:'Noto Serif KR',serif;font-size:clamp(28px,4vw,42px);letter-spacing:0.1em;font-weight:300}
+    @media(max-width:768px){
+      .pg-burger{top:18px;right:18px;width:24px;height:24px;gap:5px}
+      .pg-burger span{width:20px}
+      .pg-burger span:nth-child(2){width:14px}
+      .pg-burger.open span:nth-child(1){transform:translateY(3px) rotate(45deg);width:20px}
+      .pg-burger.open span:nth-child(3){transform:translateY(-3px) rotate(-45deg);width:20px}
+      .pg-overlay{gap:18px;padding:0 24px}
+      .pg-overlay-num{font-size:11px;letter-spacing:0.25em}
+      .pg-overlay-name{font-size:24px;letter-spacing:0.08em}
+      .pg-overlay-item{gap:18px}
+    }
     .pg-overlay-item.unlocked{color:rgba(255,255,255,0.85);cursor:pointer}
     .pg-overlay-item.unlocked:hover{color:#fff;transform:translateX(8px)}
     .pg-overlay-item.current{color:#fff}
