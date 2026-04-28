@@ -2598,12 +2598,15 @@
     if (cur > maxV) maxV = cur;
     secs[cur].classList.add('active');
 
-    // Clarity 섹션 추적
+    // Clarity + GA4 섹션 추적
+    var _sNames = ['s1_시작','s2_철학','s3_프로세스','s4_프로젝트','s5_상담','s6_완료'];
     if (typeof clarity === 'function') {
-      var _sNames = ['s1_시작','s2_철학','s3_프로세스','s4_프로젝트','s5_상담','s6_완료'];
       clarity('event', 'section_view');
       clarity('set', 'section', _sNames[cur]);
       clarity('set', 'maxSection', _sNames[maxV]);
+    }
+    if (typeof gtag === 'function') {
+      gtag('event', 'section_view', { section_name: _sNames[cur], max_section: _sNames[maxV] });
     }
 
     if (scrollEls[cur]) scrollEls[cur].scrollTop = 0;
@@ -3022,6 +3025,7 @@
   document.getElementById('s4Pic').onclick = function(){
     curProj = parseInt(document.querySelector('.s4-bi.active').dataset.pi);
     if (typeof clarity === 'function') clarity('event', 'gallery_open_proj' + (curProj + 1));
+    if (typeof gtag === 'function') gtag('event', 'gallery_open', { project: 'proj' + (curProj + 1) });
     location.href = 'gallery-proj' + (curProj + 1) + '.html';
   };
   document.getElementById('s4GalX').onclick = function(){
@@ -3072,11 +3076,14 @@
     cStep = n;
     document.getElementById('cst' + cStep).classList.add('on');
     document.getElementById('s5pbar').style.width = ((cStep - 1) / 6 * 100) + '%';
-    // Clarity 상담 단계 추적
+    // Clarity + GA4 상담 단계 추적
+    var _stNames = ['','cst1_공간','cst2_평수','cst3_범위','cst4_예산','cst5_경로','cst6_연락처'];
     if (typeof clarity === 'function') {
-      var _stNames = ['','cst1_공간','cst2_평수','cst3_범위','cst4_예산','cst5_경로','cst6_연락처'];
       clarity('event', 'consult_step');
       clarity('set', 'consultStep', _stNames[cStep]);
+    }
+    if (typeof gtag === 'function') {
+      gtag('event', 'consult_step', { step: _stNames[cStep], step_num: cStep });
     }
   }
   document.querySelectorAll('.s5-choices').forEach(function(group) {
@@ -3122,6 +3129,7 @@
     var phone = document.getElementById('c-phone').value.trim();
     if (!name || !phone) { alert('성함과 연락처는 필수입니다.'); return; }
     if (typeof clarity === 'function') clarity('event', 'consult_submit');
+    if (typeof gtag === 'function') gtag('event', 'consult_submit', { method: 'form' });
     var region = document.getElementById('c-region').value.trim();
     var message = document.getElementById('c-message').value.trim();
     var picks = {};
