@@ -1503,6 +1503,16 @@
     .pg-overlay-item.unlocked:hover{color:#fff;transform:translateX(8px)}
     .pg-overlay-item.current{color:#fff}
     .pg-overlay-item.current .pg-overlay-num{opacity:1}
+    /* s4 모바일 — 햄버거 옆 상담하기 */
+    .s4-mob-cta{display:none}
+    @media(max-width:768px){
+      body.on-s4 .s4-mob-cta{
+        display:inline-flex;align-items:center;position:fixed;top:20px;right:56px;z-index:1001;
+        font-family:'Noto Serif KR',serif;font-size:13px;font-weight:400;letter-spacing:0.06em;
+        color:#5c4a3a;background:none;border:none;padding:4px 8px;cursor:pointer
+      }
+      body.on-s4 .s4-mob-cta:active{color:#8a7560}
+    }
   </style>
 </head>
 <body>
@@ -1540,6 +1550,7 @@
   </section>
 
   <!-- Page Menu (햄버거 + 풀스크린 네비) -->
+  <button class="s4-mob-cta" onclick="goTo(4)">상담하기</button>
   <div class="pg-burger" id="pgBurger"><span></span><span></span><span></span></div>
   <div class="pg-overlay" id="pgOverlay">
     <div class="pg-overlay-item" data-idx="0"><span class="pg-overlay-num">01</span><span class="pg-overlay-name">시작</span></div>
@@ -2782,6 +2793,7 @@
       });
       document.body.classList.toggle('pg-light-burger', c===0);
       document.body.classList.toggle('on-hero', c===0);
+      document.body.classList.toggle('on-s4', c===3);
     }
     document.querySelectorAll('.section').forEach(s=>{
       new MutationObserver(update).observe(s,{attributes:true,attributeFilter:['class']});
@@ -3048,9 +3060,32 @@
       };
     });
   });
+  // 부분 인테리어 선택 시 예산 옵션 변경
+  var isPartial = false;
+  document.querySelectorAll('#cch3 .s5-choice').forEach(function(c, i) {
+    c.addEventListener('click', function() {
+      isPartial = (i === 1);
+    });
+  });
+  function updateBudgetOptions() {
+    var cch4 = document.getElementById('cch4');
+    var html = isPartial
+      ? '<div class="s5-choice">3천 ~ 5천만원</div><div class="s5-choice">5천 ~ 7천만원</div><div class="s5-choice">7천 ~ 1억원</div><div class="s5-choice">기타</div>'
+      : '<div class="s5-choice">5천 ~ 7천만원</div><div class="s5-choice">7천 ~ 1억원</div><div class="s5-choice">1억원 이상</div><div class="s5-choice">기타</div>';
+    cch4.innerHTML = html;
+    cch4.querySelectorAll('.s5-choice').forEach(function(c) {
+      c.onclick = function() {
+        cch4.querySelectorAll('.s5-choice').forEach(function(x) { x.classList.remove('picked'); });
+        c.classList.add('picked');
+        document.getElementById('cnx4').classList.add('show');
+      };
+    });
+    document.getElementById('cnx4').classList.remove('show');
+  }
+
   document.getElementById('cnx1').onclick = function() { goConsult(2); };
   document.getElementById('cnx2').onclick = function() { goConsult(3); };
-  document.getElementById('cnx3').onclick = function() { goConsult(4); };
+  document.getElementById('cnx3').onclick = function() { updateBudgetOptions(); goConsult(4); };
   document.getElementById('cnx4').onclick = function() { goConsult(5); };
   document.getElementById('cnx5').onclick = function() { goConsult(6); };
   document.getElementById('cSubmit').onclick = function() {
