@@ -1469,6 +1469,32 @@
       .s6-closing { font-size: 12px; }
     }
 
+    /* ===== Page Menu (햄버거 → 풀스크린 네비) ===== */
+    .pg-burger{position:fixed;top:30px;right:32px;z-index:1001;width:28px;height:28px;cursor:pointer;display:flex;flex-direction:column;justify-content:center;align-items:flex-end;gap:6px;opacity:1;transition:opacity 0.4s}
+    body.on-hero .pg-burger{opacity:0;pointer-events:none}
+    .pg-burger span{display:block;width:22px;height:1px;background:#5c4a3a;transition:background 0.3s,transform 0.4s,opacity 0.3s,width 0.3s}
+    .pg-burger span:nth-child(2){width:16px}
+    body.pg-light-burger .pg-burger span{background:#fff}
+    .pg-burger.open span:nth-child(1){transform:translateY(3.5px) rotate(45deg);width:22px}
+    .pg-burger.open span:nth-child(2){opacity:0}
+    .pg-burger.open span:nth-child(3){transform:translateY(-3.5px) rotate(-45deg);width:22px}
+    .pg-burger.open span{background:#fff}
+    .pg-overlay{position:fixed;inset:0;background:rgba(43,40,36,0.97);z-index:1000;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:24px;opacity:0;pointer-events:none;transition:opacity 0.5s cubic-bezier(0.4,0,0.2,1)}
+    .pg-overlay.open{opacity:1;pointer-events:auto}
+    .pg-overlay-item{display:flex;align-items:baseline;gap:24px;cursor:not-allowed;color:rgba(255,255,255,0.2);opacity:0;transform:translateY(20px);transition:color 0.3s,transform 0.6s,opacity 0.6s}
+    .pg-overlay.open .pg-overlay-item{opacity:1;transform:translateY(0)}
+    .pg-overlay.open .pg-overlay-item:nth-child(1){transition-delay:0.1s}
+    .pg-overlay.open .pg-overlay-item:nth-child(2){transition-delay:0.18s}
+    .pg-overlay.open .pg-overlay-item:nth-child(3){transition-delay:0.26s}
+    .pg-overlay.open .pg-overlay-item:nth-child(4){transition-delay:0.34s}
+    .pg-overlay.open .pg-overlay-item:nth-child(5){transition-delay:0.42s}
+    .pg-overlay.open .pg-overlay-item:nth-child(6){transition-delay:0.5s}
+    .pg-overlay-num{font-size:13px;letter-spacing:0.3em;font-weight:400;opacity:0.5;font-family:'Cormorant Garamond',serif}
+    .pg-overlay-name{font-family:'Noto Serif KR',serif;font-size:clamp(28px,4vw,42px);letter-spacing:0.1em;font-weight:300}
+    .pg-overlay-item.unlocked{color:rgba(255,255,255,0.85);cursor:pointer}
+    .pg-overlay-item.unlocked:hover{color:#fff;transform:translateX(8px)}
+    .pg-overlay-item.current{color:#fff}
+    .pg-overlay-item.current .pg-overlay-num{opacity:1}
   </style>
 </head>
 <body>
@@ -1504,6 +1530,17 @@
       <h1 class="hero-title">공간의 처음과 끝을 정도와 동행합니다.</h1>
     </div>
   </section>
+
+  <!-- Page Menu (햄버거 + 풀스크린 네비) -->
+  <div class="pg-burger" id="pgBurger"><span></span><span></span><span></span></div>
+  <div class="pg-overlay" id="pgOverlay">
+    <div class="pg-overlay-item" data-idx="0"><span class="pg-overlay-num">01</span><span class="pg-overlay-name">시작</span></div>
+    <div class="pg-overlay-item" data-idx="1"><span class="pg-overlay-num">02</span><span class="pg-overlay-name">철학</span></div>
+    <div class="pg-overlay-item" data-idx="2"><span class="pg-overlay-num">03</span><span class="pg-overlay-name">프로세스</span></div>
+    <div class="pg-overlay-item" data-idx="3"><span class="pg-overlay-num">04</span><span class="pg-overlay-name">프로젝트</span></div>
+    <div class="pg-overlay-item" data-idx="4"><span class="pg-overlay-num">05</span><span class="pg-overlay-name">상담</span></div>
+    <div class="pg-overlay-item" data-idx="5"><span class="pg-overlay-num">06</span><span class="pg-overlay-name">완료</span></div>
+  </div>
 
   <!-- Hero 전용 CTA -->
   <button id="hero-cta">
@@ -2518,7 +2555,10 @@
   const lightBg = [1, 2, 3, 4]; // s2(철학), s3(프로세스), s4(프로젝트), s5(상담) — 밝은 배경
 
   function goTo(idx) {
-    if (idx === cur || moving || idx < 0 || idx >= TOTAL || idx > maxV + 1) return;
+    if (idx === cur || moving || idx < 0 || idx >= TOTAL) return;
+    // s2 도달 후엔 자유 이동, 그 전엔 한 칸씩만
+    if (maxV < 1 && idx > maxV + 1) return;
+    if (idx > maxV) maxV = idx;
     moving = true;
     secs[cur].classList.remove('active');
     cur = idx;
@@ -2717,6 +2757,44 @@
       if (cur === +i) checkBottom(+i);
     }, { passive: true });
   });
+
+  // ===== Page Menu (햄버거) =====
+  (function(){
+    let myMaxV = 0;
+    function getCur(){return [...document.querySelectorAll('.section')].findIndex(s=>s.classList.contains('active'));}
+    function update(){
+      const c = getCur(); if(c<0) return;
+      if(c>myMaxV) myMaxV = c;
+      // s2 이상 도달하면 모든 페이지 자유 이동
+      const allFree = myMaxV >= 1;
+      document.querySelectorAll('.pg-overlay-item').forEach((it,i)=>{
+        it.classList.remove('unlocked','current');
+        if(allFree || i<=myMaxV) it.classList.add('unlocked');
+        if(i===c) it.classList.add('current');
+      });
+      document.body.classList.toggle('pg-light-burger', c===0);
+      document.body.classList.toggle('on-hero', c===0);
+    }
+    document.querySelectorAll('.section').forEach(s=>{
+      new MutationObserver(update).observe(s,{attributes:true,attributeFilter:['class']});
+    });
+    const burger = document.getElementById('pgBurger');
+    const overlay = document.getElementById('pgOverlay');
+    burger.addEventListener('click',()=>{burger.classList.toggle('open');overlay.classList.toggle('open');});
+    document.querySelectorAll('.pg-overlay-item').forEach(it=>{
+      it.addEventListener('click',()=>{
+        const i = +it.dataset.idx;
+        const allFree = myMaxV >= 1;
+        if((allFree || i<=myMaxV) && typeof goTo==='function'){
+          if(i > myMaxV) myMaxV = i;
+          goTo(i);
+          burger.classList.remove('open');
+          overlay.classList.remove('open');
+        }
+      });
+    });
+    setTimeout(update, 100);
+  })();
 
   // 버튼 이벤트
   nextBtn.addEventListener('click', () => goTo(cur + 1));
