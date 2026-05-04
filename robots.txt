@@ -1,0 +1,21 @@
+User-agent: *
+Allow: /
+
+Disallow: /node_modules/
+Disallow: /*demo*
+Disallow: /cursor-
+Disallow: /hanja-
+Disallow: /font-
+Disallow: /mouse-
+Disallow: /p2-
+Disallow: /p3-
+Disallow: /p4-
+Disallow: /p5-
+Disallow: /p6-
+Disallow: /gallery-
+Disallow: /btn-demo.html
+Disallow: /index-original.html
+Disallow: /mobile-preview.html
+Disallow: /ratio-test.html
+
+Sitemap: https://designjeongdo.co.kr/sitemap.xml
